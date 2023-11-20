@@ -1,0 +1,2 @@
+include ':AndroidSpecific_Library1'
+include ':AndroidSpecific_Library2'

@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">DynamicSink1</string>
+    <string name="trigger">Trigger Flow</string>
+</resources>

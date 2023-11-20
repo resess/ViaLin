@@ -1,0 +1,2 @@
+Lorg/apache/http/client/HttpClient;->execute(Lorg/apache/http/client/methods/HttpUriRequest;)Lorg/apache/http/HttpResponse;, 1
+%%Lcom/passportparking/mobile/pplibrary/utils/LoginUtils;->logInWithPin(Ljava/lang/String;Ljava/lang/Runnable;Ljava/lang/Runnable;Ljava/lang/Runnable;)V, 0, 1, 2, 3

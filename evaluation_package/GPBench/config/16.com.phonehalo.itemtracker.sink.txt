@@ -1,0 +1,2 @@
+Ljava/io/PrintWriter;->write(Ljava/lang/String;)V, 1
+Ljava/net/HttpURLConnection;->getResponseCode()I, 0

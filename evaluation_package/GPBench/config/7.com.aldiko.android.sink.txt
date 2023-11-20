@@ -1,0 +1,1 @@
+Ljava/net/HttpURLConnection;->getResponseCode()I, 0

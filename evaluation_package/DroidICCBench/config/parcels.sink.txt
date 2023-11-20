@@ -1,0 +1,1 @@
+Landroid/util/Log;->i(Ljava/lang/String;Ljava/lang/String;)I, 1

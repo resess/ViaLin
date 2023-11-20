@@ -1,0 +1,14 @@
+Landroid/telephony/SmsManager;->sendTextMessage(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Landroid/app/PendingIntent;Landroid/app/PendingIntent;)V, 1, 2, 3, 4, 5
+Landroid/util/Log;->i(Ljava/lang/String;Ljava/lang/String;)I, 0, 1
+Landroid/util/Log;->e(Ljava/lang/String;Ljava/lang/String;)I, 0, 1
+Landroid/util/Log;->v(Ljava/lang/String;Ljava/lang/String;)I, 0, 1
+Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I, 0, 1
+Ljava/lang/ProcessBuilder;->start()Ljava/lang/Process;, 0
+Landroid/app/Activity;->startActivityForResult(Landroid/content/Intent;I)V, 1
+Landroid/app/Activity;->setResult(ILandroid/content/Intent;)V, 2
+Landroid/app/Activity;->startActivity(Landroid/content/Intent;)V, 1
+Ljava/net/URL;->openConnection()Ljava/net/URLConnection;, 0
+Landroid/content/Context;->sendBroadcast(Landroid/content/Intent;)V, 1
+Landroid/content/Context;->startActivity(Landroid/content/Intent;)V, 1
+Landroid/content/Context;->startActivityForResult(Landroid/content/Intent;I)V, 1
+Ljava/io/OutputStreamWriter;->append(Ljava/lang/CharSequence;)Ljava/io/Writer;, 1

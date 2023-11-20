@@ -1,0 +1,6 @@
+Landroid/telephony/TelephonyManager;->getDeviceId()Ljava/lang/String;
+Landroid/telephony/TelephonyManager;->getSimSerialNumber()Ljava/lang/String;
+Landroid/location/Location;->getLatitude()D
+Landroid/location/Location;->getLongitude()D
+Landroid/telephony/TelephonyManager;->getSubscriberId()Ljava/lang/String;
+Landroid/widget/EditText;->getText()Landroid/text/Editable;

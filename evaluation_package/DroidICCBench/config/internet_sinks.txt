@@ -1,0 +1,9 @@
+Ljava/net/HttpURLConnection;->getResponseCode()I, 0
+Ljavax/servlet/http/HttpServletResponse;->sendRedirect(Ljava/lang/String;)V, 0, 1
+Ljava/net/URLConnection;->getOutputStream()Ljava/io/OutputStream;, 0
+Ljava/net/Socket;->connect(Ljava/net/SocketAddress;)V, 0, 1
+Ljava/net/URLConnection;->connect()V, 0
+Ljava/net/URLConnection;->getInputStream()Ljava/io/InputStream;, 0
+Ljava/net/URL;->openStream()Ljava/io/InputStream;, 0
+Ljava/net/URL;->getContent()Ljava/lang/Object;, 0
+Ljava/net/URL;->getContent([Ljava/lang/Class;)Ljava/lang/Object;, 0, 1

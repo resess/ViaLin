@@ -1,0 +1,9 @@
+Lorg/apache/http/client/HttpClient;->execute(Lorg/apache/http/client/methods/HttpUriRequest;)Lorg/apache/http/HttpResponse;, 1
+Lcz/msebera/android/httpclient/client/HttpClient;->execute(Lcz/msebera/android/httpclient/client/methods/HttpUriRequest;)Lcz/msebera/android/httpclient/HttpResponse;, 1
+Ljava/net/HttpURLConnection;->getResponseCode()I, 0
+Lorg/apache/http/client/HttpClient;->execute(Lorg/apache/http/client/methods/HttpUriRequest;Lorg/apache/http/protocol/HttpContext;)Lorg/apache/http/HttpResponse;, 1, 2
+Lretrofit2/Call;->execute()Lretrofit2/Response;, 0
+Lokhttp3/Call;->enqueue(Lokhttp3/Callback;)V, 0, 1
+Lokhttp3/Call;->execute()Lokhttp3/Response;, 0
+Ljava/io/PrintWriter;->write(Ljava/lang/String;)V, 1
+Lcom/squareup/okhttp/Call;->execute()Lcom/squareup/okhttp/Response;, 0

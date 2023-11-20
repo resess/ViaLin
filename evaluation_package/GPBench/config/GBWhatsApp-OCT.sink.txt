@@ -1,0 +1,228 @@
+Lorg/apache/http/client/HttpClient;->execute(Lorg/apache/http/client/methods/HttpUriRequest;)Lorg/apache/http/HttpResponse;, 1
+Lorg/apache/http/impl/client/DefaultHttpClient;->execute(Lorg/apache/http/client/methods/HttpUriRequest;)Lorg/apache/http/HttpResponse;, 1
+Landroid/telephony/SmsManager;->sendTextMessage(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Landroid/app/PendingIntent;Landroid/app/PendingIntent;)V, 1, 2, 3, 4, 5
+Lcom/squareup/okhttp/Call;->execute()Lcom/squareup/okhttp/Response;, 0
+Lcz/msebera/android/httpclient/client/HttpClient;->execute(Lcz/msebera/android/httpclient/client/methods/HttpUriRequest;)Lcz/msebera/android/httpclient/HttpResponse;, 1
+Ljava/io/BufferedWriter;->write(Ljava/lang/String;)V, 1
+Ljava/io/OutputStream;->write([B)V, 1
+Ljava/io/OutputStreamWriter;->write(Ljava/lang/String;)V, 1
+Ljava/io/PrintWriter;->write(Ljava/lang/String;)V, 1
+Ljava/net/HttpURLConnection;->getResponseCode()I, 0
+Ljava/util/zip/GZIPOutputStream;->write([B)V, 1
+Lokhttp3/Call;->execute()Lokhttp3/Response;, 0
+Lokhttp3/Call;->enqueue(Lokhttp3/Callback;)V, 0, 1
+Lorg/apache/http/client/HttpClient;->execute(Lorg/apache/http/client/methods/HttpUriRequest;Lorg/apache/http/protocol/HttpContext;)Lorg/apache/http/HttpResponse;, 1, 2
+Ljava/io/OutputStream;->flush()V, 0
+Ljava/io/Writer;->write([CII)V, 1
+Ljava/net/HttpURLConnection;->addRequestProperty(Ljava/lang/String;Ljava/lang/String;)V, 1, 2
+Lretrofit2/OkHttpCall;->execute()Lretrofit2/Response;, 0
+Lnet/fieldwire/app/networking/apiDelegates/ApiCallExecutorThatPassesOnlyResponseBodyToOnSuccess;->executeCall()Ljava/lang/Object;, 0
+Lnet/fieldwire/app/networking/apiDelegates/BaseApiWrapper$executeUnauthenticatedApiCall$apiCall$1;->execute()Ljava/lang/Object;, 0
+Lretrofit2/Call;->execute()Lretrofit2/Response;, 0
+Landroid/util/Log;->i(Ljava/lang/String;Ljava/lang/String;)I, 1
+Landroid/telephony/SmsManager;->sendTextMessage(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Landroid/app/PendingIntent;Landroid/app/PendingIntent;)V, 3
+Lokhttp3/Call;->enqueue(Lokhttp3/Callback;)V, 0
+Ljava/lang/ProcessBuilder;->start()Ljava/lang/Process;, 0
+Landroid/app/Activity;->startActivityForResult(Landroid/content/Intent;I)V, 1
+Landroid/app/Activity;->setResult(ILandroid/content/Intent;)V, 1, 2
+Landroid/app/Activity;->startActivity(Landroid/content/Intent;)V, 1
+Ljava/net/URL;->openConnection()Ljava/net/URLConnection;, 0
+Landroid/content/ContextWrapper;->sendBroadcast(Landroid/content/Intent;)V, 1
+Ljavax/persistence/EntityManager;->createQuery(Ljava/lang/String;Ljava/lang/Class;)Ljavax/persistence/TypedQuery;, 1
+Ljavax/servlet/http/HttpServletResponse;->sendRedirect(Ljava/lang/String;)V, 1
+Ljava/io/File;->delete()Z, 0
+Lorg/apache/xalan/xsltc/runtime/BasisLibrary;->replace(Ljava/lang/String;Ljava/lang/String;[Ljava/lang/String;)Ljava/lang/String;, 1, 2, 3
+Lorg/springframework/mock/web/portlet/MockPortletRequest;->setParameters(Ljava/util/Map;)V, 1
+Lorg/apache/axis2/description/AxisService;->printWSDLError(Ljava/io/OutputStream;)V, 1
+Lorg/springframework/mock/web/portlet/MockPortletRequest;->setParameter(Ljava/lang/String;Ljava/lang/String;)V, 1, 2
+Lorg/apache/commons/lang3/text/StrSubstitutor;->replace([C)Ljava/lang/String;, 1
+Lorg/apache/xmlrpc/webserver/XmlRpcServletServer;->setResponseHeader(Lorg/apache/xmlrpc/common/ServerStreamConnection;Ljava/lang/String;Ljava/lang/String;)V, 1, 2, 3
+Lnet/sourceforge/pebble/domain/Comment;->setAuthenticated(Z)V, 1
+Ljava/lang/String;->replaceFirst(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;, 1, 2
+Lorg/springframework/web/socket/server/support/WebSocketHttpRequestHandler;->handleRequest(Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;)V, 1, 2
+Lorg/apache/xmlrpc/server/ReflectiveXmlRpcHandler;->execute(Lorg/apache/xmlrpc/XmlRpcRequest;)Ljava/lang/Object;, 1
+Lcom/mysql/jdbc/Statement;->executeQuery(Ljava/lang/String;)Ljava/sql/ResultSet;, 1
+Lorg/springframework/test/context/transaction/TransactionalTestExecutionListener;->runAfterTransactionMethods(Lorg/springframework/test/context/TestContext;)V, 1
+Lorg/springframework/web/servlet/tags/UrlTag;->createUrl()Ljava/lang/String;, 0
+Lorg/apache/xmlrpc/webserver/XmlRpcServlet;->log(Ljava/lang/String;)V, 1
+Lorg/apache/stratos/cli/StratosApplication;->run([Ljava/lang/String;)I, 1
+Lorg/owasp/webgoat/session/ParameterParser;->update(Ljavax/servlet/ServletRequest;)V, 1
+Lorg/apache/commons/lang3/text/StrSubstitutor;->replace(Ljava/lang/CharSequence;)Ljava/lang/String;, 1
+Lorg/apache/xmlrpc/webserver/XmlRpcServletServer;->execute(Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;)V, 1, 2
+Lorg/apache/xmlrpc/webserver/ServletOutputStreamImpl;->write([BII)V, 1, 2, 3
+Lorg/apache/xmlrpc/webserver/ConnectionServer;->writeResponse(Lorg/apache/xmlrpc/common/XmlRpcStreamRequestConfig;Ljava/io/OutputStream;Ljava/lang/Object;)V, 1, 2, 3
+Lorg/apache/xmlrpc/webserver/Connection;->writeResponseHeader(Lorg/apache/xmlrpc/webserver/RequestData;I)V, 1, 2
+Lorg/apache/bcel/util/JavaWrapper;->runMain(Ljava/lang/String;[Ljava/lang/String;)V, 1
+Lorg/springframework/format/datetime/joda/PeriodFormatter;->parse(Ljava/lang/String;Ljava/util/Locale;)Ljava/lang/Object;, 1, 2
+Lorg/apache/xerces/impl/xs/models/XSDFACM;->dumpTree(Lorg/apache/xerces/impl/dtd/models/CMNode;I)V, 1, 2
+Lorg/springframework/jdbc/core/JdbcTemplate;->query(Ljava/lang/String;Lorg/springframework/jdbc/core/ResultSetExtractor;)Ljava/lang/Object;, 1, 2
+Lorg/owasp/webgoat/session/DatabaseUtilities;->getHsqldbConnection(Ljava/lang/String;Lorg/owasp/webgoat/session/WebgoatContext;)Ljava/sql/Connection;, 1, 2
+Lorg/springframework/jdbc/core/JdbcTemplate;->execute(Ljava/lang/String;)V, 1
+Lorg/springframework/mock/web/MockBodyContent;->println(Ljava/lang/String;)V, 1
+Lorg/owasp/webgoat/HammerHead;->log(Ljavax/servlet/http/HttpServletRequest;Ljava/lang/String;)V, 1, 2
+Lorg/apache/xmlrpc/server/XmlRpcServerWorker;->execute(Lorg/apache/xmlrpc/XmlRpcRequest;)Ljava/lang/Object;, 1
+Lorg/owasp/webgoat/session/LessonSession;->setAuthenticated(Z)V, 1
+Lorg/springframework/orm/hibernate3/support/ClobStringType;->sqlTypes()[I, 0
+Lorg/owasp/webgoat/session/WebSession;->update(Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;Ljava/lang/String;)V, 1, 2, 3
+Lorg/hibernate/validator/internal/util/ConcurrentReferenceHashMap;->replace(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Z, 1, 2, 3
+Lorg/apache/xmlrpc/webserver/WebServer;->setParanoid(Z)V, 1
+Lcom/novell/ldap/rfc2251/RfcFilter;->addSubstring(I[B)V, 1, 2
+Lorg/springframework/web/socket/sockjs/transport/session/WebSocketServerSockJsSession;->handleMessage(Lorg/springframework/web/socket/TextMessage;Lorg/springframework/web/socket/WebSocketSession;)V, 1, 2
+Lorg/xmldb/api/base/XMLDBException;->printStackTrace(Ljava/io/PrintWriter;)V, 1
+Lorg/springframework/web/socket/adapter/standard/StandardWebSocketSession;->sendTextMessage(Lorg/springframework/web/socket/TextMessage;)V, 1
+Lorg/apache/xerces/impl/xpath/regex/REUtil;->dumpString(Ljava/lang/String;)V, 1
+Lorg/apache/xalan/xsltc/compiler/util/Util;->replace(Ljava/lang/String;Ljava/lang/String;[Ljava/lang/String;)Ljava/lang/String;, 1, 2, 3
+Lorg/apache/http/impl/conn/DefaultClientConnection;->sendRequestHeader(Lorg/apache/http/HttpRequest;)V, 1
+Lorg/apache/commons/validator/util/ValidatorUtils;->replace(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;, 1, 2, 3
+Lcom/google/json/JsonSanitizer;->replace(IILjava/lang/String;)V, 1, 2, 3
+Lorg/owasp/esapi/reference/validation/StringValidationRule;->addBlacklistPattern(Ljava/util/regex/Pattern;)V, 1
+Lorg/apache/commons/lang3/text/StrSubstitutor;->replace(Ljava/lang/CharSequence;II)Ljava/lang/String;, 1, 2, 3
+Ljava/lang/String;->replace(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;, 1, 2
+Lorg/hibernate/validator/internal/util/ConcurrentReferenceHashMap;->replace(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;, 1, 2
+Lorg/springframework/security/util/FieldUtils;->setProtectedFieldValue(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V, 1, 2, 3
+Lorg/springframework/mock/web/MockBodyContent;->println([C)V, 1
+Lorg/springframework/test/context/junit4/SpringJUnit4ClassRunner;->runChild(Lorg/junit/runners/model/FrameworkMethod;Lorg/junit/runner/notification/RunNotifier;)V, 1, 2
+Lorg/springframework/web/socket/handler/ConcurrentWebSocketSessionDecorator;->sendMessage(Lorg/springframework/web/socket/WebSocketMessage;)V, 1
+Lorg/springframework/orm/hibernate3/TypeDefinitionBean;->setParameters(Ljava/util/Properties;)V, 1
+Lorg/springframework/format/datetime/joda/DateTimeParser;->parse(Ljava/lang/String;Ljava/util/Locale;)Lorg/joda/time/DateTime;, 1, 2
+Lorg/apache/commons/io/HexDump;->dump([BJLjava/io/OutputStream;I)V, 1, 2, 3
+Lorg/springframework/mock/web/MockJspWriter;->println(Ljava/lang/String;)V, 1
+Lorg/apache/xalan/templates/ElemTemplateElement;->replaceChild(Lorg/w3c/dom/Node;Lorg/w3c/dom/Node;)Lorg/w3c/dom/Node;, 1, 2
+Lorg/springframework/web/socket/config/HandlersBeanDefinitionParser;->parse(Lorg/w3c/dom/Element;Lorg/springframework/beans/factory/xml/ParserContext;)Lorg/springframework/beans/factory/config/BeanDefinition;, 1, 2
+Lcom/github/scribejava/core/oauth/OAuth20Service;->sendAccessTokenRequestSync(Lcom/github/scribejava/core/model/OAuthRequest;)Lcom/github/scribejava/core/model/OAuth2AccessToken;, 1
+Lcom/github/scribejava/core/oauth/OAuth20Service;->sendAccessTokenRequestAsync(Lcom/github/scribejava/core/model/OAuthRequestAsync;Lcom/github/scribejava/core/model/OAuthAsyncRequestCallback;)Ljava/util/concurrent/Future;, 1, 2
+Lorg/apache/xmlrpc/client/XmlRpcClient;->execute(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/Object;, 1, 2
+Ljava/lang/Runtime;->exec(Ljava/lang/String;)Ljava/lang/Process;, 1
+Lorg/apache/xpath/jaxp/XPathImpl;->compile(Ljava/lang/String;)Ljavax/xml/xpath/XPathExpression;, 1
+Lorg/jsoup/parser/Parser;->parse(Ljava/lang/String;Ljava/lang/String;)Lorg/jsoup/nodes/Document;, 1, 2, 3
+Lorg/jsoup/nodes/Node;->before(Ljava/lang/String;)Lorg/jsoup/nodes/Node;, 1
+Lorg/jsoup/nodes/Node;->after(Ljava/lang/String;)Lorg/jsoup/nodes/Node;, 1
+Ljavax/servlet/http/HttpServletResponseWrapper;->sendRedirect(Ljava/lang/String;)V, 1
+Ljava/net/URLConnection;->connect()V, 0
+Ljava/net/URLConnection;->getOutputStream()Ljava/io/OutputStream;, 0
+Ljava/net/URL;->set(Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;)V, 1, 2, 3, 4, 5
+Ljava/net/URL;->set(Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V, 1, 2, 3, 4, 5, 6, 7, 8
+Landroid/os/Bundle;->putBinder(Ljava/lang/String;Landroid/os/IBinder;)V, 1, 2
+Landroid/os/Bundle;->putBoolean(Ljava/lang/String;Z)V, 1, 2
+Landroid/os/Bundle;->putBooleanArray(Ljava/lang/String;[Z)V, 1, 2
+Landroid/os/Bundle;->putBundle(Ljava/lang/String;Landroid/os/Bundle;)V, 1, 2
+Landroid/os/Bundle;->putByte(Ljava/lang/String;B)V, 1, 2
+Landroid/os/Bundle;->putByteArray(Ljava/lang/String;[B)V, 1, 2
+Landroid/os/Bundle;->putChar(Ljava/lang/String;C)V, 1, 2
+Landroid/os/Bundle;->putCharArray(Ljava/lang/String;[C)V, 1, 2
+Landroid/os/Bundle;->putCharSequence(Ljava/lang/String;Ljava/lang/CharSequence;)V, 1, 2
+Landroid/os/Bundle;->putCharSequenceArray(Ljava/lang/String;[Ljava/lang/CharSequence;)V, 1, 2
+Landroid/os/Bundle;->putCharSequenceArrayList(Ljava/lang/String;Ljava/util/ArrayList;)V, 1, 2
+Landroid/os/Bundle;->putDouble(Ljava/lang/String;D)V, 1, 2
+Landroid/os/Bundle;->putDoubleArray(Ljava/lang/String;[D)V, 1, 2
+Landroid/os/Bundle;->putFloat(Ljava/lang/String;F)V, 1, 2
+Landroid/os/Bundle;->putFloatArray(Ljava/lang/String;[F)V, 1, 2
+Landroid/os/Bundle;->putInt(Ljava/lang/String;I)V, 1, 2
+Landroid/os/Bundle;->putIntArray(Ljava/lang/String;[I)V, 1, 2
+Landroid/os/Bundle;->putIntegerArrayList(Ljava/lang/String;Ljava/util/ArrayList;)V, 1, 2
+Landroid/os/Bundle;->putLong(Ljava/lang/String;J)V, 1, 2
+Landroid/os/Bundle;->putLongArray(Ljava/lang/String;[J)V, 1, 2
+Landroid/os/Bundle;->putParcelable(Ljava/lang/String;Landroid/os/Parcelable;)V, 1, 2
+Landroid/os/Bundle;->putParcelableArray(Ljava/lang/String;[Landroid/os/Parcelable;)V, 1, 2
+Landroid/os/Bundle;->putParcelableArrayList(Ljava/lang/String;Ljava/util/ArrayList;)V, 1, 2
+Landroid/os/Bundle;->putSerializable(Ljava/lang/String;Ljava/io/Serializable;)V, 1, 2
+Landroid/os/Bundle;->putShort(Ljava/lang/String;S)V, 1, 2
+Landroid/os/Bundle;->putShortArray(Ljava/lang/String;[S)V, 1, 2
+Landroid/os/Bundle;->putSparseParcelableArray(Ljava/lang/String;Landroid/util/SparseArray;)V, 1, 2
+Landroid/os/Bundle;->putString(Ljava/lang/String;Ljava/lang/String;)V, 1, 2
+Landroid/os/Bundle;->putStringArray(Ljava/lang/String;[Ljava/lang/String;)V, 1, 2
+Landroid/os/Bundle;->putStringArrayList(Ljava/lang/String;Ljava/util/ArrayList;)V, 1, 2
+Landroid/os/Bundle;->putAll(Landroid/os/Bundle;)V, 1
+Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I, 0, 1
+Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I, 0, 1, 2
+Landroid/util/Log;->e(Ljava/lang/String;Ljava/lang/String;)I, 0, 1
+Landroid/util/Log;->e(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I, 0, 1, 2
+Landroid/util/Log;->i(Ljava/lang/String;Ljava/lang/String;)I, 0, 1
+Landroid/util/Log;->i(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I, 0, 1, 2
+Landroid/util/Log;->v(Ljava/lang/String;Ljava/lang/String;)I, 0, 1
+Landroid/util/Log;->v(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I, 0, 1, 2
+Landroid/util/Log;->w(Ljava/lang/String;Ljava/lang/Throwable;)I, 0, 1
+Landroid/util/Log;->w(Ljava/lang/String;Ljava/lang/String;)I, 0, 1
+Landroid/util/Log;->w(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I, 0, 1, 2
+Landroid/util/Log;->wtf(Ljava/lang/String;Ljava/lang/Throwable;)I, 0, 1
+Landroid/util/Log;->wtf(Ljava/lang/String;Ljava/lang/String;)I, 0, 1
+Landroid/util/Log;->wtf(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I, 0, 1, 2
+Ljava/io/OutputStream;->write([BII)V, 1
+Ljava/io/OutputStream;->write(I)V, 1
+Ljava/io/FileOutputStream;->write([B)V, 1
+Ljava/io/FileOutputStream;->write([BII)V, 1, 2, 3
+Ljava/io/FileOutputStream;->write(I)V, 1
+Ljava/io/Writer;->write([C)V, 1
+Ljava/io/Writer;->write([CII)V, 1, 2, 3
+Ljava/io/Writer;->write(I)V, 1
+Ljava/io/Writer;->write(Ljava/lang/String;)V, 1
+Ljava/io/Writer;->write(Ljava/lang/String;II)V, 1, 2, 3
+Ljava/io/Writer;->append(Ljava/lang/CharSequence;)Ljava/io/Writer;, 1
+Ljava/io/OutputStreamWriter;->append(Ljava/lang/CharSequence;)Ljava/io/Writer;, 1
+Landroid/content/Intent;->setAction(Ljava/lang/String;)Landroid/content/Intent;, 1
+Landroid/content/Intent;->setClassName(Landroid/content/Context;Ljava/lang/Class;)Landroid/content/Intent;, 1, 2
+Landroid/content/Intent;->setClassName(Landroid/content/Context;Ljava/lang/String;)Landroid/content/Intent;, 1, 2
+Landroid/content/Intent;->setComponent(Landroid/content/ComponentName;)Landroid/content/Intent;, 1
+Landroid/content/Context;->sendBroadcast(Landroid/content/Intent;Ljava/lang/String;)V, 1, 2
+Landroid/content/Context;->sendOrderedBroadcast(Landroid/content/Intent;Ljava/lang/String;)V, 1, 2
+Landroid/content/ContextWrapper;->sendOrderedBroadcast(Landroid/content/Intent;Ljava/lang/String;)V, 1, 2
+Landroid/media/MediaRecorder;->setVideoSource(I)V, 1
+Landroid/media/MediaRecorder;->setPreviewDisplay(Landroid/view/Surface;)V, 1
+Landroid/media/MediaRecorder;->start()V, 0
+Landroid/content/Context;->registerReceiver(Landroid/content/BroadcastReceiver;Landroid/content/IntentFilter;)Landroid/content/Intent;, 1, 2
+Landroid/content/Context;->registerReceiver(Landroid/content/BroadcastReceiver;Landroid/content/IntentFilter;Ljava/lang/String;Landroid/os/Handler;)Landroid/content/Intent;, 1, 2, 3, 4
+Landroid/content/IntentFilter;->addAction(Ljava/lang/String;)V, 1
+Landroid/telephony/SmsManager;->sendDataMessage(Ljava/lang/String;Ljava/lang/String;S[BLandroid/app/PendingIntent;Landroid/app/PendingIntent;)V, 1, 2, 3, 4, 5
+Landroid/telephony/SmsManager;->sendMultipartTextMessage(Ljava/lang/String;Ljava/lang/String;Ljava/util/ArrayList;Ljava/util/ArrayList;Ljava/util/ArrayList;)V, 1, 2, 3, 4, 5
+Ljava/net/Socket;->connect(Ljava/net/SocketAddress;)V, 1
+Landroid/os/Handler;->sendMessage(Landroid/os/Message;)Z, 1
+Landroid/content/SharedPreferences$Editor;->putBoolean(Ljava/lang/String;Z)Landroid/content/SharedPreferences$Editor;, 1, 2
+Landroid/content/SharedPreferences$Editor;->putFloat(Ljava/lang/String;F)Landroid/content/SharedPreferences$Editor;, 1, 2
+Landroid/content/SharedPreferences$Editor;->putInt(Ljava/lang/String;I)Landroid/content/SharedPreferences$Editor;, 1, 2
+Landroid/content/SharedPreferences$Editor;->putLong(Ljava/lang/String;J)Landroid/content/SharedPreferences$Editor;, 1, 2, 3
+Landroid/content/SharedPreferences$Editor;->putString(Ljava/lang/String;Ljava/lang/String;)Landroid/content/SharedPreferences$Editor;, 1, 2
+Lorg/apache/http/client/HttpClient;->execute(Lorg/apache/http/client/methods/HttpUriRequest;)Lorg/apache/http/HttpResponse;, 0
+Landroid/content/Context;->startActivities([Landroid/content/Intent;)V, 1
+Landroid/content/Context;->startActivities([Landroid/content/Intent;Landroid/os/Bundle;)V, 1, 2
+Landroid/content/Context;->startService(Landroid/content/Intent;)Landroid/content/ComponentName;, 1
+Landroid/content/Context;->bindService(Landroid/content/Intent;Landroid/content/ServiceConnection;I)Z, 1, 2, 3
+Landroid/content/Context;->sendBroadcast(Landroid/content/Intent;)V, 1
+Landroid/app/Activity;->setResult(ILandroid/content/Intent;)V, 1
+Landroid/app/Activity;->startActivities([Landroid/content/Intent;)V, 1
+Landroid/app/Activity;->startActivities([Landroid/content/Intent;Landroid/os/Bundle;)V, 1, 2
+Landroid/app/Activity;->startActivityForResult(Landroid/content/Intent;I)V, 1, 2
+Landroid/app/Activity;->startActivityForResult(Landroid/content/Intent;ILandroid/os/Bundle;)V, 1, 2, 3
+Landroid/app/Activity;->startActivityFromChild(Landroid/app/Activity;Landroid/content/Intent;ILandroid/os/Bundle;)V, 1, 2, 3, 4
+Landroid/app/Activity;->startActivityFromChild(Landroid/app/Activity;Landroid/content/Intent;I)V, 1, 2, 3
+Landroid/app/Activity;->startActivityFromFragment(Landroid/app/Fragment;Landroid/content/Intent;ILandroid/os/Bundle;)V, 1, 2, 3, 4
+Landroid/app/Activity;->startActivityFromFragment(Landroid/app/Fragment;Landroid/content/Intent;I)V, 1, 2, 3
+Landroid/app/Activity;->startActivityIfNeeded(Landroid/content/Intent;ILandroid/os/Bundle;)V, 1, 2, 3
+Landroid/app/Activity;->startActivityIfNeeded(Landroid/content/Intent;I)V, 1, 2
+Landroid/app/Activity;->startService(Landroid/content/Intent;)Landroid/content/ComponentName;, 1
+Landroid/app/Activity;->bindService(Landroid/content/Intent;Landroid/content/ServiceConnection;I)Z, 1, 2, 3
+Landroid/app/Activity;->sendBroadcast(Landroid/content/Intent;)V, 1
+Landroid/app/Activity;->sendBroadcast(Landroid/content/Intent;Ljava/lang/String;)V, 1, 2
+Landroid/app/Activity;->sendBroadcastAsUser(Landroid/content/Intent;Landroid/os/UserHandle;)V, 1, 2
+Landroid/app/Activity;->sendBroadcastAsUser(Landroid/content/Intent;Landroid/os/UserHandle;Ljava/lang/String;)V, 1, 2, 3
+Landroid/app/Activity;->sendOrderedBroadcast(Landroid/content/Intent;Ljava/lang/String;Landroid/content/BroadcastReceiver;Landroid/os/Handler;ILjava/lang/String;Landroid/os/Bundle;)V, 1, 2, 3, 4, 5, 6, 7
+Landroid/app/Activity;->sendOrderedBroadcast(Landroid/content/Intent;Ljava/lang/String;)V, 1, 2
+Landroid/app/Activity;->sendOrderedBroadcastAsUser(Landroid/content/Intent;Landroid/os/UserHandle;Ljava/lang/String;Landroid/content/BroadcastReceiver;Landroid/os/Handler;ILjava/lang/String;Landroid/os/Bundle;)V, 1, 2, 3, 4, 5, 6, 7, 8
+Landroid/app/Activity;->sendStickyBroadcast(Landroid/content/Intent;)V, 1
+Landroid/app/Activity;->sendStickyBroadcastAsUser(Landroid/content/Intent;Landroid/os/UserHandle;)V, 1, 2
+Landroid/app/Activity;->sendStickyOrderedBroadcast(Landroid/content/Intent;Landroid/content/BroadcastReceiver;Landroid/os/Handler;ILjava/lang/String;Landroid/os/Bundle;)V, 1, 2, 3, 4, 5, 6
+Landroid/app/Activity;->sendStickyOrderedBroadcastAsUser(Landroid/content/Intent;Landroid/os/UserHandle;Landroid/content/BroadcastReceiver;Landroid/os/Handler;ILjava/lang/String;Landroid/os/Bundle;)V, 1, 2, 3, 4, 5, 6, 7
+Landroid/content/ContentResolver;->insert(Landroid/net/Uri;Landroid/content/ContentValues;)Landroid/net/Uri;, 1, 2
+Landroid/content/ContentResolver;->delete(Landroid/net/Uri;Ljava/lang/String;[Ljava/lang/String;)I, 1, 2, 3
+Landroid/content/ContentResolver;->update(Landroid/net/Uri;Landroid/content/ContentValues;Ljava/lang/String;[Ljava/lang/String;)I, 1, 2, 3, 4
+Landroid/content/ContentResolver;->query(Landroid/net/Uri;[Ljava/lang/String;Ljava/lang/String;[Ljava/lang/String;Ljava/lang/String;)Landroid/database/Cursor;, 1, 2, 3, 4, 5
+Landroid/content/ContentResolver;->query(Landroid/net/Uri;[Ljava/lang/String;Ljava/lang/String;[Ljava/lang/String;Ljava/lang/String;Landroid/os/CancellationSignal;)Landroid/database/Cursor;, 1, 2, 3, 4, 5, 6
+
+Ljava/net/HttpURLConnection;->getResponseCode()I, 0
+Ljavax/servlet/http/HttpServletResponse;->sendRedirect(Ljava/lang/String;)V, 0, 1
+Ljava/net/URLConnection;->getOutputStream()Ljava/io/OutputStream;, 0
+Ljava/net/Socket;->connect(Ljava/net/SocketAddress;)V, 0, 1
+Ljava/net/URLConnection;->connect()V, 0
+Ljava/net/URLConnection;->getInputStream()Ljava/io/InputStream;, 0
+Ljava/net/URL;->openStream()Ljava/io/InputStream;, 0
+Ljava/net/URL;->getContent()Ljava/lang/Object;, 0
+Ljava/net/URL;->getContent([Ljava/lang/Class;)Ljava/lang/Object;, 0, 1

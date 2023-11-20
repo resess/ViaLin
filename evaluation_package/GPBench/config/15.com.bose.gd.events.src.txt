@@ -1,0 +1,1 @@
+Landroid/support/v7/widget/AppCompatEditText;->getText()Landroid/text/Editable;

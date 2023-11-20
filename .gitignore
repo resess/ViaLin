@@ -1,0 +1,11 @@
+.vscode/
+# Java
+build/
+target/
+temp_*/
+framework_analysis_results/
+outdir_*/
+
+# Data
+*.apk
+*log

@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">icc_explicit_nosrc_nosink</string>
+    <string name="trigger">Trigger Flow</string>
+</resources>

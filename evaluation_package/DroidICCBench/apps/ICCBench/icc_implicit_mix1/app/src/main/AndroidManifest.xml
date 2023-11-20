@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.arguslab.icc_implicit_mix1">
+
+    <uses-sdk
+        android:minSdkVersion="19"
+        android:targetSdkVersion="32" />
+
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true">
+        <activity
+            android:name="org.arguslab.icc_implicit_mix1.HookActivity"
+            android:exported="false"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="test_action2" />
+
+                <category android:name="test_category3" />
+                <category android:name="test_category4" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="fgwei"
+                    android:mimeType="test/type"
+                    android:pathPattern=".*\\.com"
+                    android:port="8888"
+                    android:scheme="amandroid" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="org.arguslab.icc_implicit_mix1.MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="org.arguslab.icc_implicit_mix1.FooActivity"
+            android:exported="true"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="test_action" />
+
+                <category android:name="test_category1" />
+                <category android:name="test_category2" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="fgwei"
+                    android:mimeType="test/type"
+                    android:pathPrefix="/abc"
+                    android:port="8888"
+                    android:scheme="amandroid" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

@@ -1,0 +1,7 @@
+,method,stmtLineNumber,stmt
+0,<de.ecspride.ActivityLifecycle1: void onCreate(android.os.Bundle)>,10,p1 = virtualinvoke p1.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(p1)
+1,<de.ecspride.ActivityLifecycle1: void onCreate(android.os.Bundle)>,12,"p1 = virtualinvoke v0.<java.lang.String: java.lang.String concat(java.lang.String)>(v0, p1)"
+3,<de.ecspride.ActivityLifecycle1: void onCreate(android.os.Bundle)>,14,<de.ecspride.ActivityLifecycle1: java.lang.String URL> = p1
+4,<de.ecspride.ActivityLifecycle1: void connect()>,3,v1 = <de.ecspride.ActivityLifecycle1: java.lang.String URL>
+5,<de.ecspride.ActivityLifecycle1: void connect()>,4,"specialinvoke v0.<java.net.URL: void <init>(java.lang.String)>(v0, v1)"
+6,<de.ecspride.ActivityLifecycle1: void connect()>,5,v0 = virtualinvoke v0.<java.net.URL: java.net.URLConnection openConnection()>(v0)

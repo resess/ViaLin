@@ -1,0 +1,17 @@
+,method,stmtLineNumber,stmt
+0,<org.cert.WriteFile.Button1Listener: java.lang.String getMyLocation()>,17,v1 = virtualinvoke v0.<android.location.Location: double getLongitude()>(v0)
+1,<org.cert.WriteFile.Button1Listener: java.lang.String getMyLocation()>,20,"v0 = staticinvoke <java.lang.String: java.lang.String valueOf(double)>(v1, v2)"
+3,<org.cert.WriteFile.Button1Listener: java.lang.String getMyLocation()>,22,"v1 = staticinvoke <java.lang.String: java.lang.String valueOf(double)>(v3, v4)"
+5,<org.cert.WriteFile.Button1Listener: java.lang.String getMyLocation()>,28,"virtualinvoke v2.<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>(v2, v0)"
+7,<org.cert.WriteFile.Button1Listener: java.lang.String getMyLocation()>,31,"virtualinvoke v2.<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>(v2, v1)"
+8,<org.cert.WriteFile.Button1Listener: java.lang.String getMyLocation()>,32,v0 = virtualinvoke v2.<java.lang.StringBuilder: java.lang.String toString()>(v2)
+10,<org.cert.WriteFile.Button1Listener: java.lang.String getMyLocation()>,34,return v0
+11,<org.cert.WriteFile.Button1Listener: void onClick(android.view.View)>,10,"virtualinvoke p1.<android.content.Intent: android.content.Intent putExtra(java.lang.String,java.lang.String)>(p1, v1, v0)"
+12,<org.cert.echoer.MainActivity: void getDataFromIntent()>,3,v0 = virtualinvoke p0.<org.cert.echoer.MainActivity: android.content.Intent getIntent()>(p0)
+13,<org.cert.echoer.MainActivity: void getDataFromIntent()>,4,p0.<org.cert.echoer.MainActivity: android.content.Intent i> = v0
+14,<org.cert.echoer.MainActivity: void getDataFromIntent()>,12,v0 = p0.<org.cert.echoer.MainActivity: android.content.Intent i>
+15,<org.cert.echoer.MainActivity: void getDataFromIntent()>,13,v0 = virtualinvoke v0.<android.content.Intent: android.os.Bundle getExtras()>(v0)
+17,<org.cert.echoer.MainActivity: void getDataFromIntent()>,20,"v0 = virtualinvoke v0.<android.os.Bundle: java.lang.String getString(java.lang.String)>(v0, v3)"
+19,<org.cert.echoer.MainActivity: void getDataFromIntent()>,22,"virtualinvoke v1.<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>(v1, v0)"
+20,<org.cert.echoer.MainActivity: void getDataFromIntent()>,23,v0 = virtualinvoke v1.<java.lang.StringBuilder: java.lang.String toString()>(v1)
+22,<org.cert.echoer.MainActivity: void getDataFromIntent()>,25,"staticinvoke <android.util.Log: int i(java.lang.String,java.lang.String)>(v2, v0)"

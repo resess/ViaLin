@@ -1,0 +1,7 @@
+,method,stmtLineNumber,stmt
+0,<de.ecspride.MainActivity$1: void onClick(android.view.View)>,8,p1 = virtualinvoke p1.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(p1)
+1,<de.ecspride.MainActivity$1: void onClick(android.view.View)>,14,p1 = virtualinvoke p1.<java.lang.String: byte[] getBytes()>(p1)
+3,<de.ecspride.MainActivity$1: void onClick(android.view.View)>,16,"virtualinvoke v0.<java.io.FileOutputStream: void write(byte)>(v0, p1)"
+4,<de.ecspride.MainActivity: void onResume()>,21,"specialinvoke v0.<java.lang.String: void <init>(byte)>(v0, v2)"
+5,<de.ecspride.MainActivity: void onResume()>,22,v8 = virtualinvoke v0.<java.lang.String: java.lang.String trim()>(v0)
+7,<de.ecspride.MainActivity: void onResume()>,26,"virtualinvoke v5.<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>(v5, v6, v7, v8, v9, v10)"

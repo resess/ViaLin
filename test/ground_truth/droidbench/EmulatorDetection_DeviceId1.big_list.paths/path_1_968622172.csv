@@ -1,0 +1,4 @@
+,method,stmtLineNumber,stmt
+0,<com.example.newedtester.MainActivity$1: void onClick(android.view.View)>,13,v4 = virtualinvoke v0.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(v0)
+1,<com.example.newedtester.MainActivity$1: void onClick(android.view.View)>,15,"v0 = virtualinvoke v4.<java.lang.String: int compareTo(java.lang.String)>(v4, v0)"
+2,<com.example.newedtester.MainActivity$1: void onClick(android.view.View)>,26,"virtualinvoke v1.<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>(v1, v2, v3, v4, v5, v6)"

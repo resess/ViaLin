@@ -1,0 +1,6 @@
+,method,stmtLineNumber,stmt
+0,<de.ecspride.Exceptions4$1: void onClick(android.view.View)>,8,p1 = virtualinvoke p1.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(p1)
+1,<de.ecspride.Exceptions4$1: void onClick(android.view.View)>,10,"specialinvoke v0.<java.lang.RuntimeException: void <init>(java.lang.String)>(v0, p1)"
+2,<de.ecspride.Exceptions4$1: void onClick(android.view.View)>,11,throw v0
+3,<de.ecspride.Exceptions4$1: void onClick(android.view.View)>,16,v3 = virtualinvoke p1.<java.lang.RuntimeException: java.lang.String getMessage()>(p1)
+5,<de.ecspride.Exceptions4$1: void onClick(android.view.View)>,21,"virtualinvoke v0.<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>(v0, v1, v2, v3, v4, v5)"

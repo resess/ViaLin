@@ -1,0 +1,10 @@
+,method,stmtLineNumber,stmt
+0,<org.cert.WriteFile.Button1Listener: java.lang.String getMyLocation()>,17,v1 = virtualinvoke v0.<android.location.Location: double getLongitude()>(v0)
+1,<org.cert.WriteFile.Button1Listener: java.lang.String getMyLocation()>,20,"v0 = staticinvoke <java.lang.String: java.lang.String valueOf(double)>(v1, v2)"
+3,<org.cert.WriteFile.Button1Listener: java.lang.String getMyLocation()>,22,"v1 = staticinvoke <java.lang.String: java.lang.String valueOf(double)>(v3, v4)"
+5,<org.cert.WriteFile.Button1Listener: java.lang.String getMyLocation()>,28,"virtualinvoke v2.<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>(v2, v0)"
+7,<org.cert.WriteFile.Button1Listener: java.lang.String getMyLocation()>,31,"virtualinvoke v2.<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>(v2, v1)"
+8,<org.cert.WriteFile.Button1Listener: java.lang.String getMyLocation()>,32,v0 = virtualinvoke v2.<java.lang.StringBuilder: java.lang.String toString()>(v2)
+10,<org.cert.WriteFile.Button1Listener: java.lang.String getMyLocation()>,34,return v0
+11,<org.cert.WriteFile.Button1Listener: void onClick(android.view.View)>,10,"virtualinvoke p1.<android.content.Intent: android.content.Intent putExtra(java.lang.String,java.lang.String)>(p1, v1, v0)"
+12,<org.cert.WriteFile.Button1Listener: void onClick(android.view.View)>,13,"virtualinvoke v0.<org.cert.WriteFile.MainActivity: void startActivityForResult(android.content.Intent,int)>(v0, p1, v1)"

@@ -1,0 +1,16 @@
+,method,stmtLineNumber,stmt
+0,<edu.mit.public.api.field.MainActivity$1: void onClick(android.view.View)>,8,p1 = virtualinvoke p1.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(p1)
+1,<edu.mit.public.api.field.MainActivity$1: void onClick(android.view.View)>,11,"v0 = virtualinvoke p1.<java.lang.String: java.lang.String substring(int,int)>(p1, v0, v1)"
+3,<edu.mit.public.api.field.MainActivity$1: void onClick(android.view.View)>,13,v0 = staticinvoke <java.lang.Float: java.lang.Float valueOf(java.lang.String)>(v0)
+5,<edu.mit.public.api.field.MainActivity$1: void onClick(android.view.View)>,15,v0 = virtualinvoke v0.<java.lang.Float: float floatValue()>(v0)
+7,<edu.mit.public.api.field.MainActivity$1: void onClick(android.view.View)>,17,"p1 = virtualinvoke p1.<java.lang.String: java.lang.String substring(int)>(p1, v1)"
+9,<edu.mit.public.api.field.MainActivity$1: void onClick(android.view.View)>,19,p1 = staticinvoke <java.lang.Float: java.lang.Float valueOf(java.lang.String)>(p1)
+11,<edu.mit.public.api.field.MainActivity$1: void onClick(android.view.View)>,21,p1 = virtualinvoke p1.<java.lang.Float: float floatValue()>(p1)
+13,<edu.mit.public.api.field.MainActivity$1: void onClick(android.view.View)>,24,"specialinvoke v1.<android.graphics.PointF: void <init>(float,float)>(v1, v0, p1)"
+14,<edu.mit.public.api.field.MainActivity$1: void onClick(android.view.View)>,29,v0 = v1.<android.graphics.PointF: float x>
+15,<edu.mit.public.api.field.MainActivity$1: void onClick(android.view.View)>,30,"virtualinvoke p1.<java.lang.StringBuilder: java.lang.StringBuilder append(float)>(p1, v0)"
+16,<edu.mit.public.api.field.MainActivity$1: void onClick(android.view.View)>,32,"virtualinvoke p1.<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>(p1, v0)"
+17,<edu.mit.public.api.field.MainActivity$1: void onClick(android.view.View)>,33,v0 = v1.<android.graphics.PointF: float y>
+18,<edu.mit.public.api.field.MainActivity$1: void onClick(android.view.View)>,34,"virtualinvoke p1.<java.lang.StringBuilder: java.lang.StringBuilder append(float)>(p1, v0)"
+19,<edu.mit.public.api.field.MainActivity$1: void onClick(android.view.View)>,35,p1 = virtualinvoke p1.<java.lang.StringBuilder: java.lang.String toString()>(p1)
+21,<edu.mit.public.api.field.MainActivity$1: void onClick(android.view.View)>,38,"staticinvoke <android.util.Log: int i(java.lang.String,java.lang.String)>(v0, p1)"

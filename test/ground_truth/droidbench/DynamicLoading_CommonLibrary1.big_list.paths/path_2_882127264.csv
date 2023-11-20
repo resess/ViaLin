@@ -1,0 +1,8 @@
+,method,stmtLineNumber,stmt
+0,<edu.wayne.cs.ChildClass: java.lang.String source(android.content.Context)>,7,p1 = virtualinvoke p1.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(p1)
+1,<edu.wayne.cs.ChildClass: java.lang.String source(android.content.Context)>,8,return p1
+2,<edu.wayne.cs.ChildClass: java.lang.String source(android.content.Context)>,4,"p1 = virtualinvoke p1.<android.content.Context: java.lang.Object getSystemService(java.lang.String)>(p1, v0)"
+3,<edu.wayne.cs.ChildClass: java.lang.String source(android.content.Context)>,5,p1 = (android.telephony.TelephonyManager) p1
+4,<edu.wayne.cs.ChildClass: java.lang.String source(android.content.Context)>,6,p1 = virtualinvoke p1.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(p1)
+5,<edu.wayne.cs.MainActivity$1: void onClick(android.view.View)>,7,"virtualinvoke p1.<edu.wayne.cs.ChildClass: void sink(java.lang.String)>(p1, v0)"
+6,<edu.wayne.cs.ChildClass: void sink(java.lang.String)>,3,"staticinvoke <android.util.Log: int d(java.lang.String,java.lang.String)>(v0, p1)"

@@ -1,0 +1,5 @@
+,method,stmtLineNumber,stmt
+0,<edu.mit.shared.preferences.MainActivity$1: void onClick(android.view.View)>,8,p1 = virtualinvoke p1.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(p1)
+1,<edu.mit.shared.preferences.MainActivity$1: void onClick(android.view.View)>,17,"interfaceinvoke v0.<android.content.SharedPreferences$Editor: android.content.SharedPreferences$Editor putString(java.lang.String,java.lang.String)>(v0, v1, p1)"
+2,<edu.mit.shared.preferences.AnotherActivity: void onCreate(android.os.Bundle)>,12,"p1 = interfaceinvoke p1.<android.content.SharedPreferences: java.lang.String getString(java.lang.String,java.lang.String)>(p1, v0, v1)"
+3,<edu.mit.shared.preferences.AnotherActivity: void onCreate(android.os.Bundle)>,14,"staticinvoke <android.util.Log: int i(java.lang.String,java.lang.String)>(v0, p1)"

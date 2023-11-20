@@ -1,0 +1,5 @@
+,method,stmtLineNumber,stmt
+0,<de.ecspride.MainActivity: void aliasFlowTest()>,7,v0 = virtualinvoke v0.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(v0)
+1,<de.ecspride.MainActivity: void aliasFlowTest()>,13,v1.<de.ecspride.MainActivity$A: java.lang.String b> = v0
+2,<de.ecspride.MainActivity: void aliasFlowTest()>,17,v4 = v0.<de.ecspride.MainActivity$A: java.lang.String b>
+3,<de.ecspride.MainActivity: void aliasFlowTest()>,22,"virtualinvoke v1.<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>(v1, v2, v3, v4, v5, v6)"

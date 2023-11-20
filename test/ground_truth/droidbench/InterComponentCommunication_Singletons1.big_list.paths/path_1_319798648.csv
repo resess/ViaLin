@@ -1,0 +1,5 @@
+,method,stmtLineNumber,stmt
+0,<edu.mit.to.components.share.memory.AnotherActivity: void onCreate(android.os.Bundle)>,12,p1 = virtualinvoke p1.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(p1)
+1,<edu.mit.to.components.share.memory.AnotherActivity: void onCreate(android.os.Bundle)>,13,v0.<edu.mit.to_components_share_memory.Singleton: java.lang.String s> = p1
+2,<edu.mit.to.components.share.memory.MainActivity: void onStop()>,5,v0 = v0.<edu.mit.to_components_share_memory.Singleton: java.lang.String s>
+3,<edu.mit.to.components.share.memory.MainActivity: void onStop()>,7,"staticinvoke <android.util.Log: int i(java.lang.String,java.lang.String)>(v1, v0)"

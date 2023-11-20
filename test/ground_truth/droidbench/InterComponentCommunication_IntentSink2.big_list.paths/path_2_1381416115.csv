@@ -1,0 +1,4 @@
+,method,stmtLineNumber,stmt
+0,<de.ecspride.IntentSink2: void startIntent(android.view.View)>,11,v0 = virtualinvoke v0.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(v0)
+1,<de.ecspride.IntentSink2: void startIntent(android.view.View)>,20,"virtualinvoke v1.<android.content.Intent: android.content.Intent putExtra(java.lang.String,java.lang.String)>(v1, p1, v0)"
+2,<de.ecspride.IntentSink2: void startIntent(android.view.View)>,21,"virtualinvoke p0.<de.ecspride.IntentSink2: void startActivity(android.content.Intent)>(p0, v1)"

@@ -1,0 +1,7 @@
+,method,stmtLineNumber,stmt
+0,<edu.mit.outputstream.MainActivity$1: void onClick(android.view.View)>,8,p1 = virtualinvoke p1.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(p1)
+1,<edu.mit.outputstream.MainActivity$1: void onClick(android.view.View)>,9,p1 = virtualinvoke p1.<java.lang.String: byte[] getBytes()>(p1)
+3,<edu.mit.outputstream.MainActivity$1: void onClick(android.view.View)>,13,v1 = lengthof p1
+4,<edu.mit.outputstream.MainActivity$1: void onClick(android.view.View)>,15,"virtualinvoke v0.<java.io.ByteArrayOutputStream: void write(byte,int,int)>(v0, p1, v2, v1)"
+5,<edu.mit.outputstream.MainActivity$1: void onClick(android.view.View)>,16,p1 = virtualinvoke v0.<java.io.ByteArrayOutputStream: java.lang.String toString()>(v0)
+7,<edu.mit.outputstream.MainActivity$1: void onClick(android.view.View)>,19,"staticinvoke <android.util.Log: int i(java.lang.String,java.lang.String)>(v0, p1)"

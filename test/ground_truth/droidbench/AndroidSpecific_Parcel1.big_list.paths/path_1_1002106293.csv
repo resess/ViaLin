@@ -1,0 +1,20 @@
+,method,stmtLineNumber,stmt
+0,<edu.mit.parcel.MainActivity$1: void onClick(android.view.View)>,9,p1 = virtualinvoke p1.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(p1)
+1,<edu.mit.parcel.MainActivity$1: void onClick(android.view.View)>,10,"virtualinvoke v0.<edu.mit.parcel.MainActivity: void writeParcel(java.lang.String)>(v0, p1)"
+2,<edu.mit.parcel.MainActivity: void writeParcel(java.lang.String)>,3,"specialinvoke v0.<edu.mit.parcel.MainActivity$Foo: void <init>(java.lang.String)>(v0, p1)"
+3,<edu.mit.parcel.MainActivity$Foo: void <init>(java.lang.String)>,3,p0.<edu.mit.parcel.MainActivity$Foo: java.lang.String str> = p1
+4,<edu.mit.parcel.MainActivity: void writeParcel(java.lang.String)>,5,p1 = staticinvoke <android.os.Parcel: android.os.Parcel obtain()>()
+5,<edu.mit.parcel.MainActivity: void writeParcel(java.lang.String)>,10,"virtualinvoke p1.<android.os.Parcel: void writeValue(java.lang.Object)>(p1, v0)"
+6,<edu.mit.parcel.MainActivity: void writeParcel(java.lang.String)>,11,v0 = virtualinvoke p1.<android.os.Parcel: byte[] marshall()>(p1)
+8,<edu.mit.parcel.MainActivity: void writeParcel(java.lang.String)>,14,"specialinvoke v3.<java.lang.String: void <init>(byte)>(v3, v0)"
+9,<edu.mit.parcel.MainActivity: void writeParcel(java.lang.String)>,15,v3 = lengthof v0
+10,<edu.mit.parcel.MainActivity: void writeParcel(java.lang.String)>,17,"virtualinvoke v1.<android.os.Parcel: void unmarshall(byte,int,int)>(v1, v0, v4, v3)"
+11,<edu.mit.parcel.MainActivity: void writeParcel(java.lang.String)>,18,"virtualinvoke v1.<android.os.Parcel: void setDataPosition(int)>(v1, v4)"
+12,<edu.mit.parcel.MainActivity: void writeParcel(java.lang.String)>,22,"v0 = virtualinvoke v1.<android.os.Parcel: java.lang.Object readValue(java.lang.ClassLoader)>(v1, v0)"
+13,<edu.mit.parcel.MainActivity$Foo$1: java.lang.Object createFromParcel(android.os.Parcel)>,2,"p1 = virtualinvoke p0.<edu.mit.parcel.MainActivity$Foo$1: edu.mit.parcel.MainActivity$Foo createFromParcel(android.os.Parcel)>(p0, p1)"
+14,<edu.mit.parcel.MainActivity$Foo$1: edu.mit.parcel.MainActivity$Foo createFromParcel(android.os.Parcel)>,11,return v0
+15,<edu.mit.parcel.MainActivity$Foo$1: java.lang.Object createFromParcel(android.os.Parcel)>,4,return p1
+16,<edu.mit.parcel.MainActivity: void writeParcel(java.lang.String)>,23,"v0 = virtualinvoke v1.<android.os.Parcel: java.lang.Object readValue(java.lang.ClassLoader)>(v1, v0)"
+17,<edu.mit.parcel.MainActivity: void writeParcel(java.lang.String)>,24,v0 = (edu.mit.parcel.MainActivity$Foo) v0
+18,<edu.mit.parcel.MainActivity: void writeParcel(java.lang.String)>,28,v5 = v0.<edu.mit.parcel.MainActivity$Foo: java.lang.String str>
+19,<edu.mit.parcel.MainActivity: void writeParcel(java.lang.String)>,32,"virtualinvoke v2.<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>(v2, v3, v4, v5, v6, v7)"

@@ -1,0 +1,12 @@
+,method,stmtLineNumber,stmt
+0,<org.arguslab.icc.rpc.comprehensive.RemoteService$1: void setImei()>,9,v0 = virtualinvoke v0.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(v0)
+1,<org.arguslab.icc.rpc.comprehensive.RemoteService$1: void setImei()>,10,"staticinvoke <org.arguslab.icc_rpc_comprehensive.RemoteService: java.lang.String access$002(org.arguslab.icc_rpc_comprehensive.RemoteService,java.lang.String)>(v1, v0)"
+2,"<org.arguslab.icc.rpc.comprehensive.RemoteService: java.lang.String access$002(org.arguslab.icc_rpc_comprehensive.RemoteService,java.lang.String)>",2,p0.<org.arguslab.icc_rpc_comprehensive.RemoteService: java.lang.String imei> = p1
+3,<org.arguslab.icc.rpc.comprehensive.RemoteService: java.lang.String access$000(org.arguslab.icc_rpc_comprehensive.RemoteService)>,2,p0 = p0.<org.arguslab.icc_rpc_comprehensive.RemoteService: java.lang.String imei>
+4,<org.arguslab.icc.rpc.comprehensive.RemoteService: java.lang.String access$000(org.arguslab.icc_rpc_comprehensive.RemoteService)>,3,return p0
+5,<org.arguslab.icc.rpc.comprehensive.RemoteService$1: java.lang.String getImei()>,5,return v0
+6,<org.arguslab.icc.rpc.comprehensive.BarActivity: void onClick(android.view.View)>,9,"virtualinvoke v0.<android.content.Intent: android.content.Intent putExtra(java.lang.String,java.lang.String)>(v0, v1, p1)"
+7,"<org.arguslab.icc.rpc.comprehensive.FooActivity: void onActivityResult(int,int,android.content.Intent)>",8,"p2 = virtualinvoke p3.<android.content.Intent: java.lang.String getStringExtra(java.lang.String)>(p3, p2)"
+8,"<org.arguslab.icc.rpc.comprehensive.FooActivity: void onActivityResult(int,int,android.content.Intent)>",9,"virtualinvoke p1.<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>(p1, p2)"
+9,"<org.arguslab.icc.rpc.comprehensive.FooActivity: void onActivityResult(int,int,android.content.Intent)>",10,p1 = virtualinvoke p1.<java.lang.StringBuilder: java.lang.String toString()>(p1)
+11,"<org.arguslab.icc.rpc.comprehensive.FooActivity: void onActivityResult(int,int,android.content.Intent)>",13,"staticinvoke <android.util.Log: int d(java.lang.String,java.lang.String)>(p2, p1)"

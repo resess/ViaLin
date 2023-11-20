@@ -1,0 +1,8 @@
+,method,stmtLineNumber,stmt
+0,<de.ecspride.MainActivity: void threadingTest()>,14,v0 = virtualinvoke v0.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(v0)
+1,<de.ecspride.MainActivity: void threadingTest()>,16,v2[v3] = v0
+2,<de.ecspride.MainActivity: void threadingTest()>,17,"virtualinvoke v1.<de.ecspride.MainActivity$MyAsyncTask: android.os.AsyncTask execute(java.lang.Object)>(v1, v2)"
+3,<de.ecspride.MainActivity$MyAsyncTask: java.lang.Object doInBackground(java.lang.Object)>,2,p1 = (java.lang.String[]) p1
+4,<de.ecspride.MainActivity$MyAsyncTask: java.lang.Object doInBackground(java.lang.Object)>,3,"p1 = virtualinvoke p0.<de.ecspride.MainActivity$MyAsyncTask: java.lang.String doInBackground(java.lang.String)>(p0, p1)"
+5,<de.ecspride.MainActivity$MyAsyncTask: java.lang.String doInBackground(java.lang.String)>,3,p1 = p1[v0]
+6,<de.ecspride.MainActivity$MyAsyncTask: java.lang.String doInBackground(java.lang.String)>,5,"staticinvoke <android.util.Log: int d(java.lang.String,java.lang.String)>(v0, p1)"

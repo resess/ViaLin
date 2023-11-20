@@ -1,0 +1,6 @@
+,method,stmtLineNumber,stmt
+0,<edu.mit.icc.non.constant.class.object.OutFlowActivity$1: void onClick(android.view.View)>,8,p1 = virtualinvoke p1.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(p1)
+1,<edu.mit.icc.non.constant.class.object.OutFlowActivity$1: void onClick(android.view.View)>,17,"virtualinvoke v1.<android.content.Intent: android.content.Intent putExtra(java.lang.String,java.lang.String)>(v1, v0, p1)"
+2,<edu.mit.icc.non.constant.class.object.InFlowActivity: void onCreate(android.os.Bundle)>,6,p1 = virtualinvoke p0.<edu.mit.icc_non_constant_class_object.InFlowActivity: android.content.Intent getIntent()>(p0)
+3,<edu.mit.icc.non.constant.class.object.InFlowActivity: void onCreate(android.os.Bundle)>,8,"p1 = virtualinvoke p1.<android.content.Intent: java.lang.String getStringExtra(java.lang.String)>(p1, v0)"
+5,<edu.mit.icc.non.constant.class.object.InFlowActivity: void onCreate(android.os.Bundle)>,10,"staticinvoke <android.util.Log: int i(java.lang.String,java.lang.String)>(v0, p1)"

@@ -1,0 +1,7 @@
+,method,stmtLineNumber,stmt
+0,<edu.mit.activity.saved.state.MainActivity: void onSaveInstanceState(android.os.Bundle)>,10,v0 = virtualinvoke v0.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(v0)
+1,<edu.mit.activity.saved.state.MainActivity: void onSaveInstanceState(android.os.Bundle)>,12,"virtualinvoke p1.<android.os.Bundle: void putString(java.lang.String,java.lang.String)>(p1, v1, v0)"
+2,<edu.mit.activity.saved.state.MainActivity: void onSaveInstanceState(android.os.Bundle)>,13,"superinvoke p0.<android.app.Activity: void onSaveInstanceState(android.os.Bundle)>(p0, p1)"
+3,<edu.mit.activity.saved.state.MainActivity: void onCreate(android.os.Bundle)>,2,"superinvoke p0.<android.app.Activity: void onCreate(android.os.Bundle)>(p0, p1)"
+4,<edu.mit.activity.saved.state.MainActivity: void onCreate(android.os.Bundle)>,12,"p1 = virtualinvoke p1.<android.os.Bundle: java.lang.String getString(java.lang.String)>(p1, v0)"
+6,<edu.mit.activity.saved.state.MainActivity: void onCreate(android.os.Bundle)>,14,"staticinvoke <android.util.Log: int i(java.lang.String,java.lang.String)>(v0, p1)"

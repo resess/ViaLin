@@ -1,0 +1,5 @@
+,method,stmtLineNumber,stmt
+0,"<de.ecspride.MainService: int onStartCommand(android.content.Intent,int,int)>",7,p1 = virtualinvoke p1.<android.telephony.TelephonyManager: java.lang.String getSimSerialNumber()>(p1)
+1,"<de.ecspride.MainService: int onStartCommand(android.content.Intent,int,int)>",8,p0.<de.ecspride.MainService: java.lang.String secret> = p1
+2,<de.ecspride.MainService: void onLowMemory()>,4,v3 = p0.<de.ecspride.MainService: java.lang.String secret>
+3,<de.ecspride.MainService: void onLowMemory()>,9,"virtualinvoke v0.<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>(v0, v1, v2, v3, v4, v5)"

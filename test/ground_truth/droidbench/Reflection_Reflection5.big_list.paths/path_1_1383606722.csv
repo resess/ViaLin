@@ -1,0 +1,5 @@
+,method,stmtLineNumber,stmt
+0,<edu.wayne.cs.MainActivity: void reflectionTest()>,7,v0 = virtualinvoke v0.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(v0)
+1,<edu.wayne.cs.MainActivity: void reflectionTest()>,19,v2[v6] = v0
+2,<edu.wayne.cs.MainActivity: void reflectionTest()>,20,"virtualinvoke v1.<java.lang.reflect.Method: java.lang.Object invoke(java.lang.Object,java.lang.Object)>(v1, p0, v2)"
+3,<edu.wayne.cs.MainActivity: void log(java.lang.String)>,3,"staticinvoke <android.util.Log: int d(java.lang.String,java.lang.String)>(v0, p1)"

@@ -1,0 +1,8 @@
+,method,stmtLineNumber,stmt
+0,<edu.mit.button.object.allocation.Button1$1: void onClick(android.view.View)>,8,v0 = virtualinvoke v0.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(v0)
+1,<edu.mit.button.object.allocation.Button1$1: void onClick(android.view.View)>,9,staticinvoke <edu.mit.button_object_allocation.Button1: java.lang.String access$002(java.lang.String)>(v0)
+2,<edu.mit.button.object.allocation.Button1: java.lang.String access$002(java.lang.String)>,2,<edu.mit.button_object_allocation.Button1: java.lang.String imei> = p0
+3,<edu.mit.button.object.allocation.Button1: java.lang.String access$002(java.lang.String)>,3,return p0
+4,<edu.mit.button.object.allocation.Button1: void sendMessage(android.view.View)>,4,v0 = virtualinvoke p1.<android.widget.Button: java.lang.CharSequence getHint()>(p1)
+5,<edu.mit.button.object.allocation.Button1: void sendMessage(android.view.View)>,5,v0 = interfaceinvoke v0.<java.lang.CharSequence: java.lang.String toString()>(v0)
+7,<edu.mit.button.object.allocation.Button1: void sendMessage(android.view.View)>,8,"staticinvoke <android.util.Log: int i(java.lang.String,java.lang.String)>(v1, v0)"

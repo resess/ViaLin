@@ -1,0 +1,5 @@
+,method,stmtLineNumber,stmt
+0,<edu.mit.event.ordering.MainActivity: void onLowMemory()>,10,v0 = virtualinvoke v0.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(v0)
+1,<edu.mit.event.ordering.MainActivity: void onLowMemory()>,11,p0.<edu.mit.event_ordering.MainActivity: java.lang.String imei> = v0
+2,<edu.mit.event.ordering.MainActivity: void onLowMemory()>,2,v0 = p0.<edu.mit.event_ordering.MainActivity: java.lang.String imei>
+3,<edu.mit.event.ordering.MainActivity: void onLowMemory()>,4,"staticinvoke <android.util.Log: int i(java.lang.String,java.lang.String)>(v1, v0)"

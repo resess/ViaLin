@@ -1,0 +1,10 @@
+,method,stmtLineNumber,stmt
+0,<com.example.location.service.Locationservice: void onLocationChanged(android.location.Location)>,19,v1 = virtualinvoke p1.<android.location.Location: double getLongitude()>(p1)
+1,<com.example.location.service.Locationservice: void onLocationChanged(android.location.Location)>,20,"p1 = staticinvoke <java.lang.Double: java.lang.String toString(double)>(v1, v2)"
+3,<com.example.location.service.Locationservice: void onLocationChanged(android.location.Location)>,22,"p1 = virtualinvoke v0.<java.lang.String: java.lang.String concat(java.lang.String)>(v0, p1)"
+5,<com.example.location.service.Locationservice: void onLocationChanged(android.location.Location)>,24,p0.<com.example.location_service.Locationservice: java.lang.String loc> = p1
+6,<com.example.location.service.Locationservice: void onDestroy()>,5,v1 = p0.<com.example.location_service.Locationservice: java.lang.String loc>
+7,<com.example.location.service.Locationservice: void onDestroy()>,7,"virtualinvoke v0.<android.content.Intent: android.content.Intent putExtra(java.lang.String,java.lang.String)>(v0, v2, v1)"
+8,<com.example.location.service.Locationservice: void onDestroy()>,9,"virtualinvoke v0.<android.content.Intent: android.content.Intent setFlags(int)>(v0, v1)"
+9,<com.example.location.service.Locationservice: void onDestroy()>,11,"virtualinvoke v0.<android.content.Intent: android.content.Intent setType(java.lang.String)>(v0, v1)"
+10,<com.example.location.service.Locationservice: void onDestroy()>,12,"virtualinvoke p0.<com.example.location_service.Locationservice: void startActivity(android.content.Intent)>(p0, v0)"

@@ -1,0 +1,5 @@
+,method,stmtLineNumber,stmt
+0,<edu.mit.dynamic.dispatch.B: java.lang.String f()>,4,v0 = virtualinvoke v0.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(v0)
+1,<edu.mit.dynamic.dispatch.B: java.lang.String f()>,5,return v0
+2,<edu.mit.dynamic.dispatch.Test: java.lang.String method(edu.mit.dynamic_dispatch.A)>,4,return p1
+3,<edu.mit.dynamic.dispatch.MainActivity$1: void onClick(android.view.View)>,24,"virtualinvoke v3.<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>(v3, v4, v5, v6, v7, v8)"

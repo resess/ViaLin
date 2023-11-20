@@ -1,0 +1,8 @@
+,method,stmtLineNumber,stmt
+0,<com.example.onlytelephony.MainActivity: void reflectionIccTest()>,40,staticinvoke <android.telephony.TelephonyManager: java.lang.String getDeviceId()>(v0)
+1,<com.example.onlytelephony.MainActivity: void reflectionIccTest()>,41,"v0 = virtualinvoke v0.<java.lang.reflect.Method: java.lang.Object invoke(java.lang.Object,java.lang.Object)>(v0, v1, v2)"
+2,<com.example.onlytelephony.MainActivity: void reflectionIccTest()>,42,v0 = (java.lang.String) v0
+3,<com.example.onlytelephony.MainActivity: void reflectionIccTest()>,43,p0.<com.example.onlytelephony.MainActivity: java.lang.String id> = v0
+4,<com.example.onlytelephony.MainActivity: void reflectionIccTest()>,55,v1 = p0.<com.example.onlytelephony.MainActivity: java.lang.String id>
+5,<com.example.onlytelephony.MainActivity: void reflectionIccTest()>,57,"virtualinvoke v0.<android.content.Intent: android.content.Intent putExtra(java.lang.String,java.lang.String)>(v0, v2, v1)"
+6,<com.example.onlytelephony.MainActivity: void reflectionIccTest()>,58,"virtualinvoke p0.<com.example.onlytelephony.MainActivity: void startActivity(android.content.Intent)>(p0, v0)"

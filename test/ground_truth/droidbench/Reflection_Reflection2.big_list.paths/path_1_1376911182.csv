@@ -1,0 +1,6 @@
+,method,stmtLineNumber,stmt
+0,<de.ecspride.MainActivity: void reflectionTest()>,13,v1 = virtualinvoke v1.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(v1)
+1,<de.ecspride.MainActivity: void reflectionTest()>,14,v0.<de.ecspride.BaseClass: java.lang.String imei> = v1
+2,<de.ecspride.ConcreteClass: java.lang.String foo()>,2,v0 = p0.<de.ecspride.ConcreteClass: java.lang.String imei>
+3,<de.ecspride.ConcreteClass: java.lang.String foo()>,3,return v0
+4,<de.ecspride.MainActivity: void reflectionTest()>,23,"virtualinvoke v2.<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>(v2, v3, v4, v5, v6, v7)"

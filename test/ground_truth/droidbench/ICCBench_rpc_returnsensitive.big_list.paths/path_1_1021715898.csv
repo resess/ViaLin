@@ -1,0 +1,6 @@
+,method,stmtLineNumber,stmt
+0,<org.arguslab.rpc.returnsensitive.LocalService: java.lang.String getData()>,7,v0 = virtualinvoke v0.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(v0)
+1,<org.arguslab.rpc.returnsensitive.LocalService: java.lang.String getData()>,8,return v0
+2,<org.arguslab.rpc.returnsensitive.MainActivity: void leakData()>,9,"virtualinvoke v0.<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>(v0, v1)"
+3,<org.arguslab.rpc.returnsensitive.MainActivity: void leakData()>,10,v0 = virtualinvoke v0.<java.lang.StringBuilder: java.lang.String toString()>(v0)
+5,<org.arguslab.rpc.returnsensitive.MainActivity: void leakData()>,13,"staticinvoke <android.util.Log: int i(java.lang.String,java.lang.String)>(v1, v0)"

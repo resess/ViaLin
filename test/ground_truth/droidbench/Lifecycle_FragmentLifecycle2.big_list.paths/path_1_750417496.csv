@@ -1,0 +1,5 @@
+,method,stmtLineNumber,stmt
+0,"<edu.mit.fragments.HeadlinesFragment: void onListItemClick(android.widget.ListView,android.view.View,int,long)>",9,p1 = virtualinvoke p1.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(p1)
+1,"<edu.mit.fragments.HeadlinesFragment: void onListItemClick(android.widget.ListView,android.view.View,int,long)>",11,"interfaceinvoke p2.<edu.mit.fragments.HeadlinesFragment$OnHeadlineSelectedListener: void onArticleSelected(int,java.lang.String)>(p2, p3, p1)"
+2,"<edu.mit.fragments.MainActivity: void onArticleSelected(int,java.lang.String)>",27,"virtualinvoke v0.<edu.mit.fragments.ArticleFragment: void updateArticleView(int,java.lang.String)>(v0, p1, p2)"
+3,"<edu.mit.fragments.ArticleFragment: void updateArticleView(int,java.lang.String)>",16,"staticinvoke <android.util.Log: int i(java.lang.String,java.lang.String)>(p1, p2)"

@@ -1,0 +1,4 @@
+,method,stmtLineNumber,stmt
+0,<edu.mit.icc.component.not.in.manifest.OutFlowActivity$1: void onClick(android.view.View)>,8,p1 = virtualinvoke p1.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(p1)
+1,<edu.mit.icc.component.not.in.manifest.OutFlowActivity$1: void onClick(android.view.View)>,14,"virtualinvoke v0.<android.content.Intent: android.content.Intent putExtra(java.lang.String,java.lang.String)>(v0, v1, p1)"
+2,<edu.mit.icc.component.not.in.manifest.OutFlowActivity$1: void onClick(android.view.View)>,16,"virtualinvoke p1.<edu.mit.icc_component_not_in_manifest.OutFlowActivity: void startActivity(android.content.Intent)>(p1, v0)"

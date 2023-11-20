@@ -1,0 +1,276 @@
+,Category,AppName,"# Dyanmic expected flows (source stmt, sink statement pair)",path ID,source,sink,Expected?
+0,,,,,,,x
+1,,,,,,,x
+2,Aliasing,FlowSensitivity1,0,,,,x
+3,Aliasing,Merge1,0,,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",x
+4,Aliasing,SimpleAliasing1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+5,Aliasing,StrongUpdate1,0,,,,x
+6,Android Specific,ApplicationModeling1,0,,,,x
+7,Android Specific,DirectLeak1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+8,Android Specific,InactiveActivity,0,,,,x
+9,AndroidSpecific,Library1,0,,,,x
+10,Android Specific,Library2,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+11,Android Specific,LogNoLeak,0,,,,x
+12,Android Specific,Obfuscation1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+13,Android Specific,Parcel1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+14,AndroidSpecific,PrivateDataLeak1,1,1,<android.widget.EditText: android.text.Editable getText()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+15,AndroidSpecific,PrivateDataLeak2,1,1,<android.widget.EditText: android.text.Editable getText()>(),"<android.util.Log: int v(java.lang.String,java.lang.String)>()",v
+16,Android Specific,PrivateDataLeak3,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+17,Android Specific,PublicAPIField1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+18,Android Specific,PublicAPIField2,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+19,Android Specific,View1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+20,Arrays And Lists,ArrayAccess1,0,,,,x
+21,Arrays And Lists,ArrayAccess2,0,,,,x
+22,Arrays And Lists,ArrayAccess3,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+23,Arrays And Lists,ArrayAccess4,0,,,,x
+24,Arrays And Lists,ArrayAccess5,0,,,,x
+25,Arrays And Lists,ArrayCopy1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+26,Arrays And Lists,ArrayToString1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+27,Arrays And Lists,HashMapAccess1,0,,,,x
+28,Arrays And Lists,ListAccess1,0,,,,x
+29,Arrays And Lists,MultidimensionalArray1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+30,Callbacks,Button1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+31,Callbacks,Button2,3,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+32,Callbacks,Button2,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+33,Callbacks,Button2,,3,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+34,Callbacks,Button3,2,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+35,Callbacks,Button3,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+36,Callbacks,Button4,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+37,Callbacks,Button5,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+38,Callbacks,MethodOverride1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int d(java.lang.String,java.lang.String)>",v
+39,Callbacks,MultiHandlers1,0,,,,x
+40,Callbacks,Ordering1,0,,,,x
+41,Callbacks,Unregister1,0,,,,x
+42,DynamicLoading,CommonLibrary1,0,,,,x
+43,DynamicLoading,DynamicBoth1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int d(java.lang.String,java.lang.String)>()",v
+44,DynamicLoading,DynamicLoadingTarget1,0,,,,x
+45,DynamicLoading,DynamicSink1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int d(java.lang.String,java.lang.String)>()",v
+46,DynamicLoading,DynamicSource1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int d(java.lang.String,java.lang.String)>()",v
+47,Emulator Detection,Battery1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+48,Emulator Detection,Bluetooth1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+49,Emulator Detection,Build1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+50,Emulator Detection,Contacts1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+51,Emulator Detection,ContentProvider1,2,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+52,Emulator Detection,ContentProvider1,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int v(java.lang.String,java.lang.String)>",v
+53,Emulator Detection,DeviceId1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+54,Emulator Detection,File1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+55,Emulator Detection,IMEI1,0,,,,x
+56,Emulator Detection,IP1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+57,Emulator Detection,PI1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+58,Emulator Detection,PlayStore1,2,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",x
+59,Emulator Detection,PlayStore1,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int v(java.lang.String,java.lang.String)>",x
+60,Emulator Detection,PlayStore2,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",x
+61,Emulator Detection,Sensors1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+62,Emulator Detection,SubscriberId1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+63,Emulator Detection,VoiceMail1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+64,Field And Object Sensitivity,FieldSensitivity1,0,,,,x
+65,Field And Object Sensitivity,FieldSensitivity2,0,,,,x
+66,Field And Object Sensitivity,FieldSensitivity3,1,1,<android.telephony.TelephonyManager: java.lang.String getSimSerialNumber()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+67,Field And Object Sensitivity,FieldSensitivity4,0,,,,x
+68,Field And Object Sensitivity,InheritedObjects1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+69,Field And Object Sensitivity,ObjectSensitivity1,0,,,,x
+70,Field And Object Sensitivity,ObjectSensitivity2,0,,,,x
+71,General Java,Clone1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+72,General Java,Exceptions1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+73,General Java,Exceptions2,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+74,General Java,Exceptions3,0,,,,x
+75,General Java,Exceptions4,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+76,General Java,Exceptions5,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+77,General Java,Exceptions6,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+78,General Java,Exceptions7,0,,,,x
+79,General Java,Loop1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+80,General Java,Loop2,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+81,General Java,Serialization1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+82,General Java,SourceCodeSpecific1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+83,General Java,StartProcessWithSecret1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),<java.lang.ProcessBuilder: java.lang.Process start()>,v
+84,General Java,StaticInitialization1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+85,General Java,StaticInitialization2,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+86,General Java,StaticInitialization3,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+87,General Java,StringFormatter1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+88,General Java,StringPatternMatching1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+89,General Java,StringToCharArray1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+90,General Java,StringToOutputStream1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+91,General Java,UnreachableCode,0,,,,x
+92,General Java,VirtualDispatch1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+93,General Java,VirtualDispatch2,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+94,General Java,VirtualDispatch3,0,,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",x
+95,GeneralJava,VirtualDispatch4,0,,,,x
+96,ImplicitFlow,ImplicitFlow1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",x
+97,ImplicitFlow,ImplicitFlow2,1,1,<android.widget.EditText: android.text.Editable getText()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",x
+98,ImplicitFlow,ImplicitFlow3,1,1,<android.widget.EditText: android.text.Editable getText()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",x
+99,ImplicitFlow,ImplicitFlow4,1,1,<android.widget.EditText: android.text.Editable getText()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",x
+100,ImplicitFlow,ImplicitFlow5,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",x
+101,ImplicitFlow,ImplicitFlow6,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",x
+102,InterAppCommunication,Collector,0,,-,-,x
+103,InterAppCommunication,DeviceId_Broadcast1,2,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),<java.io.OutputStreamWriter: java.io.Writer append(java.lang.CharSequence)>,v
+104,InterAppCommunication,DeviceId_Broadcast1,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),void startActivity(android.content.Intent),v
+105,InterAppCommunication,DeviceId_contentProvider1,2,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),<java.io.OutputStreamWriter: java.io.Writer append(java.lang.CharSequence)>,v
+106,InterAppCommunication,DeviceId_contentProvider1,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),void startActivity(android.content.Intent),v
+107,InterAppCommunication,DeviceId_OrderedIntent1,2,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),<java.io.OutputStreamWriter: java.io.Writer append(java.lang.CharSequence)>,v
+108,InterAppCommunication,DeviceId_OrderedIntent1,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),void startActivity(android.content.Intent),v
+109,InterAppCommunication,DeviceId_Service1,2,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),<java.io.OutputStreamWriter: java.io.Writer append(java.lang.CharSequence)>,v
+110,InterAppCommunication,DeviceId_Service1,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),void startActivity(android.content.Intent),v
+111,InterAppCommunication,Echoer,0,,-,-,x
+112,InterAppCommunication,Location_Broadcast1,4,1,<android.location.Location: double getLatitude()>,void startActivity(android.content.Intent),v
+113,InterAppCommunication,Location_Broadcast1,,2,<android.location.Location: double getLongitude()>,void startActivity(android.content.Intent),v
+114,InterAppCommunication,Location_Broadcast1,,3,<android.location.Location: double getLatitude()>,<java.io.OutputStreamWriter: java.io.Writer append(java.lang.CharSequence)>,v
+115,InterAppCommunication,Location_Broadcast1,,4,<android.location.Location: double getLongitude()>,<java.io.OutputStreamWriter: java.io.Writer append(java.lang.CharSequence)>,v
+116,InterAppCommunication,Location_Service1,4,1,<android.location.Location: double getLatitude()>,void startActivity(android.content.Intent),v
+117,InterAppCommunication,Location_Service1,,2,<android.location.Location: double getLongitude()>,void startActivity(android.content.Intent),v
+118,InterAppCommunication,Location_Service1,,3,<android.location.Location: double getLatitude()>,<java.io.OutputStreamWriter: java.io.Writer append(java.lang.CharSequence)>,v
+119,InterAppCommunication,Location_Service1,,4,<android.location.Location: double getLongitude()>,<java.io.OutputStreamWriter: java.io.Writer append(java.lang.CharSequence)>,v
+120,InterAppCommunication,Location1,4,1,<android.location.Location: double getLongitude()>,void startActivity(android.content.Intent),v
+121,InterAppCommunication,Location1,,2,<android.location.Location: double getLongitude()>,<java.io.OutputStreamWriter: java.io.Writer append(java.lang.CharSequence)>,v
+122,InterAppCommunication,Location1,,3,<android.location.Location: double getLatitude()>,void startActivity(android.content.Intent),v
+123,InterAppCommunication,Location1,,4,<android.location.Location: double getLatitude()>,<java.io.OutputStreamWriter: java.io.Writer append(java.lang.CharSequence)>,v
+124,InterAppCommunication,SendSMS,5,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"void startActivityForResult(android.content.Intent,int)",v
+125,InterAppCommunication,SendSMS,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+126,InterAppCommunication,SendSMS,,3,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+127,InterAppCommunication,SendSMS,,4,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+128,InterAppCommunication,SendSMS,,5,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"void setResult(int,android.content.Intent)",v
+129,InterAppCommunication,StartActivityForResult1,8,1,<android.location.Location: double getLatitude()>,"void startActivityForResult(android.content.Intent,int)",v
+130,InterAppCommunication,StartActivityForResult1,,2,<android.location.Location: double getLongitude()>,"void startActivityForResult(android.content.Intent,int)",v
+131,InterAppCommunication,StartActivityForResult1,,3,<android.location.Location: double getLatitude()>,"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+132,InterAppCommunication,StartActivityForResult1,,4,<android.location.Location: double getLongitude()>,"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+133,InterAppCommunication,StartActivityForResult1,,5,<android.location.Location: double getLatitude()>,"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+134,InterAppCommunication,StartActivityForResult1,,6,<android.location.Location: double getLongitude()>,"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+135,InterAppCommunication,StartActivityForResult1,,7,<android.location.Location: double getLatitude()>,"void setResult(int,android.content.Intent)",v
+136,InterAppCommunication,StartActivityForResult1,,8,<android.location.Location: double getLongitude()>,"void setResult(int,android.content.Intent)",v
+137,Inter Component Communication,ActivityCommunication1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+138,Inter Component Communication,ActivityCommunication2,2,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),void startActivity(android.content.Intent),v
+139,Inter Component Communication,ActivityCommunication2,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+140,Inter Component Communication,ActivityCommunication3,2,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),void startActivity(android.content.Intent),v
+141,Inter Component Communication,ActivityCommunication3,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+142,Inter Component Communication,ActivityCommunication4,2,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),void startActivity(android.content.Intent),v
+143,Inter Component Communication,ActivityCommunication4,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+144,Inter Component Communication,ActivityCommunication5,2,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),void startActivity(android.content.Intent),v
+145,Inter Component Communication,ActivityCommunication5,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+146,Inter Component Communication,ActivityCommunication6,2,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),void startActivity(android.content.Intent),v
+147,Inter Component Communication,ActivityCommunication6,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+148,Inter Component Communication,ActivityCommunication7,2,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),void startActivity(android.content.Intent),v
+149,Inter Component Communication,ActivityCommunication7,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+150,Inter Component Communication,ActivityCommunication8,2,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),void startActivity(android.content.Intent),v
+151,Inter Component Communication,ActivityCommunication8,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+152,Inter Component Communication,BroadcastTaintAndLeak1,2,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+153,Inter Component Communication,BroadcastTaintAndLeak1,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),void sendBroadcast(android.content.Intent)>,v
+154,Inter Component Communication,ComponentNotInManifest1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),void startActivity(android.content.Intent),v
+155,Inter Component Communication,EventOrdering1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+156,Inter Component Communication,IntentSink1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"void setResult(int,android.content.Intent)",v
+157,Inter Component Communication,IntentSink2,2,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),void startActivity(android.content.Intent),v
+158,Inter Component Communication,IntentSink2,,2,<android.widget.EditText: android.text.Editable getText()>(),void startActivity(android.content.Intent),v
+159,Inter Component Communication,IntentSource1,0,,,,x
+160,Inter Component Communication,ServiceCommunication1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+161,Inter Component Communication,SharedPreferences1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+162,Inter Component Communication,Singletons1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+163,Inter Component Communication,UnresolvableIntent1,2,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),void startActivity(android.content.Intent),v
+164,Inter Component Communication,UnresolvableIntent1,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+165,Lifecycle,ActivityEventSequence1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+166,Lifecycle,ActivityEventSequence2,0,,,,x
+167,Lifecycle,ActivityEventSequence3,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+168,Lifecycle,ActivityLifecycle1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),<java.net.URL: java.net.URLConnection openConnection()>,v
+169,Lifecycle,ActivityLifecycle2,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+170,Lifecycle,ActivityLifecycle4,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+171,Lifecycle,ActivitySavedState1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+172,Lifecycle,ApplicationLifecycle1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+173,Lifecycle,ApplicationLifecycle2,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+174,Lifecycle,ApplicationLifecycle3,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+175,Lifecycle,AsynchronousEventOrdering1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+176,Lifecycle,BroadcastReceiverLifecycle1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+177,Lifecycle,BroadcastReceiverLifecycle2,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int d(java.lang.String,java.lang.String)>",v
+178,Lifecycle,BroadcastReceiverLifecycle3,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int d(java.lang.String,java.lang.String)>",v
+179,Lifecycle,EventOrdering1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+180,Lifecycle,FragmentLifecycle1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+181,Lifecycle,FragmentLifecycle2,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+182,Lifecycle,ServiceEventSequence1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+183,Lifecycle,ServiceEventSequence2,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+184,Lifecycle,ServiceEventSequence3,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+185,Lifecycle,ServiceLifecycle1,1,1,<android.telephony.TelephonyManager: java.lang.String getSimSerialNumber()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+186,Lifecycle,ServiceLifecycle2,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+187,Lifecycle,SharedPreferenceChanged1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+188,Native,JavaIDFunction,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",x
+189,Native,NativeIDFunction,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",x
+190,Native,SinkInNativeCode,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",x
+191,Native,SinkInNativeLibCode,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",x
+192,Native,SourceInNativeCode,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",x
+193,Reflection,Reflection1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+194,Reflection,Reflection2,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+195,Reflection,Reflection3,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+196,Reflection,Reflection4,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+197,Reflection,Reflection5,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int d(java.lang.String,java.lang.String)>",v
+198,Reflection,Reflection6,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int d(java.lang.String,java.lang.String)>",v
+199,Reflection,Reflection7,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int d(java.lang.String,java.lang.String)>",v
+200,Reflection,Reflection8,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int d(java.lang.String,java.lang.String)>",v
+201,Reflection,Reflection9,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int d(java.lang.String,java.lang.String)>",v
+202,Reflection_ICC,ActivityCommunication2,2,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),void startActivity(android.content.Intent),v
+203,Reflection_ICC,ActivityCommunication2,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+204,Reflection_ICC,AllReflection,2,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),void startActivity(android.content.Intent),v
+205,Reflection_ICC,AllReflection,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+206,Reflection_ICC,OnlyIntent,2,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),void startActivity(android.content.Intent),v
+207,Reflection_ICC,OnlyIntent,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+208,Reflection_ICC,OnlyIntentReceive,2,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),void startActivity(android.content.Intent),v
+209,Reflection_ICC,OnlyIntentReceive,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+210,Reflection_ICC,OnlySMS,2,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),void startActivity(android.content.Intent),v
+211,Reflection_ICC,OnlySMS,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+212,Reflection_ICC,OnlyTelephony,2,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),void startActivity(android.content.Intent),v
+213,Reflection_ICC,OnlyTelephony,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+214,Reflection_ICC,OnlyTelephony_Dynamic,3,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),void startActivity(android.content.Intent),v
+215,Reflection_ICC,OnlyTelephony_Dynamic,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int d(java.lang.String,java.lang.String)>",v
+216,Reflection_ICC,OnlyTelephony_Dynamic,,3,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+217,Reflection_ICC,OnlyTelephony_Reverse,2,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+218,Reflection_ICC,OnlyTelephony_Reverse,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),void startActivity(android.content.Intent),v
+219,Reflection_ICC,OnlyTelephony_Substring,2,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+220,Reflection_ICC,OnlyTelephony_Substring,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),void startActivity(android.content.Intent),v
+221,Reflection_ICC,SharedPreferences1,2,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int d(java.lang.String,java.lang.String)>",v
+222,Reflection_ICC,SharedPreferences1,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v
+223,SelfModification,BytecodeTamper1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int e(java.lang.String,java.lang.String)>",x
+224,SelfModification,BytecodeTamper2,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int d(java.lang.String,java.lang.String)>",x
+225,SelfModification,BytecodeTamper3,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int e(java.lang.String,java.lang.String)>",x
+226,SelfModification,BytecodeTamper4,0,,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int e(java.lang.String,java.lang.String)>",x
+227,Threading,AsyncTask1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int d(java.lang.String,java.lang.String)>",v
+228,Threading,Executor1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int d(java.lang.String,java.lang.String)>",v
+229,Threading,JavaThread1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int d(java.lang.String,java.lang.String)>",v
+230,Threading,JavaThread2,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int d(java.lang.String,java.lang.String)>",v
+231,Threading,Looper1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int d(java.lang.String,java.lang.String)>",v
+232,Threading,TimerTask1,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>",v
+233,Unreachable Code,SimpleUnreachable1,0,,-,-,x
+234,Unreachable Code,UnreachableBoth,0,,-,-,x
+235,Unreachable Code,UnreachableSink1,0,,-,-,x
+236,Unreachable Code,UnreachableSource1,0,,-,-,x
+237,IccHandling,icc_explicit_nosrc_nosink,0,,-,-,x
+238,IccHandling,icc_explicit_nosrc_sink,0,,-,-,x
+239,IccHandling,icc_explicit_src_nosink,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),void startActivity(android.content.Intent),v
+240,IccHandling,icc_explicit_src_sink,2,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),void startActivity(android.content.Intent),v
+241,IccHandling,icc_explicit_src_sink,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int d(java.lang.String,java.lang.String)>",v
+242,IccHandling,icc_explicit1,2,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),void startActivity(android.content.Intent),v
+243,IccHandling,icc_explicit1,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int d(java.lang.String,java.lang.String)>",v
+244,IccHandling,icc_implicit_nosrc_nosink,0,,-,-,x
+245,IccHandling,icc_implicit_nosrc_sink,0,,-,-,x
+246,IccHandling,icc_implicit_src_nosink,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),void startActivity(android.content.Intent),v
+247,IccHandling,icc_implicit_src_sink,2,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),void startActivity(android.content.Intent),v
+248,IccHandling,icc_implicit_src_sink,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int d(java.lang.String,java.lang.String)>",v
+249,IccHandling,icc_implicit_action,2,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),void startActivity(android.content.Intent),v
+250,IccHandling,icc_implicit_action,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int d(java.lang.String,java.lang.String)>",v
+251,IccHandling,icc_intentservice,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int d(java.lang.String,java.lang.String)>",v
+252,IccHandling,icc_stateful,2,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int d(java.lang.String,java.lang.String)>",v
+253,IccHandling,icc_stateful,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"void setResult(int,android.content.Intent)",v
+254,IccTargetFinding,icc_dynregister1,2,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int d(java.lang.String,java.lang.String)>",v
+255,IccTargetFinding,icc_dynregister1,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),void sendBroadcast(android.content.Intent)>,v
+256,IccTargetFinding,icc_dynregister2,2,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int d(java.lang.String,java.lang.String)>",v
+257,IccTargetFinding,icc_dynregister2,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),void sendBroadcast(android.content.Intent)>,v
+258,IccTargetFinding,icc_implicit_category,2,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int d(java.lang.String,java.lang.String)>",v
+259,IccTargetFinding,icc_implicit_category,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),void startActivity(android.content.Intent),v
+260,IccTargetFinding,icc_implicit_data1,2,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int d(java.lang.String,java.lang.String)>",v
+261,IccTargetFinding,icc_implicit_data1,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),void startActivity(android.content.Intent),v
+262,IccTargetFinding,icc_implicit_data2,2,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int d(java.lang.String,java.lang.String)>",v
+263,IccTargetFinding,icc_implicit_data2,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),void startActivity(android.content.Intent),v
+264,IccTargetFinding,icc_implicit_mix1,3,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),void startActivity(android.content.Intent),v
+265,IccTargetFinding,icc_implicit_mix1,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),void startActivity(android.content.Intent),v
+266,IccTargetFinding,icc_implicit_mix1,,3,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int d(java.lang.String,java.lang.String)>",v
+267,IccTargetFinding,icc_implicit_mix2,2,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),void startActivity(android.content.Intent),v
+268,IccTargetFinding,icc_implicit_mix2,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int d(java.lang.String,java.lang.String)>",v
+269,Mixed,icc_rpc_comprehensive,2,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int d(java.lang.String,java.lang.String)>",v
+270,Mixed,icc_rpc_comprehensive,,2,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"void setResult(int,android.content.Intent)",v
+271,RpcHandling,rpc_localservice,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int d(java.lang.String,java.lang.String)>",v
+272,RpcHandling,rpc_messengerservice,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int d(java.lang.String,java.lang.String)>",v
+273,RpcHandling,rpc_remoteservice,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int d(java.lang.String,java.lang.String)>",v
+274,RpcHandling,rpc_returnsensitive,1,1,<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(),"<android.util.Log: int i(java.lang.String,java.lang.String)>",v

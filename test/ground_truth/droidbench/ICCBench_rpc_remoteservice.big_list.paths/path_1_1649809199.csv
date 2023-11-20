@@ -1,0 +1,6 @@
+,method,stmtLineNumber,stmt
+0,<org.arguslab.rpc.remoteservice.MainActivity: void leakImei()>,7,v0 = virtualinvoke v0.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(v0)
+1,<org.arguslab.rpc.remoteservice.MainActivity: void leakImei()>,9,"interfaceinvoke v1.<org.arguslab.rpc_remoteservice.IRemoteService: void setData(java.lang.String)>(v1, v0)"
+2,<org.arguslab.rpc.remoteservice.RemoteService$1: void setData(java.lang.String)>,6,"virtualinvoke v0.<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>(v0, p1)"
+3,<org.arguslab.rpc.remoteservice.RemoteService$1: void setData(java.lang.String)>,7,p1 = virtualinvoke v0.<java.lang.StringBuilder: java.lang.String toString()>(v0)
+5,<org.arguslab.rpc.remoteservice.RemoteService$1: void setData(java.lang.String)>,10,"staticinvoke <android.util.Log: int d(java.lang.String,java.lang.String)>(v0, p1)"

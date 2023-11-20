@@ -1,0 +1,4 @@
+,method,stmtLineNumber,stmt
+0,<org.arguslab.icc.implicit.src.nosink.MainActivity: void leakImei()>,7,v0 = virtualinvoke v0.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(v0)
+1,<org.arguslab.icc.implicit.src.nosink.MainActivity: void leakImei()>,12,"virtualinvoke v1.<android.content.Intent: android.content.Intent putExtra(java.lang.String,java.lang.String)>(v1, v2, v0)"
+2,<org.arguslab.icc.implicit.src.nosink.MainActivity: void leakImei()>,13,"virtualinvoke p0.<org.arguslab.icc_implicit_src_nosink.MainActivity: void startActivity(android.content.Intent)>(p0, v1)"

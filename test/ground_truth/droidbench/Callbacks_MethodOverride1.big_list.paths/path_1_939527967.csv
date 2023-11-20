@@ -1,0 +1,3 @@
+,method,stmtLineNumber,stmt
+0,<de.ecspride.MethodOverride1: void attachBaseContext(android.content.Context)>,8,p1 = virtualinvoke p1.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(p1)
+1,<de.ecspride.MethodOverride1: void attachBaseContext(android.content.Context)>,10,"staticinvoke <android.util.Log: int d(java.lang.String,java.lang.String)>(v0, p1)"

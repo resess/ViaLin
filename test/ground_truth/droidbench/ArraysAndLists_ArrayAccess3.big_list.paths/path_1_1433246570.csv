@@ -1,0 +1,8 @@
+,method,stmtLineNumber,stmt
+0,<de.ecspride.ArrayAccess3: void onCreate(android.os.Bundle)>,16,v0 = virtualinvoke v0.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(v0)
+1,<de.ecspride.ArrayAccess3: void onCreate(android.os.Bundle)>,18,p1[v1] = v0
+3,<de.ecspride.ArrayAccess3: void onCreate(android.os.Bundle)>,19,p1 = <de.ecspride.ArrayAccess3: java.lang.String[] arrayData>
+4,<de.ecspride.ArrayAccess3: void onCreate(android.os.Bundle)>,22,p1[v0] = v2
+6,<de.ecspride.ArrayAccess3: void onCreate(android.os.Bundle)>,25,p1 = <de.ecspride.ArrayAccess3: java.lang.String[] arrayData>
+7,<de.ecspride.ArrayAccess3: void onCreate(android.os.Bundle)>,26,v6 = p1[v1]
+8,<de.ecspride.ArrayAccess3: void onCreate(android.os.Bundle)>,31,"virtualinvoke v3.<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>(v3, v4, v5, v6, v7, v8)"

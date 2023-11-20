@@ -1,0 +1,6 @@
+,method,stmtLineNumber,stmt
+0,<de.ecspride.MainActivity: void threadingTest()>,12,v0 = virtualinvoke v0.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(v0)
+1,<de.ecspride.MainActivity: void threadingTest()>,13,"specialinvoke v2.<de.ecspride.MainActivity$MyRunnable: void <init>(de.ecspride.MainActivity,java.lang.String)>(v2, p0, v0)"
+2,"<de.ecspride.MainActivity$MyRunnable: void <init>(de.ecspride.MainActivity,java.lang.String)>",4,p0.<de.ecspride.MainActivity$MyRunnable: java.lang.String deviceId> = p2
+3,<de.ecspride.MainActivity$MyRunnable: void run()>,2,v0 = p0.<de.ecspride.MainActivity$MyRunnable: java.lang.String deviceId>
+4,<de.ecspride.MainActivity$MyRunnable: void run()>,4,"staticinvoke <android.util.Log: int d(java.lang.String,java.lang.String)>(v1, v0)"

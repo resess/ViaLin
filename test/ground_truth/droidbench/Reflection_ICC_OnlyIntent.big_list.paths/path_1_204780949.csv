@@ -1,0 +1,8 @@
+,method,stmtLineNumber,stmt
+0,<com.example.intentonly.MainActivity: void reflectionIccTest()>,13,v1 = virtualinvoke v1.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(v1)
+1,<com.example.intentonly.MainActivity: void reflectionIccTest()>,14,p0.<com.example.intentonly.MainActivity: java.lang.String id> = v1
+2,<com.example.intentonly.MainActivity: void reflectionIccTest()>,34,v4 = p0.<com.example.intentonly.MainActivity: java.lang.String id>
+3,<com.example.intentonly.MainActivity: void reflectionIccTest()>,36,v3[v5] = v4
+4,<com.example.intentonly.MainActivity: void reflectionIccTest()>,77,"virtualinvoke v2.<java.lang.reflect.Method: java.lang.Object invoke(java.lang.Object,java.lang.Object)>(v2, v1, v3)"
+5,<com.example.intentonly.MainActivity: void reflectionIccTest()>,78,v1 = (android.content.Intent) v1
+6,<com.example.intentonly.MainActivity: void reflectionIccTest()>,79,"virtualinvoke p0.<com.example.intentonly.MainActivity: void startActivity(android.content.Intent)>(p0, v1)"

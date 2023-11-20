@@ -1,0 +1,11 @@
+,method,stmtLineNumber,stmt
+0,<org.cert.sendsms.Button1Listener: void onClick(android.view.View)>,13,v0 = virtualinvoke v0.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(v0)
+1,<org.cert.sendsms.Button1Listener: void onClick(android.view.View)>,15,"virtualinvoke p1.<android.content.Intent: android.content.Intent putExtra(java.lang.String,java.lang.String)>(p1, v1, v0)"
+2,<org.cert.echoer.MainActivity: void getDataFromIntent()>,3,v0 = virtualinvoke p0.<org.cert.echoer.MainActivity: android.content.Intent getIntent()>(p0)
+3,<org.cert.echoer.MainActivity: void getDataFromIntent()>,4,p0.<org.cert.echoer.MainActivity: android.content.Intent i> = v0
+4,<org.cert.echoer.MainActivity: void getDataFromIntent()>,12,v0 = p0.<org.cert.echoer.MainActivity: android.content.Intent i>
+5,<org.cert.echoer.MainActivity: void getDataFromIntent()>,13,v0 = virtualinvoke v0.<android.content.Intent: android.os.Bundle getExtras()>(v0)
+7,<org.cert.echoer.MainActivity: void getDataFromIntent()>,20,"v0 = virtualinvoke v0.<android.os.Bundle: java.lang.String getString(java.lang.String)>(v0, v3)"
+9,<org.cert.echoer.MainActivity: void getDataFromIntent()>,22,"virtualinvoke v1.<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>(v1, v0)"
+10,<org.cert.echoer.MainActivity: void getDataFromIntent()>,23,v0 = virtualinvoke v1.<java.lang.StringBuilder: java.lang.String toString()>(v1)
+12,<org.cert.echoer.MainActivity: void getDataFromIntent()>,25,"staticinvoke <android.util.Log: int i(java.lang.String,java.lang.String)>(v2, v0)"

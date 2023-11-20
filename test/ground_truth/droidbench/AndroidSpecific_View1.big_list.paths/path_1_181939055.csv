@@ -1,0 +1,5 @@
+,method,stmtLineNumber,stmt
+0,<de.ecspride.MainActivity: void onCreate(android.os.Bundle)>,10,p1 = virtualinvoke p1.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(p1)
+1,<de.ecspride.MainActivity: void onCreate(android.os.Bundle)>,11,<de.ecspride.MyView: java.lang.String deviceID> = p1
+2,<de.ecspride.MyView: void onDraw(android.graphics.Canvas)>,17,v6 = <de.ecspride.MyView: java.lang.String deviceID>
+3,<de.ecspride.MyView: void onDraw(android.graphics.Canvas)>,22,"virtualinvoke v3.<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>(v3, v4, v5, v6, v7, v8)"

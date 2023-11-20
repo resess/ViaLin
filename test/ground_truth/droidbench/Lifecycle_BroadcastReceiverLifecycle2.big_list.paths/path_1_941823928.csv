@@ -1,0 +1,6 @@
+,method,stmtLineNumber,stmt
+0,<de.ecspride.MainActivity$1: void onClick(android.view.View)>,10,p1 = virtualinvoke p1.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(p1)
+1,<de.ecspride.MainActivity$1: void onClick(android.view.View)>,18,"specialinvoke v3.<de.ecspride.MainActivity$MyReceiver: void <init>(de.ecspride.MainActivity,java.lang.String)>(v3, v4, p1)"
+2,"<de.ecspride.MainActivity$MyReceiver: void <init>(de.ecspride.MainActivity,java.lang.String)>",4,p0.<de.ecspride.MainActivity$MyReceiver: java.lang.String deviceId> = p2
+3,"<de.ecspride.MainActivity$MyReceiver: void onReceive(android.content.Context,android.content.Intent)>",2,p1 = p0.<de.ecspride.MainActivity$MyReceiver: java.lang.String deviceId>
+4,"<de.ecspride.MainActivity$MyReceiver: void onReceive(android.content.Context,android.content.Intent)>",4,"staticinvoke <android.util.Log: int d(java.lang.String,java.lang.String)>(p2, p1)"

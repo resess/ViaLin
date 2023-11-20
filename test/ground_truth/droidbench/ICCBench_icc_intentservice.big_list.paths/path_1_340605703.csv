@@ -1,0 +1,7 @@
+,method,stmtLineNumber,stmt
+0,<org.arguslab.icc.intentservice.MainActivity: void leakImei()>,7,v0 = virtualinvoke v0.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(v0)
+1,<org.arguslab.icc.intentservice.MainActivity: void leakImei()>,14,"virtualinvoke v1.<android.content.Intent: android.content.Intent putExtra(java.lang.String,java.lang.String)>(v1, v2, v0)"
+2,<org.arguslab.icc.intentservice.MyIntentService: void onHandleIntent(android.content.Intent)>,9,"p1 = virtualinvoke p1.<android.content.Intent: java.lang.String getStringExtra(java.lang.String)>(p1, v1)"
+3,<org.arguslab.icc.intentservice.MyIntentService: void onHandleIntent(android.content.Intent)>,10,"virtualinvoke v0.<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>(v0, p1)"
+4,<org.arguslab.icc.intentservice.MyIntentService: void onHandleIntent(android.content.Intent)>,11,p1 = virtualinvoke v0.<java.lang.StringBuilder: java.lang.String toString()>(v0)
+6,<org.arguslab.icc.intentservice.MyIntentService: void onHandleIntent(android.content.Intent)>,14,"staticinvoke <android.util.Log: int d(java.lang.String,java.lang.String)>(v0, p1)"

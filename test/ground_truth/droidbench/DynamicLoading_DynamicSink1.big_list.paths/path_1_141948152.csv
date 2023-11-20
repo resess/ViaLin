@@ -1,0 +1,4 @@
+,method,stmtLineNumber,stmt
+0,<edu.wayne.cs.MainActivity$1: void onClick(android.view.View)>,47,v0 = virtualinvoke v0.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(v0)
+1,<edu.wayne.cs.MainActivity$1: void onClick(android.view.View)>,48,"virtualinvoke p1.<edu.wayne.cs.ParentClass: void sink(java.lang.String)>(p1, v0)"
+2,<edu.wayne.cs.ChildClass: void sink(java.lang.String)>,3,"staticinvoke <android.util.Log: int d(java.lang.String,java.lang.String)>(v0, p1)"

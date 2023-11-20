@@ -1,0 +1,6 @@
+,method,stmtLineNumber,stmt
+0,<org.cert.sendsms.Button1Listener: void onClick(android.view.View)>,13,v0 = virtualinvoke v0.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(v0)
+1,<org.cert.sendsms.Button1Listener: void onClick(android.view.View)>,15,"virtualinvoke p1.<android.content.Intent: android.content.Intent putExtra(java.lang.String,java.lang.String)>(p1, v1, v0)"
+2,<org.cert.sendsms.Button1Listener: void onClick(android.view.View)>,20,"virtualinvoke v1.<java.lang.StringBuilder: java.lang.StringBuilder append(java.lang.String)>(v1, v0)"
+3,<org.cert.sendsms.Button1Listener: void onClick(android.view.View)>,21,v0 = virtualinvoke v1.<java.lang.StringBuilder: java.lang.String toString()>(v1)
+5,<org.cert.sendsms.Button1Listener: void onClick(android.view.View)>,24,"staticinvoke <android.util.Log: int i(java.lang.String,java.lang.String)>(v1, v0)"

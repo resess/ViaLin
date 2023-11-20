@@ -1,0 +1,11 @@
+,method,stmtLineNumber,stmt
+0,<com.example.sms.MainActivity: void reflectionIccTest()>,39,staticinvoke <android.telephony.TelephonyManager: java.lang.String getDeviceId()>(v0)
+1,<com.example.sms.MainActivity: void reflectionIccTest()>,40,"v1 = virtualinvoke v1.<java.lang.reflect.Method: java.lang.Object invoke(java.lang.Object,java.lang.Object)>(v1, v3, v4)"
+2,<com.example.sms.MainActivity: void reflectionIccTest()>,41,v1 = (java.lang.String) v1
+3,<com.example.sms.MainActivity: void reflectionIccTest()>,42,p0.<com.example.sms.MainActivity: java.lang.String id> = v1
+4,<com.example.sms.MainActivity: void reflectionIccTest()>,60,v4 = p0.<com.example.sms.MainActivity: java.lang.String id>
+5,<com.example.sms.MainActivity: void reflectionIccTest()>,62,v3[v5] = v4
+6,<com.example.sms.MainActivity: void reflectionIccTest()>,103,"virtualinvoke v4.<java.lang.reflect.Method: java.lang.Object invoke(java.lang.Object,java.lang.Object)>(v4, v1, v3)"
+7,<com.example.sms.MainActivity: void reflectionIccTest()>,105,v4 = virtualinvoke v1.<java.lang.Object: java.lang.Class getClass()>(v1)
+8,<com.example.sms.MainActivity: void reflectionIccTest()>,110,v1 = (android.content.Intent) v1
+9,<com.example.sms.MainActivity: void reflectionIccTest()>,111,"virtualinvoke p0.<com.example.sms.MainActivity: void startActivity(android.content.Intent)>(p0, v1)"

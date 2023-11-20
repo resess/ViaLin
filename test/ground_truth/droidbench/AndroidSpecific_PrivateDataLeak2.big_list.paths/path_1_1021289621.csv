@@ -1,0 +1,4 @@
+,method,stmtLineNumber,stmt
+0,<de.ecspride.PrivateDataLeak2: void onCreate(android.os.Bundle)>,10,p1 = virtualinvoke p1.<android.widget.EditText: android.text.Editable getText()>(p1)
+1,<de.ecspride.PrivateDataLeak2: void onCreate(android.os.Bundle)>,11,p1 = virtualinvoke p1.<java.lang.Object: java.lang.String toString()>(p1)
+3,<de.ecspride.PrivateDataLeak2: void onCreate(android.os.Bundle)>,14,"staticinvoke <android.util.Log: int v(java.lang.String,java.lang.String)>(v0, p1)"

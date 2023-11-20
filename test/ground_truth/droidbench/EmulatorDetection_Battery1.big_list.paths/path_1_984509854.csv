@@ -1,0 +1,3 @@
+,method,stmtLineNumber,stmt
+0,"<com.example.newedtester.MainActivity$2: void onReceive(android.content.Context,android.content.Intent)>",24,v3 = virtualinvoke p1.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(p1)
+1,"<com.example.newedtester.MainActivity$2: void onReceive(android.content.Context,android.content.Intent)>",31,"virtualinvoke v0.<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>(v0, v1, v2, v3, v4, v5)"

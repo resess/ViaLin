@@ -1,0 +1,5 @@
+,method,stmtLineNumber,stmt
+0,"<edu.mit.service.lifecycle.MyService: int onStartCommand(android.content.Intent,int,int)>",10,p1 = virtualinvoke p1.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(p1)
+1,"<edu.mit.service.lifecycle.MyService: int onStartCommand(android.content.Intent,int,int)>",11,p0.<edu.mit.service_lifecycle.MyService: java.lang.String value> = p1
+2,"<edu.mit.service.lifecycle.MyService: int onStartCommand(android.content.Intent,int,int)>",2,p1 = p0.<edu.mit.service_lifecycle.MyService: java.lang.String value>
+3,"<edu.mit.service.lifecycle.MyService: int onStartCommand(android.content.Intent,int,int)>",4,"staticinvoke <android.util.Log: int i(java.lang.String,java.lang.String)>(p2, p1)"

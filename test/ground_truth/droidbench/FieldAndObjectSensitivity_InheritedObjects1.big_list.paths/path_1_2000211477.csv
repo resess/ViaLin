@@ -1,0 +1,4 @@
+,method,stmtLineNumber,stmt
+0,<de.ecspride.VarA: java.lang.String getInfo()>,4,v0 = virtualinvoke v0.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(v0)
+1,<de.ecspride.VarA: java.lang.String getInfo()>,5,return v0
+2,<de.ecspride.InheritedObjects1$1: void onClick(android.view.View)>,18,"virtualinvoke v1.<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>(v1, v2, v3, v4, v5, v6)"

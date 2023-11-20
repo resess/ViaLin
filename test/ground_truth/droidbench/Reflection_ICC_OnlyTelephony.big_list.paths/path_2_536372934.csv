@@ -1,0 +1,15 @@
+,method,stmtLineNumber,stmt
+0,<com.example.onlytelephony.MainActivity: void reflectionIccTest()>,33,staticinvoke <android.telephony.TelephonyManager: java.lang.String getDeviceId()>(v0)
+1,<com.example.onlytelephony.MainActivity: void reflectionIccTest()>,34,"v0 = virtualinvoke v0.<java.lang.reflect.Method: java.lang.Object invoke(java.lang.Object,java.lang.Object)>(v0, v1, v2)"
+2,<com.example.onlytelephony.MainActivity: void reflectionIccTest()>,35,v0 = (java.lang.String) v0
+3,<com.example.onlytelephony.MainActivity: void reflectionIccTest()>,36,p0.<com.example.onlytelephony.MainActivity: java.lang.String id> = v0
+4,<com.example.onlytelephony.MainActivity: void reflectionIccTest()>,48,v1 = p0.<com.example.onlytelephony.MainActivity: java.lang.String id>
+5,<com.example.onlytelephony.MainActivity: void reflectionIccTest()>,50,"virtualinvoke v0.<android.content.Intent: android.content.Intent putExtra(java.lang.String,java.lang.String)>(v0, v2, v1)"
+6,<com.example.onlytelephony.MainActivity: void reflectionIccTest()>,51,"virtualinvoke p0.<com.example.onlytelephony.MainActivity: void startActivity(android.content.Intent)>(p0, v0)"
+7,<com.example.onlytelephony.Activity2: void onCreate(android.os.Bundle)>,2,"superinvoke p0.<android.app.Activity: void onCreate(android.os.Bundle)>(p0, p1)"
+8,<com.example.onlytelephony.Activity2: void onCreate(android.os.Bundle)>,4,"virtualinvoke p0.<com.example.onlytelephony.Activity2: void setContentView(int)>(p0, p1)"
+9,<com.example.onlytelephony.Activity2: void onCreate(android.os.Bundle)>,6,"p1 = virtualinvoke p0.<com.example.onlytelephony.Activity2: android.view.View findViewById(int)>(p0, p1)"
+10,<com.example.onlytelephony.Activity2: void onCreate(android.os.Bundle)>,14,virtualinvoke p0.<com.example.onlytelephony.Activity2: android.content.Intent getIntent()>(p0)
+11,<com.example.onlytelephony.Activity2: void onCreate(android.os.Bundle)>,15,p1 = virtualinvoke p0.<com.example.onlytelephony.Activity2: android.content.Intent getIntent()>(p0)
+12,<com.example.onlytelephony.Activity2: void onCreate(android.os.Bundle)>,27,v2 = p0.<com.example.onlytelephony.Activity2: java.lang.String phoneNo>
+13,<com.example.onlytelephony.Activity2: void onCreate(android.os.Bundle)>,32,"virtualinvoke v1.<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>(v1, v2, v3, v4, v5, v6)"

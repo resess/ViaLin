@@ -1,0 +1,10 @@
+,method,stmtLineNumber,stmt
+0,<edu.mit.icc.service.messages.ActivityMessenger: void sayHello(android.view.View)>,10,p1 = virtualinvoke p1.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(p1)
+1,<edu.mit.icc.service.messages.ActivityMessenger: void sayHello(android.view.View)>,11,v0 = staticinvoke <java.lang.Long: long parseLong(java.lang.String)>(p1)
+3,<edu.mit.icc.service.messages.ActivityMessenger: void sayHello(android.view.View)>,15,v1 = (int) v0
+4,<edu.mit.icc.service.messages.ActivityMessenger: void sayHello(android.view.View)>,17,"p1 = staticinvoke <android.os.Message: android.os.Message obtain(android.os.Handler,int,int,int)>(p1, v2, v1, v0)"
+6,<edu.mit.icc.service.messages.ActivityMessenger: void sayHello(android.view.View)>,20,"virtualinvoke v0.<android.os.Messenger: void send(android.os.Message)>(v0, p1)"
+7,<edu.mit.icc.service.messages.MessengerService$IncomingHandler: void handleMessage(android.os.Message)>,7,p1 = p1.<android.os.Message: int arg1>
+8,<edu.mit.icc.service.messages.MessengerService$IncomingHandler: void handleMessage(android.os.Message)>,12,"virtualinvoke v0.<java.lang.StringBuilder: java.lang.StringBuilder append(int)>(v0, p1)"
+9,<edu.mit.icc.service.messages.MessengerService$IncomingHandler: void handleMessage(android.os.Message)>,13,p1 = virtualinvoke v0.<java.lang.StringBuilder: java.lang.String toString()>(v0)
+11,<edu.mit.icc.service.messages.MessengerService$IncomingHandler: void handleMessage(android.os.Message)>,16,"staticinvoke <android.util.Log: int i(java.lang.String,java.lang.String)>(v0, p1)"

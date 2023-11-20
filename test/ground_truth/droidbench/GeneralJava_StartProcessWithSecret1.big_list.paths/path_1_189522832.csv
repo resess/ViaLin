@@ -1,0 +1,5 @@
+,method,stmtLineNumber,stmt
+0,<edu.mit.non.sink.argument.flow.MainActivity$1: void onClick(android.view.View)>,8,p1 = virtualinvoke p1.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(p1)
+1,<edu.mit.non.sink.argument.flow.MainActivity$1: void onClick(android.view.View)>,18,v2[v1] = p1
+2,<edu.mit.non.sink.argument.flow.MainActivity$1: void onClick(android.view.View)>,19,"virtualinvoke v0.<java.lang.ProcessBuilder: java.lang.ProcessBuilder command(java.lang.String)>(v0, v2)"
+3,<edu.mit.non.sink.argument.flow.MainActivity$1: void onClick(android.view.View)>,20,virtualinvoke v0.<java.lang.ProcessBuilder: java.lang.Process start()>(v0)

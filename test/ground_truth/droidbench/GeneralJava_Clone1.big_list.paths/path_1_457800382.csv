@@ -1,0 +1,8 @@
+,method,stmtLineNumber,stmt
+0,<edu.mit.clone.MainActivity$1: void onClick(android.view.View)>,8,p1 = virtualinvoke p1.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(p1)
+1,<edu.mit.clone.MainActivity$1: void onClick(android.view.View)>,11,"virtualinvoke v0.<java.util.LinkedList: boolean add(java.lang.Object)>(v0, p1)"
+2,<edu.mit.clone.MainActivity$1: void onClick(android.view.View)>,12,p1 = virtualinvoke v0.<java.util.LinkedList: java.lang.Object clone()>(v0)
+4,<edu.mit.clone.MainActivity$1: void onClick(android.view.View)>,14,p1 = (java.util.LinkedList) p1
+5,<edu.mit.clone.MainActivity$1: void onClick(android.view.View)>,16,"p1 = virtualinvoke p1.<java.util.LinkedList: java.lang.Object get(int)>(p1, v0)"
+7,<edu.mit.clone.MainActivity$1: void onClick(android.view.View)>,18,p1 = (java.lang.String) p1
+8,<edu.mit.clone.MainActivity$1: void onClick(android.view.View)>,20,"staticinvoke <android.util.Log: int i(java.lang.String,java.lang.String)>(v0, p1)"

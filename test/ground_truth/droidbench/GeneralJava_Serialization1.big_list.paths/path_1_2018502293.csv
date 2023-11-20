@@ -1,0 +1,13 @@
+,method,stmtLineNumber,stmt
+0,<edu.mit.serialization.MainActivity$1: void onClick(android.view.View)>,8,p1 = virtualinvoke p1.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(p1)
+1,<edu.mit.serialization.MainActivity$1: void onClick(android.view.View)>,10,"specialinvoke v0.<edu.mit.serialization.S: void <init>(java.lang.String)>(v0, p1)"
+2,<edu.mit.serialization.MainActivity$1: void onClick(android.view.View)>,15,"virtualinvoke v1.<java.io.ObjectOutputStream: void writeObject(java.lang.Object)>(v1, v0)"
+3,<edu.mit.serialization.MainActivity$1: void onClick(android.view.View)>,18,p1 = virtualinvoke p1.<java.io.ByteArrayOutputStream: byte[] toByteArray()>(p1)
+4,<edu.mit.serialization.MainActivity$1: void onClick(android.view.View)>,20,"specialinvoke v0.<java.io.ByteArrayInputStream: void <init>(byte)>(v0, p1)"
+5,<edu.mit.serialization.MainActivity$1: void onClick(android.view.View)>,22,"specialinvoke p1.<java.io.ObjectInputStream: void <init>(java.io.InputStream)>(p1, v0)"
+6,<edu.mit.serialization.MainActivity$1: void onClick(android.view.View)>,23,v0 = virtualinvoke p1.<java.io.ObjectInputStream: java.lang.Object readObject()>(p1)
+8,<edu.mit.serialization.MainActivity$1: void onClick(android.view.View)>,25,v0 = (edu.mit.serialization.S) v0
+9,<edu.mit.serialization.MainActivity$1: void onClick(android.view.View)>,28,v0 = virtualinvoke v0.<edu.mit.serialization.S: java.lang.String toString()>(v0)
+10,<edu.mit.serialization.S: java.lang.String toString()>,2,v0 = p0.<edu.mit.serialization.S: java.lang.String message>
+11,<edu.mit.serialization.S: java.lang.String toString()>,3,return v0
+12,<edu.mit.serialization.MainActivity$1: void onClick(android.view.View)>,30,"staticinvoke <android.util.Log: int i(java.lang.String,java.lang.String)>(p1, v0)"

@@ -1,0 +1,3 @@
+,method,stmtLineNumber,stmt
+0,<de.ecspride.MainActivity$1: void onClick(android.view.View)>,10,p1 = virtualinvoke p1.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(p1)
+1,<de.ecspride.MainActivity$1: void onClick(android.view.View)>,20,"staticinvoke <android.util.Log: int v(java.lang.String,java.lang.String)>(v0, p1)"

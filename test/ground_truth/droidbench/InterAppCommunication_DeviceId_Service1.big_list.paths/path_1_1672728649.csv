@@ -1,0 +1,6 @@
+,method,stmtLineNumber,stmt
+0,"<com.example.deviceid.service.Service.deviceid: void onStart(android.content.Intent,int)>",7,p1 = virtualinvoke p1.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(p1)
+1,"<com.example.deviceid.service.Service.deviceid: void onStart(android.content.Intent,int)>",9,"p1 = virtualinvoke p2.<java.lang.String: java.lang.String concat(java.lang.String)>(p2, p1)"
+3,"<com.example.deviceid.service.Service.deviceid: void onStart(android.content.Intent,int)>",21,"virtualinvoke p2.<android.content.Intent: android.content.Intent putExtra(java.lang.String,java.lang.String)>(p2, v0, p1)"
+4,"<com.example.deviceid.service.Service.deviceid: void onStart(android.content.Intent,int)>",23,"virtualinvoke p2.<android.content.Intent: android.content.Intent setFlags(int)>(p2, p1)"
+5,"<com.example.deviceid.service.Service.deviceid: void onStart(android.content.Intent,int)>",24,"virtualinvoke p0.<com.example.deviceid_service.Service_deviceid: void startActivity(android.content.Intent)>(p0, p2)"

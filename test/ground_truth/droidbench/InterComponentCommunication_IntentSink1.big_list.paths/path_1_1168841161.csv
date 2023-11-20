@@ -1,0 +1,4 @@
+,method,stmtLineNumber,stmt
+0,<de.ecspride.IntentSink1$1: void onClick(android.view.View)>,8,p1 = virtualinvoke p1.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(p1)
+1,<de.ecspride.IntentSink1$1: void onClick(android.view.View)>,13,"virtualinvoke v0.<android.content.Intent: android.content.Intent putExtra(java.lang.String,java.lang.String)>(v0, v1, p1)"
+2,<de.ecspride.IntentSink1$1: void onClick(android.view.View)>,16,"virtualinvoke p1.<de.ecspride.IntentSink1: void setResult(int,android.content.Intent)>(p1, v1, v0)"

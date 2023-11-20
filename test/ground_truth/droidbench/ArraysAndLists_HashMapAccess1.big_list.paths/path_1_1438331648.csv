@@ -1,0 +1,8 @@
+,method,stmtLineNumber,stmt
+0,<de.ecspride.HashMapAccess1$1: void onClick(android.view.View)>,10,v0 = virtualinvoke v0.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(v0)
+1,<de.ecspride.HashMapAccess1$1: void onClick(android.view.View)>,12,"interfaceinvoke p1.<java.util.Map: java.lang.Object put(java.lang.Object,java.lang.Object)>(p1, v1, v0)"
+2,<de.ecspride.HashMapAccess1$1: void onClick(android.view.View)>,15,"interfaceinvoke p1.<java.util.Map: java.lang.Object put(java.lang.Object,java.lang.Object)>(p1, v0, v1)"
+3,<de.ecspride.HashMapAccess1$1: void onClick(android.view.View)>,18,"p1 = interfaceinvoke p1.<java.util.Map: java.lang.Object get(java.lang.Object)>(p1, v0)"
+5,<de.ecspride.HashMapAccess1$1: void onClick(android.view.View)>,20,v5 = p1
+6,<de.ecspride.HashMapAccess1$1: void onClick(android.view.View)>,21,v5 = (java.lang.String) v5
+7,<de.ecspride.HashMapAccess1$1: void onClick(android.view.View)>,26,"virtualinvoke v2.<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>(v2, v3, v4, v5, v6, v7)"

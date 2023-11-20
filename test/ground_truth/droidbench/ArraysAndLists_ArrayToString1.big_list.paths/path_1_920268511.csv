@@ -1,0 +1,5 @@
+,method,stmtLineNumber,stmt
+0,<edu.mit.to.string.MainActivity$1: void onClick(android.view.View)>,8,p1 = virtualinvoke p1.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(p1)
+1,<edu.mit.to.string.MainActivity$1: void onClick(android.view.View)>,12,v0[v1] = p1
+2,<edu.mit.to.string.MainActivity$1: void onClick(android.view.View)>,13,p1 = staticinvoke <java.util.Arrays: java.lang.String toString(java.lang.Object)>(v0)
+4,<edu.mit.to.string.MainActivity$1: void onClick(android.view.View)>,16,"staticinvoke <android.util.Log: int i(java.lang.String,java.lang.String)>(v0, p1)"

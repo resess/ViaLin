@@ -1,0 +1,8 @@
+,method,stmtLineNumber,stmt
+0,<de.ecspride.ArrayAccess5$1: void onClick(android.view.View)>,12,v0 = virtualinvoke v0.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(v0)
+1,<de.ecspride.ArrayAccess5$1: void onClick(android.view.View)>,14,p1[v1] = v0
+3,<de.ecspride.ArrayAccess5$1: void onClick(android.view.View)>,21,v0 = <de.ecspride.ArrayAccess5: java.lang.String[] arrayData>
+4,<de.ecspride.ArrayAccess5$1: void onClick(android.view.View)>,22,v0 = lengthof v0
+5,<de.ecspride.ArrayAccess5$1: void onClick(android.view.View)>,23,"virtualinvoke p1.<java.lang.StringBuilder: java.lang.StringBuilder append(int)>(p1, v0)"
+6,<de.ecspride.ArrayAccess5$1: void onClick(android.view.View)>,24,v5 = virtualinvoke p1.<java.lang.StringBuilder: java.lang.String toString()>(p1)
+8,<de.ecspride.ArrayAccess5$1: void onClick(android.view.View)>,30,"virtualinvoke v2.<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>(v2, v3, v4, v5, v6, v7)"

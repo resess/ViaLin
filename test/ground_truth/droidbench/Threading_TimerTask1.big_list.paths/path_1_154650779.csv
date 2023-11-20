@@ -1,0 +1,6 @@
+,method,stmtLineNumber,stmt
+0,<de.ecspride.MainActivity: void threadingTest()>,9,v0 = virtualinvoke v0.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(v0)
+1,<de.ecspride.MainActivity: void threadingTest()>,10,p0.<de.ecspride.MainActivity: java.lang.String imei> = v0
+2,<de.ecspride.MainActivity: java.lang.String access$000(de.ecspride.MainActivity)>,2,p0 = p0.<de.ecspride.MainActivity: java.lang.String imei>
+3,<de.ecspride.MainActivity: java.lang.String access$000(de.ecspride.MainActivity)>,3,return p0
+4,<de.ecspride.MainActivity$MyTask: void run()>,11,"virtualinvoke v0.<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>(v0, v1, v2, v3, v4, v5)"

@@ -1,0 +1,28 @@
+,method,stmtLineNumber,stmt
+0,<com.example.sms.MainActivity: void reflectionIccTest()>,12,v0 = virtualinvoke v0.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(v0)
+1,<com.example.sms.MainActivity: void reflectionIccTest()>,13,p0.<com.example.sms.MainActivity: java.lang.String id> = v0
+2,<com.example.sms.MainActivity: void reflectionIccTest()>,17,v1 = p0.<com.example.sms.MainActivity: java.lang.String id>
+3,<com.example.sms.MainActivity: void reflectionIccTest()>,19,"virtualinvoke v0.<android.content.Intent: android.content.Intent putExtra(java.lang.String,java.lang.String)>(v0, v2, v1)"
+4,<com.example.sms.MainActivity: void reflectionIccTest()>,20,"virtualinvoke p0.<com.example.sms.MainActivity: void startActivity(android.content.Intent)>(p0, v0)"
+5,<com.example.sms.Activity2: void onCreate(android.os.Bundle)>,2,"superinvoke p0.<android.app.Activity: void onCreate(android.os.Bundle)>(p0, p1)"
+6,<com.example.sms.Activity2: void onCreate(android.os.Bundle)>,4,"virtualinvoke p0.<com.example.sms.Activity2: void setContentView(int)>(p0, p1)"
+7,<com.example.sms.Activity2: void onCreate(android.os.Bundle)>,6,"p1 = virtualinvoke p0.<com.example.sms.Activity2: android.view.View findViewById(int)>(p0, p1)"
+8,<com.example.sms.Activity2: void onCreate(android.os.Bundle)>,14,v0 = virtualinvoke p0.<com.example.sms.Activity2: android.content.Intent getIntent()>(p0)
+10,<com.example.sms.Activity2: void onCreate(android.os.Bundle)>,16,v0 = virtualinvoke v0.<android.content.Intent: android.os.Bundle getExtras()>(v0)
+12,<com.example.sms.Activity2: void onCreate(android.os.Bundle)>,19,"v0 = virtualinvoke v0.<android.os.Bundle: java.lang.String getString(java.lang.String)>(v0, v1)"
+14,<com.example.sms.Activity2: void onCreate(android.os.Bundle)>,21,p0.<com.example.sms.Activity2: java.lang.String value> = v0
+15,<com.example.sms.Activity2: void onCreate(android.os.Bundle)>,28,p1 = p0.<com.example.sms.Activity2: java.lang.String value>
+16,<com.example.sms.Activity2: void onCreate(android.os.Bundle)>,30,v1[v3] = p1
+17,<com.example.sms.Activity2: void onCreate(android.os.Bundle)>,31,p1 = p0.<com.example.sms.Activity2: java.lang.String che>
+18,<com.example.sms.Activity2: void onCreate(android.os.Bundle)>,32,p1 = staticinvoke <java.lang.Class: java.lang.Class forName(java.lang.String)>(p1)
+20,<com.example.sms.Activity2: void onCreate(android.os.Bundle)>,34,p0.<com.example.sms.Activity2: java.lang.Class c> = p1
+21,<com.example.sms.Activity2: void onCreate(android.os.Bundle)>,35,p1 = virtualinvoke p1.<java.lang.Class: java.lang.Object newInstance()>(p1)
+23,<com.example.sms.Activity2: void onCreate(android.os.Bundle)>,37,p0.<com.example.sms.Activity2: java.lang.Object o> = p1
+24,<com.example.sms.Activity2: void onCreate(android.os.Bundle)>,59,v0 = p0.<com.example.sms.Activity2: java.lang.Object o>
+25,<com.example.sms.Activity2: void onCreate(android.os.Bundle)>,60,v0 = virtualinvoke v0.<java.lang.Object: java.lang.Class getClass()>(v0)
+27,<com.example.sms.Activity2: void onCreate(android.os.Bundle)>,63,"p1 = virtualinvoke v0.<java.lang.Class: java.lang.reflect.Method getMethod(java.lang.String,java.lang.Class)>(v0, v2, p1)"
+29,<com.example.sms.Activity2: void onCreate(android.os.Bundle)>,65,p0.<com.example.sms.Activity2: java.lang.reflect.Method method> = p1
+30,<com.example.sms.Activity2: void onCreate(android.os.Bundle)>,66,v0 = p0.<com.example.sms.Activity2: java.lang.Object o>
+31,<com.example.sms.Activity2: void onCreate(android.os.Bundle)>,67,"virtualinvoke p1.<java.lang.reflect.Method: java.lang.Object invoke(java.lang.Object,java.lang.Object)>(p1, v0, v1)"
+32,"<com.example.sms.send: void se(java.lang.String,java.lang.String)>",7,v1 = p1
+33,"<com.example.sms.send: void se(java.lang.String,java.lang.String)>",9,"virtualinvoke v0.<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>(v0, v1, v2, v3, v4, v5)"

@@ -1,0 +1,5 @@
+,method,stmtLineNumber,stmt
+0,<de.ecspride.ApplicationLifecyle1: void onCreate()>,12,v0 = virtualinvoke v0.<android.telephony.TelephonyManager: java.lang.String getDeviceId()>(v0)
+1,<de.ecspride.ApplicationLifecyle1: void onCreate()>,13,<de.ecspride.ApplicationLifecyle1: java.lang.String imei> = v0
+2,<de.ecspride.MainActivity: void onResume()>,12,v4 = <de.ecspride.ApplicationLifecyle1: java.lang.String imei>
+3,<de.ecspride.MainActivity: void onResume()>,16,"virtualinvoke v1.<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)>(v1, v2, v3, v4, v5, v6)"

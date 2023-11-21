@@ -6,6 +6,8 @@ temp_*/
 framework_analysis_results/
 outdir_*/
 
+# Python
+__pycache__/
+
 # Data
-*.apk
 *log

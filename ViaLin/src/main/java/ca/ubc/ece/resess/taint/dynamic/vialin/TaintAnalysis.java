@@ -9,6 +9,8 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import ca.ubc.ece.resess.taint.dynamic.vialin.MethodModel.MethodModelAssignment;
+
 
 class TaintAnalysis {
 
@@ -88,40 +90,7 @@ class TaintAnalysis {
         "Landroid/companion",
         "Lcom/auth0/jwt",
         "Landroid/widget",
-        "Lkotlinx/coroutines/flow/",
-        "Lorg/json/",
-        "Landroid/content/",
-        "Ljava/io",
-        "Ljava/util/LinkedHashMap;",
-        "Ljava/util/Map;",
-        "Ljava/util/Map$Entry;",
-        "Landroid/support",
-        "Ljavax/",
-        "Lcom/google/",
-        "Landroid/test/",
-        "Landroid/media/",
-        "Landroid/text",
-        "Landroid/location",
-        "Landroid/animation",
-        "Landroid/security",
-        "Landroid/drm",
-        "Landroid/metrics",
-        "Landroid/speech",
-        "Landroid/telephony",
-        "Landroid/annotation",
-        "Landroid/view",
-        "Landroid/opengl",
-        "Landroid/filterpacks",
-        "Landroid/permissionpresenterservice",
-        "Landroid/webkit",
-        "Landroid/renderscript",
-        "Landroid/filterfw",
-        "Landroid/hardware",
-        "Ldagger/",
-        "Lokio/",
-        "Lrx/internal/",
-        "Lcom/squareup/okhttp/",
-        "Lcz/msebera/android/",
+        "Landroid/support"
 
      };
 
@@ -362,6 +331,13 @@ class TaintAnalysis {
         // A list of the parameters passed between {... ...}. Includes the receiver register (if exists)
         String[] passedRegs = parsePassedRegs(line);
 
+        if (Arrays.toString(passedRegs).contains("null")) {
+            AnalysisLogger.log(true, "In method: " + methodInfo.signature() + ", tainting method: " + calledMethodInfo.signature() +  " reg: " + passedRegs[0] + " taint: " + taintRegMap.get(passedRegs[0]) + "%n");
+            AnalysisLogger.log(true, "Passed regs: " + Arrays.toString(passedRegs) + "%n");
+            AnalysisLogger.log(true, "Line: " + line + "%n");
+            throw new RuntimeException("passedRegsContainsNull");
+        }
+
 
         String receiverReg = null;
         String receiverRegTaint = null;
@@ -385,43 +361,127 @@ class TaintAnalysis {
             }
         }
 
-        String fristTargReg = null;
+        boolean nonDefaultModel = false;
 
-        if (receiverRegTaint != null) {
-            fristTargReg = receiverRegTaint;
+        // AnalysisLogger.log(true, "Model model for %s:%n", calledMethodInfo.signature());
+        Set<String> whereIsMethod = classAnalysis.getClassOfMethod(calledMethodInfo.getClassName(), calledMethodInfo.getNameAndDesc());
+        MethodModel combinedModel = new MethodModel("Combined");
+        for (String foundClassName : whereIsMethod) {
+            // AnalysisLogger.log(true, "    Found in Class: %s%n", foundClassName);
+            MethodModel methodModel = classAnalysis.getMethodModel(foundClassName + "->" + calledMethodInfo.getNameAndDesc(), calledMethodInfo.isStatic());
+            // AnalysisLogger.log(true, "    MethodModel: %s%n", methodModel);
+            context.addModeledMethod(foundClassName + "->" + calledMethodInfo.getNameAndDesc(), methodModel.getModelType());
+            if (methodModel.getModelType().equals("Manual") || methodModel.getModelType().equals("Kill") || methodModel.getModelType().equals("Exclude")) {
+                nonDefaultModel = true;
+                for (MethodModelAssignment assign : methodModel.getModel()) {
+                    combinedModel.addAssign(assign);
+                }
+            }
+        }
+
+        if (nonDefaultModel) {
+            int assignNum = 0;
+            for (MethodModelAssignment assign : combinedModel.getModel()) {
+                assignNum++;
+                linesToAdd.add("    # Taint: ModelMethodCall (Non-default), assign: " + assign);
+                // System.out.println("Model assignment: " + assign);
+                if (assign.leftType.equals(MethodModelAssignment.VariableType.RETURN) && assign.rightType.equals(MethodModelAssignment.VariableType.INSTANCE)) {
+                    if (methodReturnIsTainted) {
+                        String reg = parsePassedRegs(passedRegs)[0];
+                        String srcTaintReg = taintRegMap.get(reg);
+                        if (assignNum == 1) {
+                            context.maxRegs = handleOneSourceOneDest(tool,
+                                linesToAdd, getMoveInstructionByType(calledMethodInfo.getParams().get(0)), parsePassedRegs(passedRegs)[0], parsePassedRegs(passedRegs)[0], returnTaintReg, srcTaintReg, context);
+                        } else {
+                            context.maxRegs = handleTwoSourceOneDest(tool, taintTempReg, 
+                                linesToAdd, getMoveInstructionByType(calledMethodInfo.getParams().get(0)), parsePassedRegs(passedRegs)[0], parsePassedRegs(passedRegs)[0], returnTaintReg, returnTaintReg, srcTaintReg, context);
+                        }
+                    }
+                } else if (assign.leftType.equals(MethodModelAssignment.VariableType.RETURN) && assign.rightType.equals(MethodModelAssignment.VariableType.PARAM)) {
+                    if (methodReturnIsTainted) {
+                        int paramNum = assign.rightParam;
+                        if (!calledMethodInfo.isStatic() && paramNum < passedRegs.length - 1) {
+                            paramNum++;
+                        }
+                        String reg = parsePassedRegs(passedRegs)[paramNum];
+                        String srcTaintReg = taintRegMap.get(reg);
+                        if (assignNum == 1) {
+                            context.maxRegs = handleOneSourceOneDest(tool,
+                                linesToAdd, getMoveInstructionByType(calledMethodInfo.getParams().get(0)), parsePassedRegs(passedRegs)[0], parsePassedRegs(passedRegs)[0], returnTaintReg, srcTaintReg, context);
+                        } else {
+                            context.maxRegs = handleTwoSourceOneDest(tool, taintTempReg, 
+                                linesToAdd, getMoveInstructionByType(calledMethodInfo.getParams().get(0)), parsePassedRegs(passedRegs)[0], parsePassedRegs(passedRegs)[0], returnTaintReg, returnTaintReg, srcTaintReg, context);
+                        }
+                    }
+                } else if (assign.leftType.equals(MethodModelAssignment.VariableType.INSTANCE)) {
+                    int paramNum = 0;
+                    if (assign.rightType.equals(MethodModelAssignment.VariableType.PARAM)) {
+                        paramNum = assign.rightParam;
+                        if (!calledMethodInfo.isStatic() && paramNum < passedRegs.length - 1) {
+                            paramNum++;
+                        }
+                    }
+                    
+                    String reg = parsePassedRegs(passedRegs)[paramNum];
+                    String srcTaintReg = taintRegMap.get(reg);
+
+                    if (receiverRegTaint == null) {
+                        System.out.println("Receiver reg taint is null: " + receiverReg);
+                        System.out.println("Instruction is static: " + instruction.contains("static"));
+                        System.out.println("Line: " + line);
+                    }
+                    if (srcTaintReg == null) {
+                        System.out.println("Src taint reg is null: " + reg);
+                    }
+                    
+                    context.maxRegs = handleTwoSourceOneDest(tool, taintTempReg, 
+                        linesToAdd, getMoveInstructionByType(calledMethodInfo.getParams().get(0)), parsePassedRegs(passedRegs)[0], parsePassedRegs(passedRegs)[0], receiverRegTaint, receiverRegTaint, srcTaintReg, context);
+                    
+                } else {
+                    // linesToAdd.add("    # Taint: ModelMethodCall (Non-default), types are " + assign.leftType + " and " + assign.rightType);
+                    // throw new Error("Non-default model assignment not implemented: " + assign);
+                    System.out.println("Non-default model assignment not implemented: " + assign);
+                }
+            }
         } else {
-            if (methodReturnIsTainted) {
+            String fristTargReg = null;
+
+            if (receiverRegTaint != null) {
+                fristTargReg = receiverRegTaint;
+            } else if (methodReturnIsTainted) {
                 fristTargReg = returnTaintReg;
             }
-        }
+            
 
-        if (fristTargReg != null) {
-            for (int i = 0; i < parsePassedRegs(passedRegs).length; i++) {
-                if (i == 0 && calledMethodInfo.getMethodName().equals("<init>")) {
-                    continue;
-                }
-                String reg = parsePassedRegs(passedRegs)[i];
-                String srcTaintReg = taintRegMap.get(reg);
-                    if (srcTaintReg.equals(fristTargReg)) {
-                        context.maxRegs = handleOneSourceOneDest(tool,
-                                linesToAdd, getMoveInstructionByType(calledMethodInfo.getParams().get(0)), parsePassedRegs(passedRegs)[0], parsePassedRegs(passedRegs)[0], fristTargReg, fristTargReg, context);
-                    } else {
-                        context.maxRegs = handleTwoSourceOneDest(tool, taintTempReg, linesToAdd, getMoveInstructionByType(calledMethodInfo.getParams().get(0)), parsePassedRegs(passedRegs)[0], parsePassedRegs(passedRegs)[0], fristTargReg, fristTargReg, srcTaintReg, context);
-
+            if (fristTargReg != null) {
+                for (int i = 0; i < parsePassedRegs(passedRegs).length; i++) {
+                    if (i == 0 && calledMethodInfo.getMethodName().equals("<init>")) {
+                        continue;
                     }
+                    String reg = parsePassedRegs(passedRegs)[i];
+                    String srcTaintReg = taintRegMap.get(reg);
+                        if (srcTaintReg.equals(fristTargReg)) {
+                            linesToAdd.add("    # Taint: ModelMethodCall, same source and target: " + srcTaintReg);
+                            context.maxRegs = handleOneSourceOneDest(tool,
+                                    linesToAdd, getMoveInstructionByType(calledMethodInfo.getParams().get(0)), parsePassedRegs(passedRegs)[0], parsePassedRegs(passedRegs)[0], fristTargReg, fristTargReg, context);
+                        } else {
+                            linesToAdd.add("    # Taint: ModelMethodCall, from: " + srcTaintReg + " to: " + fristTargReg);
+                            context.maxRegs = handleTwoSourceOneDest(tool, taintTempReg, linesToAdd, getMoveInstructionByType(calledMethodInfo.getParams().get(0)), parsePassedRegs(passedRegs)[0], parsePassedRegs(passedRegs)[0], fristTargReg, fristTargReg, srcTaintReg, context);
+                        }
+                }
             }
-        }
 
-        if (methodReturnIsTainted) {
-            String invokeReturnInstruction;
-            if (passedRegs.length > 0) {
-                invokeReturnInstruction = (returnReg.equals(parsePassedRegs(passedRegs)[0]))? getMoveInstructionByType(calledMethodInfo.getParams().get(0)) : "invoke-with-return-" + getMoveInstructionByType(calledMethodInfo.getReturnType());
-            } else {
-                invokeReturnInstruction = "invoke-with-return-" + getMoveInstructionByType(calledMethodInfo.getReturnType());
+            if (methodReturnIsTainted) {
+                String invokeReturnInstruction;
+                if (passedRegs.length > 0) {
+                    invokeReturnInstruction = (returnReg.equals(parsePassedRegs(passedRegs)[0]))? getMoveInstructionByType(calledMethodInfo.getParams().get(0)) : "invoke-with-return-" + getMoveInstructionByType(calledMethodInfo.getReturnType());
+                } else {
+                    invokeReturnInstruction = "invoke-with-return-" + getMoveInstructionByType(calledMethodInfo.getReturnType());
+                }
+                linesToAdd.add("    # Taint: ModelMethodCall, flow to return reg: " + returnReg + ", taint is in: " + returnTaintReg);
+                context.maxRegs = handleOneSourceOneDest(tool,
+                    linesToAdd, invokeReturnInstruction, returnReg, returnReg, returnTaintReg, fristTargReg, context);
             }
-
-            context.maxRegs = handleOneSourceOneDest(tool,
-                linesToAdd, invokeReturnInstruction, returnReg, returnReg, returnTaintReg, fristTargReg, context);
         }
 
         // Handle specific method cases
@@ -471,9 +531,9 @@ class TaintAnalysis {
         linesToAdd.addAll(fileLines.first);
         context.maxRegs = (context.maxRegs > fileLines.second)? context.maxRegs : fileLines.second;
 
-        if (isFramework) {
-            return context.maxRegs;
-        }
+        // if (isFramework) {
+        //     return context.maxRegs;
+        // }
 
 
         int prevInstructionIndex = previousInstructionIs(classLines, lineNum, "iget-object");
@@ -597,9 +657,9 @@ class TaintAnalysis {
 
         // Set the param taints even for modelled methods, because an APK can have their own implementations of the modelled methods
         for (int i = 0; i < passedRegs.length; i++) {
-            if (i == 0 && calledMethodInfo.getMethodName().equals("<init>")) {
-                continue;
-            }
+            // if (i == 0 && calledMethodInfo.getMethodName().equals("<init>")) {
+            //     continue;
+            // }
             String taintReg = context.taintRegMap.get(passedRegs[i]);
             String moveInstruction = getMoveInstructionByType(calledMethodInfo.getParams().get(i));
             if (moveInstruction != null) {
@@ -759,8 +819,23 @@ class TaintAnalysis {
         }
 
         try {
-
+            Set<Integer> sinkParamsSet = new HashSet<Integer>();
             for (int sinkParam : sinkParams) {
+                sinkParamsSet.add(sinkParam);
+            }
+
+            // AnalysisLogger.log(true, "Will inspect sink %s%d", line);
+
+            int numPossibleRegs = 0;
+            if (passedRegs != null) {
+                numPossibleRegs = passedRegs.length;
+            }
+            // AnalysisLogger.log(true, "    numPossibleRegs %s%d", numPossibleRegs);
+            for (int i = 0; i < numPossibleRegs; i++) {
+                int sinkParam = i;
+                if (sinkParams[0] != -1 && !sinkParamsSet.contains(i)) { // -1 for the case of all params (*)
+                    continue;
+                }
 
                 String taintedVar = passedRegs[sinkParam];
                 String taintTargReg = context.taintRegMap.get(taintedVar);
@@ -1234,8 +1309,12 @@ class TaintAnalysis {
     public int addSetParamsAtReturn(TaintTool tool, List<String> linesToAdd, InstrumentationContext context) {
         for (int i = 0; i < context.currentMethod.getParams().size(); i++) {
             int paramReg = context.currentMethod.getNumBaseLocalRegs() + i;
-            String taintReg = context.taintRegMap.get("v"+paramReg);
-            context.maxRegs = addSetParamTaintLine(tool, linesToAdd, i, taintReg, context.threadReg, context.taintTempReg, context.maxRegs);
+            String taintReg = context.taintRegMap.get("v" + paramReg);
+            String originalType = context.currentMethod.getParams().get(i);
+            String currentType = context.regType.get("v" + context.newParams.get(i));
+            if (originalType.equals(currentType) || currentType == null) {
+                context.maxRegs = addSetParamTaintLine(tool, linesToAdd, i, taintReg, context.threadReg, context.taintTempReg, context.maxRegs);
+            }
         }
         return context.maxRegs;
     }
@@ -2169,7 +2248,7 @@ class TaintAnalysis {
      * @param context the instrumentation context
      * @return the modified string
      */
-    protected String changeParamsToLocals(String line, InstrumentationContext context) {
+    protected String changeParamsToLocals(String line, InstrumentationContext context) throws InvalidInstructionError {
         line = changeParamsToLocals(context.newParams, line, " p");
         line = changeParamsToLocals(context.newParams, line, "{p");
         return line;
@@ -2183,7 +2262,7 @@ class TaintAnalysis {
      * @param token the token to replace
      * @return the modified line with the parameters replaced
      */
-    private String changeParamsToLocals(Map<Integer, Integer> newParams, String line, String token) {
+    private String changeParamsToLocals(Map<Integer, Integer> newParams, String line, String token) throws InvalidInstructionError {
         int indexOfParam = 0;
 
         // For packed-switch and sparse-switch, the index of the parameter is 1 less
@@ -2207,6 +2286,10 @@ class TaintAnalysis {
             Matcher matcher = Pattern.compile("\\d+").matcher(line.subSequence(indexOfParam, line.length()));
             matcher.find();
             int i = Integer.parseInt(matcher.group());
+
+            if (!newParams.containsKey(i)) {
+                throw new InvalidInstructionError("Parameter " + i + " not found in params map");
+            }
             line = line.substring(0, indexOfParam-1) + "v" + matcher.replaceFirst(String.valueOf(newParams.get(i)));
         }
         return line;

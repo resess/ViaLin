@@ -142,6 +142,7 @@ public class ClassAnalysis extends TaintAnalysis {
      * Constructs a ClassAnalysis object for analyzing classes in the framework.
      *
      * @param frameworkAnalysisDir The directory path for framework analysis.
+     * @param methodModelDir       The directory path for method models.
      */
     public ClassAnalysis (String frameworkAnalysisDir) {
         this.frameworkAnalysisDir = frameworkAnalysisDir;
@@ -153,6 +154,7 @@ public class ClassAnalysis extends TaintAnalysis {
      * Constructs a ClassAnalysis object for analyzing classes in the framework and application.
      *
      * @param frameworkAnalysisDir The directory path for framework analysis.
+     * @param methodModelDir       The directory path for method models.
      * @param outDir               The directory path for application analysis.
      */
     public ClassAnalysis (String frameworkAnalysisDir, String outDir) {
@@ -770,5 +772,7 @@ public class ClassAnalysis extends TaintAnalysis {
         return ret;
     }
 
-
+    public MethodModel getMethodModel(String methodSignature, boolean isStatic) {
+        return MethodModel.getModel(methodSignature, isStatic);
+    }
 }

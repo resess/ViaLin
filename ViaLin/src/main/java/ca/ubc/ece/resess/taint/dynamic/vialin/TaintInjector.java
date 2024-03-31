@@ -18,6 +18,8 @@ import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
@@ -209,7 +211,27 @@ public class TaintInjector {
         }
 
         injected = true;
+        writePostAnalysisFiles();
         return true;
+    }
+
+    private void writePostAnalysisFiles() {
+        try {
+            Files.write(Paths.get(outDir, "modeled_methods.log"), ("").getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        for (Map.Entry<String, Set<String>> entry : InstrumentationContext.modeledMethods.entrySet()) {
+            String methodSignature = entry.getKey();
+            Set<String> methodModels = entry.getValue();
+            String methodModelStr = methodModels.toString();
+            try {
+                Files.write(Paths.get(outDir, "modeled_methods.log"), (methodSignature + ": " + methodModelStr + "\n").getBytes(StandardCharsets.UTF_8), StandardOpenOption.APPEND);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println("Wrote modeled methods to: " + Paths.get(outDir, "modeled_methods.log"));
     }
 
     private void extractJar() throws IOException {

@@ -21,6 +21,7 @@ public class ViaLin {
     String toolStr = "none";
     String outDir = "none";
     String analysisDir = "none";
+    String methodModelDir = "";
     String srcFile = "none";
     String sinkFile = "none";
     String extraConfig = "none";
@@ -35,9 +36,10 @@ public class ViaLin {
       toolStr = args[2];
       outDir = args[3];
       analysisDir = args[4];
-      srcFile = args[5];
-      sinkFile = args[6];
-      nextArg = 7;
+      methodModelDir = args[5];
+      srcFile = args[6];
+      sinkFile = args[7];
+      nextArg = 8;
     }
 
 
@@ -68,6 +70,7 @@ public class ViaLin {
 
 
     if (mode.equals("t")) { // taint
+      MethodModel.setMethodModelsPath(methodModelDir);
       TaintInjector injector = new TaintInjector(inFiles, outDir, analysisDir, srcFile, sinkFile, tool, isFramework, AnalysisDestination.APP);
       injector.analyze();
       long afterAnalysis = System.currentTimeMillis() - start;

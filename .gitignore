@@ -3,7 +3,8 @@
 build/
 target/
 temp_*/
-framework_analysis_results/
+framework_analysis_results*
+framework_classes*
 outdir_*/
 
 # Python

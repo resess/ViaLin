@@ -41,7 +41,7 @@ public class FileTaint extends TaintAnalysis {
                         int newMaxRegs = Math.max(taintTempReg, rangedInvoke.second);
 
                         // Khaled: diabled in main branch due to crash, may crash framework
-                        // newMaxRegs = addSharedPreferencesTaint(tool, linesToAdd, taintRegMap, passedRegs, newMaxRegs, false);
+                        newMaxRegs = addSharedPreferencesTaint(tool, linesToAdd, taintRegMap, passedRegs, newMaxRegs, methodDelta, false);
 
                         // we need to know the newMaxRegs because we need to add the ".registers xxx" line to the bytecode
                         return new Pair<>(linesToAdd, newMaxRegs);
@@ -195,22 +195,24 @@ public class FileTaint extends TaintAnalysis {
             return new Pair<>(linesToAdd, newMaxRegs);
         } else if (calledMethodInfo.signature().startsWith("Ljava/lang/StringBuffer;->toString()Ljava/lang/String;") ||
                    calledMethodInfo.signature().startsWith("Ljava/io/ByteArrayOutputStream;->toByteArray()[B")) {
-            if (tool instanceof ViaLinTool) {
-                if (getRegNumFromRef(returnTaintReg) > 255) {
-                    linesToAdd.add("    move-object/16 v" + taintTempReg + ", " + passedRegs[0]);
+            if (returnTaintReg != null) {
+                if (tool instanceof ViaLinTool) {
+                    if (getRegNumFromRef(returnTaintReg) > 255) {
+                        linesToAdd.add("    move-object/16 v" + taintTempReg + ", " + passedRegs[0]);
+                    }
+                    String newLine = "    invoke-static {" + returnTaintReg + "}, Ljava/lang/Thread;->getTaintContainer(Ljava/lang/PathTaint;)Ljava/lang/PathTaint;";
+                    Pair<List<String>, Integer> rangedInvoke = makeInvokeToRange(newLine, taintTempReg);
+                    linesToAdd.addAll(rangedInvoke.first);
+                    int newMaxRegs = rangedInvoke.second;
+                    if (getRegNumFromRef(returnTaintReg) > 255) {
+                        linesToAdd.add("    " + tool.getMoveResultTaint() + " " + passedRegs[0]);
+                        linesToAdd.add("    " + tool.getMoveTaint() + "/16 " + returnTaintReg + ", " + passedRegs[0]);
+                        linesToAdd.add("    move-object/16 " + passedRegs[0] + ", v" + taintTempReg);
+                    } else {
+                        linesToAdd.add("    " + tool.getMoveResultTaint() + " " + returnTaintReg);
+                    }
+                    return new Pair<>(linesToAdd, newMaxRegs);
                 }
-                String newLine = "    invoke-static {" + returnTaintReg + "}, Ljava/lang/Thread;->getTaintContainer(Ljava/lang/PathTaint;)Ljava/lang/PathTaint;";
-                Pair<List<String>, Integer> rangedInvoke = makeInvokeToRange(newLine, taintTempReg);
-                linesToAdd.addAll(rangedInvoke.first);
-                int newMaxRegs = rangedInvoke.second;
-                if (getRegNumFromRef(returnTaintReg) > 255) {
-                    linesToAdd.add("    " + tool.getMoveResultTaint() + " " + passedRegs[0]);
-                    linesToAdd.add("    " + tool.getMoveTaint() + "/16 " + returnTaintReg + ", " + passedRegs[0]);
-                    linesToAdd.add("    move-object/16 " + passedRegs[0] + ", v" + taintTempReg);
-                } else {
-                    linesToAdd.add("    " + tool.getMoveResultTaint() + " " + returnTaintReg);
-                }
-                return new Pair<>(linesToAdd, newMaxRegs);
             }
         }
 
@@ -408,11 +410,19 @@ public class FileTaint extends TaintAnalysis {
     // Updates the .taint file corresponding to a SharedPreferences store
     // Restores the original registers (Editor editor, String key, PathTaint fileTaint, Object object)
     // Appends lines to linesToAdd and returns the new taintTempReg
-    private static int addSharedPreferencesTaint(TaintTool tool, List<String> linesToAdd, Map<String, String> taintRegMap, String[] passedRegs, int taintTempReg, boolean isPrimitive){
+    private static int addSharedPreferencesTaint(TaintTool tool, List<String> linesToAdd, Map<String, String> taintRegMap, String[] passedRegs, int taintTempReg, int methodDelta, boolean isPrimitive){
         // TODO: add the non-object (primitive) case
 
+        String label = methodDelta + "_" + linesToAdd.size();
+        String startLabel = "    :try_start_taint_sharedpref_" + label;
+        String endLabel = "    :try_end_taint_sharedpref_" + label;
+        String handlerLabel = "    :catch_taint_sharedpref_" + label;
+
         // save passedRegs[0]
+        linesToAdd.add("    # Added shared prefs taint");
         linesToAdd.add("    move-object/16 v" + String.valueOf(taintTempReg) + ", " + passedRegs[0]);
+
+        linesToAdd.add(startLabel);
 
         // we added getSharedPreferencesTaintFilePath to the impl file, so we must cast the Editor to EditorImpl first
         linesToAdd.add("    check-cast " + passedRegs[0] + ", Landroid/app/SharedPreferencesImpl$EditorImpl;");
@@ -428,9 +438,15 @@ public class FileTaint extends TaintAnalysis {
         linesToAdd.addAll(rangedInvoke.first);
         int newMaxRegs = rangedInvoke.second;
 
+        linesToAdd.add(endLabel);
+        linesToAdd.add("    .catchall {" + startLabel + " .. " + endLabel + "} " + handlerLabel);
+        linesToAdd.add(handlerLabel);
+
         // restore passedRegs[0]
         linesToAdd.add("    move-object/16 "  + passedRegs[0] + ", v" + String.valueOf(taintTempReg) );
 
+
+        linesToAdd.add("    # End added shared prefs taint");
         return Math.max(newMaxRegs, taintTempReg + 1);
     }
 

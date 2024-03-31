@@ -29,9 +29,15 @@ public class TaintSink {
             String [] splitArr = sink.split(",\\s+");
             String sinkStmt = splitArr[0];
             int [] params = new int[splitArr.length-1];
-            for (int i = 1; i < splitArr.length; i++) {
-                params[i-1] = Integer.parseInt(splitArr[i]);
+
+            if (splitArr[1].equals("*")) {
+                params[0] = -1;
+            } else {
+                for (int i = 1; i < splitArr.length; i++) {
+                    params[i-1] = Integer.parseInt(splitArr[i]);
+                }
             }
+
             sinks.put(sinkStmt, params);
         }
     }

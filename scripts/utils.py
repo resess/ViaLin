@@ -193,10 +193,11 @@ def fix_graphs_from_cache(graphs_lines, graph_cache):
     # print(len(graphs_lines))
     line_cache = dict()
     new_graphs = dict()
-    for num in graphs_lines:
+    for i, num in enumerate(graphs_lines):
         result = fix_graphs_from_cache_task((graphs_lines, graph_cache, num, line_cache))
         num, graph = result
         new_graphs[num] = graph
+        print(f"Graph cache fix progress: {i}/{len(graphs_lines)}", flush=True)
 
     # with Pool() as pool:
     #     for result in pool.map(fix_graphs_from_cache_task, [(graphs_lines, graph_cache, num) for num in graphs_lines]):
@@ -246,7 +247,7 @@ def fix_graphs_from_cache_task(task_input):
                     if right_cached:
                         to_process_stack.append(right_cached)
 
-    print(f"Graph: {num} had {len(graphs_lines[num])} lines and now has {len(new_graph)} lines, iterated {num_iters} times", flush=True)
+    # print(f"Graph: {num} had {len(graphs_lines[num])} lines and now has {len(new_graph)} lines, iterated {num_iters} times", flush=True)
     graphs_lines[num] = list() # erase old list
     return num, new_graph
 
@@ -260,6 +261,7 @@ def get_parcel_graph(num, graphs_lines, new_graphs):
     for l in graphs_lines[num]:
         stmt = l[0]
         if "(-2)" in stmt: # parcels
+            print(stmt)
             parcel_nums = [int(x) for x in stmt.split("(")[0].split("-")]
             for parcel_num in parcel_nums:
                 corrected_parcel_stmt = last_line[1]
@@ -342,8 +344,9 @@ def get_graphs_from_reports_cached(report, parcels):
                     right = None
                 if num not in graphs_lines:
                     graphs_lines[num] = list()
-                if (node, left, right) not in graphs_lines[num]:
-                    graphs_lines[num].append((node, left, right))
+                
+                # if (node, left, right) not in graphs_lines[num]:
+                graphs_lines[num].append((node, left, right))
 
                 graph_cache[node] = {"left": left, "right" : right}
                 # if num == 1042804163:
@@ -353,6 +356,16 @@ def get_graphs_from_reports_cached(report, parcels):
                 print(f"Ignored malformed line: {line}" )
 
     del report
+
+    for num in graphs_lines:
+        opt_set = set()
+        new_graph_line = list()
+        for graph_line in graphs_lines[num]:
+            if graph_line not in opt_set:
+                opt_set.add(graph_line)
+                new_graph_line.append(graph_line)
+
+        graphs_lines[num] = new_graph_line
 
     print("Extending graphs from cache")
     graphs_lines = fix_graphs_from_cache(graphs_lines, graph_cache)

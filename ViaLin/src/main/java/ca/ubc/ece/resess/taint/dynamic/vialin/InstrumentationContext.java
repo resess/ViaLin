@@ -25,9 +25,19 @@ public class InstrumentationContext {
     public Set<String> taintedMethods = new HashSet<>();
     public Set<String> erasedTaintRegs = new HashSet<>();
     public Map<String, FieldAccessInfo> fieldArraysInMethod = new HashMap<>();
+    public static final Map<String, Set<String>> modeledMethods = new HashMap<>();
 
     public int maxOfCurrentMaxRegsAndNewMaxRegs(int newMaxRegs) {
         return (maxRegs > newMaxRegs)? maxRegs : newMaxRegs;
+    }
+
+    public void addModeledMethod(String methodSignature, String methodModel) {
+        if (!modeledMethods.containsKey(methodSignature)) {
+            modeledMethods.put(methodSignature, new HashSet<>());
+        }
+        Set<String> methodModelSet = modeledMethods.get(methodSignature);
+        methodModelSet.add(methodModel);
+        modeledMethods.put(methodSignature, methodModelSet);
     }
 
     // public InstrumentationContext addToTaintTempReg() {

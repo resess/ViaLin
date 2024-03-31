@@ -15,7 +15,7 @@ def instr_file_by_file():
     3. Executes the ViaLin command to instrument the file, redirecting the output to 'debug.log'.
     """
     paths = list()
-    with open("dex_files.log", 'r') as f:
+    with open("scripts/dex_files.log", 'r') as f:
         for line in f:
             if line.strip():
                 paths.append(line.strip())
@@ -32,7 +32,7 @@ def instr_file_by_file():
             return
         os.system("rm -r temp")
         os.system("mkdir temp")
-        os.system(f"java -Xss16M -jar ViaLin/target/vialin-jar-with-dependencies.jar a true pt temp framework_analysis_results empty.txt empty.txt {p}>> debug.log 2>&1")
+        os.system(f"java -Xss16M -jar ViaLin/target/vialin-jar-with-dependencies.jar a true vl temp framework_analysis_results scripts/empty.txt scripts/empty.txt {p}>> debug.log 2>&1")
 
 
 instr_file_by_file()

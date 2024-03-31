@@ -123,7 +123,24 @@ public class ClassTaint extends TaintAnalysis {
                     context.methodDelta++;
                     methodIndex.put(context.methodDelta, line);
                     linesToAdd.clear();
-                    line = changeParamsToLocals(line, context);
+                    String oldLineForDebug = line;
+                    try {
+                        line = changeParamsToLocals(line, context);
+                    } catch (InvalidInstructionError e) {
+                        AnalysisLogger.log(true, "Bad paramter translation: at line %s, will not instrument class, exception: %s%n", line, e);
+                        return;
+                    }
+                    if (line.contains("vnull")) {
+                        AnalysisLogger.log(true, "Bad paramter translation: %s, newParams: %s%n", line, context.newParams);
+                        AnalysisLogger.log(true, "Old line is: %s%n", oldLineForDebug);
+                        AnalysisLogger.log(true, "Method is: %s%n", context.currentMethod.signature());
+                        AnalysisLogger.log(true, "Code in class till this line%n", context.currentMethod.signature());
+                        for (int i = 0; i <= lineNum; i++) {
+                            AnalysisLogger.log(true, "    %s%n", classLines.get(i));
+                        }
+                        throw new RuntimeException("Bad paramter translation: " + line);
+                    }
+
                     lastCalled = handleMethodCallOperation(classLines, className, context, lastCalled, linesToAddAtMethodEnd,
                             lineNum, line, linesToAdd, inTryBlock);
                 } else if (context.currentMethod != null && line.startsWith("    .registers")) {
@@ -174,7 +191,12 @@ public class ClassTaint extends TaintAnalysis {
 
                         linesToAdd.clear();
 
-                        line = changeParamsToLocals(line, context);
+                        try {
+                            line = changeParamsToLocals(line, context);
+                        } catch (InvalidInstructionError e) {
+                            AnalysisLogger.log(true, "Bad paramter translation: at line %s, will not instrument class, exception: %s%n", line, e);
+                            return;
+                        }
 
                         linesToAdd.add(line);
 

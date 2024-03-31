@@ -43,6 +43,10 @@ def translate_file(f):
     print(f"Done processing file in {timer() - time_now}")
     time_now = timer()
 
+    # print("Report:")
+    # for r in report:
+    #     print (r)
+
     graphs, insn_stmt_map, src_insn_sink_ins_pairs, src_sink_ins_pairs, src_sink_pairs, real_source_map, sources, sinks, source_stmt_map, sink_stmt_map = utils.get_graphs_from_reports_cached(report, parcels)
     del report
 
@@ -53,9 +57,10 @@ def translate_file(f):
     # print("========")
     num_graphs = 0
     for n in graphs:
-        # print(f"Graphs num: {n}")
+        print(f"Graphs num: {n}")
         for g in graphs[n]:
-            # print(g)
+            for node in g:
+                print(f"{node}, {g[node]}")
             num_graphs += 1
     print(f"Num_graphs: {num_graphs}")
 
@@ -122,10 +127,10 @@ def translate_file(f):
     print(f"Done removing duplicates in {timer() - time_now}")
     time_now = timer()
 
-    # for i, path in enumerate(paths_unique):
-    #     print(f"====Graph {paths_numbers[i]}====")
-    #     for p in path:
-    #         print(p)
+    for i, path in enumerate(paths_unique):
+        print(f"====Graph {paths_numbers[i]}====")
+        for p in path:
+            print(p)
 
     # print(f"Pair stats: {len(src_insn_sink_ins_pairs)}, {len(src_sink_ins_pairs)}, {len(src_sink_pairs)}")
 

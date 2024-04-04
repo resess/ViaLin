@@ -33,46 +33,86 @@ def method_class_stats(path):
             classes.add(class_name)
     return len(methods), len(classes)
 
-def translate_file(f):
+def translate_file(f, modeled_methods_file, base_out_dir, framework_classes_dir, extra_folder=None):
     time_now = timer()
-    print(f, flush=True)
+    print(f"Translating file {f}", flush=True)
     log = utils.read_file(f)
-    report, parcels = utils.get_dumptaint_report_from_log(log)
+    report, parcels, sinks = utils.get_dumptaint_report_from_log(log)
     del log
 
-    print(f"Done processing file in {timer() - time_now}")
+    print(f"Done processing file in {timer() - time_now}", flush=True)
     time_now = timer()
 
-    # print("Report:")
-    # for r in report:
-    #     print (r)
-
-    graphs, insn_stmt_map, src_insn_sink_ins_pairs, src_sink_ins_pairs, src_sink_pairs, real_source_map, sources, sinks, source_stmt_map, sink_stmt_map = utils.get_graphs_from_reports_cached(report, parcels)
+    graphs, insn_stmt_map, src_insn_sink_ins_pairs, src_sink_ins_pairs, src_sink_pairs, real_source_map, sources, sinks, source_stmt_map, sink_stmt_map = utils.get_graphs_from_reports_cached(report, parcels, sinks)
     del report
 
-    print(f"Done extracting graphs in {timer() - time_now}")
+    print(f"Done extracting graphs in {timer() - time_now}", flush=True)
     time_now = timer()
 
     # print(f"Map: {insn_stmt_map}")
     # print("========")
     num_graphs = 0
     for n in graphs:
-        print(f"Graphs num: {n}")
+        # print(f"Graphs num: {n}")
         for g in graphs[n]:
-            for node in g:
-                print(f"{node}, {g[node]}")
+            # for node in g:
+            #     print(f"{node}, {g[node]}")
             num_graphs += 1
     print(f"Num_graphs: {num_graphs}")
 
+    os.makedirs(base_out_dir+"/graphs/", exist_ok=True)
+
+    for n in graphs:
+        for i, g in enumerate(graphs[n]):
+            with open(base_out_dir+"/graphs/graph_" + str(n) + "_" + str(i) + ".log", 'w') as g_file:
+                g_file.write(str(g))
+
+
+    classed_dir = f.replace(".log", ".class_info")
+
+    print(f"Will load classes from {classed_dir}", flush=True)
+    loaded_classes = dict()
+
+    if extra_folder and ("InterAppCommunication" in classed_dir):
+        # print(f"Will load first extra classes", flush=True)
+        extra_loaded_classes = utils.load_all_classes(extra_folder + "/InterAppCommunication_Collector.big_list.class_info/")
+        loaded_classes.update(extra_loaded_classes)
+        # print(f"Will load second extra classes", flush=True)
+        extra_loaded_classes = utils.load_all_classes(extra_folder + "/InterAppCommunication_Echoer.big_list.class_info/")
+        loaded_classes.update(extra_loaded_classes)
+
+
+    bytecode_graphs = utils.translate_graphs_to_bytecode(graphs, classed_dir, framework_classes_dir, loaded_classes)
+
+    # Get file name from f (remove path and extension)
+    app_dir_name = f.split("/")[-1].replace(".log", "")
+
+    print(f"App dir name: {app_dir_name}")
+    print(f"Full out dir: {base_out_dir}/{app_dir_name}", flush=True)
+
+    os.makedirs(base_out_dir+ "/" + app_dir_name + "/bytecode_graphs/", exist_ok=True)
+
+    for n in bytecode_graphs:
+        for i, g in enumerate(bytecode_graphs[n]):
+            # print(f"Writing graph_" + str(n) + "_" + str(i) + ".log", flush=True)
+            with open(base_out_dir+ "/" + app_dir_name + "/bytecode_graphs/graph_" + str(n) + "_" + str(i) + ".log", 'w') as g_file:
+                for node in g:
+                    g_file.write(str(node))
+                    g_file.write("\n    ")
+                    g_file.write(str(g[node]))
+                    g_file.write("\n")
+
+
+    print(f"Will translate graphs to paths", flush=True)
     paths, divergent, path_sources, path_sinks = utils.translate_graphs_to_paths(graphs, insn_stmt_map, sources, sinks)
     del graphs
 
-    print("========")
-    print(source_stmt_map)
-    print(path_sources)
-    print("========")
-    print(sink_stmt_map)
-    print(path_sinks)
+    # print("========")
+    # print(source_stmt_map)
+    # print(path_sources)
+    # print("========")
+    # print(sink_stmt_map)
+    # print(path_sinks)
 
     # print(f"Paths:")
     # print("========")
@@ -86,20 +126,7 @@ def translate_file(f):
     print(f"Done translating graphs in {timer() - time_now}")
     time_now = timer()
 
-    classed_dir = f.replace(".log", ".class_info")
-
-    print(f"Will load classes: {classed_dir}", flush=True)
-    loaded_classes = dict()
-
-    if extra_folder and ("InterAppCommunication" in classed_dir):
-        # print(f"Will load first extra classes", flush=True)
-        extra_loaded_classes = utils.load_all_classes(extra_folder + "/InterAppCommunication_Collector.big_list.class_info/")
-        loaded_classes.update(extra_loaded_classes)
-        # print(f"Will load second extra classes", flush=True)
-        extra_loaded_classes = utils.load_all_classes(extra_folder + "/InterAppCommunication_Echoer.big_list.class_info/")
-        loaded_classes.update(extra_loaded_classes)
-
-    paths = utils.translate_paths_to_bytecode(paths, classed_dir, loaded_classes)
+    paths = utils.translate_paths_to_bytecode(paths, classed_dir, framework_classes_dir, loaded_classes)
 
 
     print(f"Done bytecode translation in {timer() - time_now}")
@@ -115,53 +142,78 @@ def translate_file(f):
     for n in paths:
         for i, p in enumerate(paths[n]):
             if p not in paths_unique:
-                paths_unique.append(p)
-                paths_numbers.append(n)
-                divergent_unique.append(divergent[n][i])
-                path_sources_unique.append(path_sources[n][i])
-                path_sinks_unique.append(path_sinks[n][i])
+                # insert in list but keep ordereing by size
+                index = len(paths_unique)
+                for committed_path in paths_unique:
+                    if len(committed_path) > len(p):
+                        index = paths_unique.index(committed_path)
+                        break
+
+                paths_unique.insert(index, p)
+                paths_numbers.insert(index, n)
+                divergent_unique.insert(index, divergent[n][i])
+                path_sources_unique.insert(index, path_sources[n][i])
+                path_sinks_unique.insert(index, path_sinks[n][i])
                 if divergent[n][i] == True:
                     num_divergent_unique += 1
 
 
+    paths_index_to_drop = list()
+    for i, p in enumerate(paths_unique):
+        for j, q in enumerate(paths_unique[i+1:]):
+            if p == q[0:len(p)]: # if p is a prefix of q
+                paths_index_to_drop.append(i)
+                print("Prefix path dropped", flush=True)
+                break
+
+    if len(paths_index_to_drop) == 0:
+        print("No prefix paths found", flush=True)
+
+    paths_unique = [p for i, p in enumerate(paths_unique) if i not in paths_index_to_drop]
+
+    # print the start of each path
+    for i, p in enumerate(paths_unique):
+        print(f"Path {i}: {p[0:10]}")
+
     print(f"Done removing duplicates in {timer() - time_now}")
     time_now = timer()
 
-    for i, path in enumerate(paths_unique):
-        print(f"====Graph {paths_numbers[i]}====")
-        for p in path:
-            print(p)
+    # for i, path in enumerate(paths_unique):
+    #     print(f"====Graph {paths_numbers[i]}====")
+    #     for p in path:
+    #         print(p)
 
     # print(f"Pair stats: {len(src_insn_sink_ins_pairs)}, {len(src_sink_ins_pairs)}, {len(src_sink_pairs)}")
 
-    out_dir = f.replace(".log", ".paths")
+    out_dir = base_out_dir+ "/" + app_dir_name + "/paths/"
     shutil.rmtree(out_dir, ignore_errors=True)
+    os.makedirs(out_dir)
     i = 0
     for path_bytecode in paths_unique:
         path_jimple = utils.translate_paths_to_jimple(path_bytecode, real_source_map)
         # utils.print_path_consol(path_jimple)
         i += 1
         file_name = "path_" + str(i) + "_" + str(paths_numbers[i-1]) + ".csv"
-        utils.print_list_reverse(out_dir, file_name, path_jimple)
+        utils.print_list(out_dir, file_name, path_jimple)
         # file_name = "path_bytecode_" + str(paths_numbers[i-1]) + "_" + str(i) + ".csv"
         # utils.print_list_reverse(out_dir, file_name, path_bytecode)
         # print(path_jimple)
     with open(out_dir + "/" + "sources_sinks.csv", 'w') as f:
-        f.write("path,source,source_stmt,sink,sink_stmt\n")
+        f.write("path,source,source_stmt,sink,sink_stmt,src_instance,sink_instance,length\n")
         i = 0
         for _ in paths_unique:
-            print(f"Will write path {i}")
+            # print(f"Will write path {i}")
             i += 1
             p_src = path_sources_unique[i-1]
             p_sink = path_sinks_unique[i-1]
-            print(f"{p_src} == {p_sink}")
+            # print(f"{p_src} == {p_sink}")
             path_name = "path_" + str(i) + "_" + str(paths_numbers[i-1])
-            try:
-                f.write(path_name + "," + source_stmt_map[p_src[1]] + "," + p_src[1] + "," + sink_stmt_map[p_sink] + "," + p_sink)
-                f.write("\n")
-            except Exception as e:
-                print(f"Exception while writing path: {e}")
-                pass
+            # try:
+            f.write(path_name + "," + source_stmt_map[p_src[1]] + "," + p_src[1] + "," + sink_stmt_map[p_sink[0]] + "," + p_sink[0] + "," + str(p_src[0]) + "," + str(p_sink[1][0]) + "," + str(len(paths_unique[i-1])))
+            f.write("\n")
+            # except Exception as e:
+            #     print(f"Exception while writing path: {e}")
+            #     pass
 
     print(f"Done translating paths to jimple in {timer() - time_now}")
     time_now = timer()
@@ -173,6 +225,10 @@ def translate_file(f):
         num_methods, num_classes = method_class_stats(path)
         paths_num_methods.append(num_methods)
         paths_num_classes.append(num_classes)
+
+    if len(paths_unique) == 0:
+        print("No paths found")
+        return
 
     min_length_s_paths_no_dup = min([len(p) for p in paths_unique])
     max_length_s_paths_no_dup = max([len(p) for p in paths_unique])
@@ -217,16 +273,21 @@ def translate_file(f):
     print(f"avg_classes_s_paths_no_dup: {avg_classes_s_paths_no_dup}")
     print(f"median_classes_s_paths_no_dup: {median_classes_s_paths_no_dup}")
 
+
+
+
 f = sys.argv[1]
-if len(sys.argv) > 2:
-    extra_folder = sys.argv[2]
+modeled_methods_file = sys.argv[2]
+framework_classes_dir = sys.argv[3]
+base_out_dir = sys.argv[4]
+if len(sys.argv) > 5:
+    extra_folder = sys.argv[5]
 else:
     extra_folder = None
 
 memory_limit()
 try:
-    print(f"Translating file {f}")
-    translate_file(f)
+    translate_file(f, modeled_methods_file, base_out_dir, framework_classes_dir, extra_folder)
 except MemoryError:
     sys.stderr.write('\n\nERROR: Memory Exception\n')
     sys.exit(1)

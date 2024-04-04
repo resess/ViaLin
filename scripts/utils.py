@@ -49,7 +49,10 @@ def write_to_excel(string_to_write, workbook, sheet_name):
 def get_dumptaint_report_from_log(log):
     report = []
     parcels = []
+    sinks = []
     for line in log:
+        if "DumpTaint for sink: " in line:
+            sinks.append(int(line.split("DumpTaint for sink: ")[1]))
         if "DumpTaint for parcel: " in line:
             parcels.append(int(line.split("DumpTaint for parcel: ")[1]))
         if "DumpTaint for file: " in line:
@@ -61,7 +64,7 @@ def get_dumptaint_report_from_log(log):
         if "SinkFound:" in line:
             report.append(line.split("System.out: ")[1])
             # print(f"Valid sink: {line}")
-    return report, parcels
+    return report, parcels, sinks
 
 
 def get_debug_paths(log):
@@ -197,7 +200,6 @@ def fix_graphs_from_cache(graphs_lines, graph_cache):
         result = fix_graphs_from_cache_task((graphs_lines, graph_cache, num, line_cache))
         num, graph = result
         new_graphs[num] = graph
-        print(f"Graph cache fix progress: {i}/{len(graphs_lines)}", flush=True)
 
     # with Pool() as pool:
     #     for result in pool.map(fix_graphs_from_cache_task, [(graphs_lines, graph_cache, num) for num in graphs_lines]):
@@ -261,8 +263,8 @@ def get_parcel_graph(num, graphs_lines, new_graphs):
     for l in graphs_lines[num]:
         stmt = l[0]
         if "(-2)" in stmt: # parcels
-            print(stmt)
-            parcel_nums = [int(x) for x in stmt.split("(")[0].split("-")]
+            # print(f"Stmt: {stmt}")
+            parcel_nums = [int(x) for x in stmt.split("(")[0].split("-") if x]
             for parcel_num in parcel_nums:
                 corrected_parcel_stmt = last_line[1]
                 if "(-2)" in corrected_parcel_stmt or corrected_parcel_stmt.startswith("STARTPATH"):
@@ -298,7 +300,7 @@ def complete_graphs_from_parcels(graphs_lines):
         # print(f"This graph {num} now has first statement {new_graphs[num][0]}")
     return new_graphs
 
-def get_graphs_from_reports_cached(report, parcels):
+def get_graphs_from_reports_cached(report, parcels, sinks):
     sinks_found = dict()
     graphs_lines = dict()
     graph_cache = dict()
@@ -314,17 +316,17 @@ def get_graphs_from_reports_cached(report, parcels):
     for line in report:
         if "SinkFound:" in line:
             sink_line = line.split("SinkFound: ")[1].split(", ")[0]
-            print(f"SinkFound:     {sink_line}")
+            # print(f"SinkFound:     {sink_line}")
             sink_stmt_map[sink_line] = line.split("SinkFound: ")[1].split(", ")[1]
         if "SourceFound: " in line:
-            print(f"SourceFound line: {line}")
+            # print(f"SourceFound line: {line}")
             if "injectTaintSeedIfReflectiveSource" in line:
                 source_stmt = line.split(" ")[-1]
                 class_name = line.split("->")[0].split(" ")[-1]
                 real_source_map[class_name] = source_stmt
                 s2 = line.split("SourceFound: ")[1].split(", ")[1]
             else:
-                print(line)
+                # print(line)
                 try:
                     sources_ids[int(line.split(")id(")[1].replace(")", ""))] = None
                     s1 = line.split("SourceFound: ")[1].split(", ")[0].split(")id(")[0] + ")"
@@ -335,7 +337,7 @@ def get_graphs_from_reports_cached(report, parcels):
             try:
                 start, tail = line.split(": ->")
                 num = int(start.split("-")[1])
-                if sink_line and num not in sinks_found:
+                if num in sinks and num not in sinks_found:
                     sinks_found[num] = sink_line
                 node, left = tail.split("->left->")
                 if "->right->" in left:
@@ -344,7 +346,7 @@ def get_graphs_from_reports_cached(report, parcels):
                     right = None
                 if num not in graphs_lines:
                     graphs_lines[num] = list()
-                
+
                 # if (node, left, right) not in graphs_lines[num]:
                 graphs_lines[num].append((node, left, right))
 
@@ -353,7 +355,8 @@ def get_graphs_from_reports_cached(report, parcels):
                 #     print(graph_cache)
                 #     input("Press enter to continue")
             except:
-                print(f"Ignored malformed line: {line}" )
+                # print(f"Ignored malformed line: {line}" )
+                pass
 
     del report
 
@@ -367,9 +370,6 @@ def get_graphs_from_reports_cached(report, parcels):
 
         graphs_lines[num] = new_graph_line
 
-    print("Extending graphs from cache")
-    graphs_lines = fix_graphs_from_cache(graphs_lines, graph_cache)
-
     graphs_lines = complete_graphs_from_parcels(graphs_lines)
 
     num_removed_parcels = 0
@@ -380,7 +380,21 @@ def get_graphs_from_reports_cached(report, parcels):
             del graphs_lines[p]
     del parcels
 
-    print(f"Deleted {num_removed_parcels} parcels")
+    print(f"Deleted {num_removed_parcels} parcels", flush=True)
+
+    print("Extending graphs from cache", flush=True)
+    graphs_lines = fix_graphs_from_cache(graphs_lines, graph_cache)
+
+    graphs_to_remove = list()
+    for n in graphs_lines:
+        if n not in sinks_found:
+            # print(f"Graph {n} has no sink")
+            graphs_to_remove.append(n)
+        # else:
+        #     print(f"Graph {n} has sink")
+
+    for n in graphs_to_remove:
+        del graphs_lines[n]
 
     # print("Graphs after fixing parcels")
 
@@ -388,7 +402,7 @@ def get_graphs_from_reports_cached(report, parcels):
     #     print(f"=====Graph {n}=====")
     #     for l in graphs_lines[n]:
     #         print(l)
-    print(f"Sinks found: {sinks_found}")
+    # print(f"Sinks found: {sinks_found}")
 
     src_insn_sink_ins_pairs = dict()
     src_sink_ins_pairs = dict()
@@ -396,13 +410,13 @@ def get_graphs_from_reports_cached(report, parcels):
     graphs = dict()
     pair_cache = dict()
 
-    print(f"Source IDs: {sources_ids}")
+    # print(f"Source IDs: {sources_ids}", flush=True)
     for n in graphs_lines:
         graph_rev = dict()
         sink_insn = None
         source_insn = None
         stmt1, insn1, stmt2, insn2 = [None, None, None, None]
-        print(f"Graph lines of {n}: num lines = {len(graphs_lines[n])}", flush = True)
+        # print(f"Graph lines of {n}: num lines = {len(graphs_lines[n])}", flush = True)
         time_now = timer()
         for i, l in enumerate(graphs_lines[n]):
             node, left, right = l
@@ -439,8 +453,8 @@ def get_graphs_from_reports_cached(report, parcels):
                 insn_stmt_map[insn1] = stmt1
                 insn_stmt_map[insn2] = stmt2
 
-            if insn1 in sources_ids:
-                print(f"Adding to sources: {l}")
+            if insn1 in sources_ids and insn1 in insn_stmt_map:
+                # print(f"Adding to sources: {l}")
                 sources[(insn1, insn_stmt_map[insn1])] = None
                 source_insn = insn1
                 src_insn_sink_ins_pairs[(source_insn, sink_insn)] = None
@@ -481,10 +495,10 @@ def split_graphs_by_source_statement_instance(graph_rev, sources):
     graphs = list()
 
     for src in sources:
-        print(f"Will split graph for source: {src}")
+        # print(f"Will split graph for source: {src}")
         # print(graph_rev)
         if src in graph_rev:
-            print(f"{src} in graph")
+            # print(f"{src} in graph")
             graphs.append(traverse_graph_from_stmt_inst_and_reverse(graph_rev, src))
     return graphs
 
@@ -593,19 +607,18 @@ def translate_to_path_task(graphs, insn_stmt_map, sources, sinks, paths, diverge
     divergent[n] = []
     path_sources[n] = []
     path_sinks[n] = []
-    print(f"Will translate graphs for: {n}", flush=True)
+    # print(f"Will translate graphs for: {n}", flush=True)
     for g in graphs[n]:
             # p, div = translate_single_graphs_to_paths_from_sink(n, g, insn_stmt_map, sinks[n])
         sink = get_sink(g, sinks[n])
         for source in sources:
-                # print(f"Source: {source} -- Sink: {sink}")
             p, div = translate_single_graphs_to_paths_from_src(n, g, insn_stmt_map, source, sink)
                 # p = combine_src_sink_path(p_src, p_sink)
             if p:
                     # print("    Found a graph")
                 paths[n].append(p)
                 path_sources[n].append(source)
-                path_sinks[n].append(sinks[n])
+                path_sinks[n].append((sinks[n], sink))
                 divergent[n].append(div)
             else:
                     # print("    Didn't find a graph")
@@ -651,11 +664,22 @@ def translate_single_graphs_to_paths_from_src(num, graph, insn_stmt_map, source,
 
     time_dict = dict()
     path_is_divergant = False
+    print("=========")
+    print(f"Graph: {num}")
+    print(f"Source: {source}")
+    print(f"Sink: {sink}")
     while len(to_visit):
         n = to_visit.pop(0)
+        if n[0] < source[0]:
+            return None, False
+        # if n[0] > sink[0]:
+        #     print(f"Node is after sink: {n}", flush=True)
         if n[1] not in time_dict:
             time_dict[n[1]] = n[0] # Map statement to first time it is executed
+        elif n[0] < time_dict[n[1]]:
+            time_dict[n[1]] = n[0]
         if n == sink:
+            # print(f"Visited the sink: {n}", flush=True)
             continue
         if n in graph_rev:
             if len(graph_rev[n]) > 1:
@@ -668,15 +692,24 @@ def translate_single_graphs_to_paths_from_src(num, graph, insn_stmt_map, source,
     # print(f"======Path {num}:======")
     # print(f"  Source: {source}")
     # print(f"  Source: {sink}")
-    timed_path = sorted(time_dict.items(), key=lambda x: x[1])
+    # timed_path = sorted(time_dict.items(), key=lambda x: x[1])
+    timed_path = [(k, v) for k, v in time_dict.items()]
+    timed_path.sort(key=lambda x: x[1])
+
+    # For the case when the sink ie executed multiple times
+    # if len(timed_path) > 1:
+    #     if timed_path[-1][1] != sink[0]:
+    #         timed_path.append((sink[1], sink[0]))
+
     path = list()
     for p in timed_path:
         path.append(p[0])
-        # print(f"    {p[1]} -- {p[0]}")
-        if p[0] == sink[1]:
-            break
 
-    path.reverse()
+    # path.reverse()
+    if path:
+        print(f"    Found a path")
+    else:
+        print(f"    Didn't find a path")
     return path, path_is_divergant
 
 
@@ -716,25 +749,24 @@ def get_sink(graph, sink_found):
             vals.add(n)
     for k in graph:
         if k not in vals:
-            k_method_name = k[1].split("->")[1].split("(")[0]
-            k_class_name = k[1].split("->")[0]
-            if method_name == k_method_name and class_name == k_class_name:
-                return k
+            # k_method_name = k[1].split("->")[1].split("(")[0]
+            # k_class_name = k[1].split("->")[0]
+            # if method_name == k_method_name and class_name == k_class_name:
+            #     return k
             sinks.append(k)
+    sinks.sort(key=lambda x: x[0], reverse=True)
     # print(f"Sink list: {sinks}")
-    # print(f"Sinks found: {sink_found}")
     return sinks[0]
-    raise Exception("Can't find a sink!")
 
 
-def translate_paths_to_bytecode(paths, classed_dir, loaded_classes):
+def translate_paths_to_bytecode(paths, classed_dir, framework_classes_dir, loaded_classes):
     # print(f"loaded_classes: ")
     # print(loaded_classes)
     jimple_paths = dict()
     # print("Paths:")
     # print(f"There are {len(paths)} paths", flush=True)
     for n in paths:
-        print(f"Translating paths for {n}", flush=True)
+        # print(f"Translating paths for {n}", flush=True)
         # print(f"Processing path #{n}, there are {len(paths[n])} sub-paths", flush=True)
         jimple_paths[n] = list()
         for idx, p in enumerate(paths[n]):
@@ -744,7 +776,7 @@ def translate_paths_to_bytecode(paths, classed_dir, loaded_classes):
                 # print(stmt)
                 if ";->" in stmt:
                     # print(f"Appending regular statement", flush=True)
-                    bytecode_stmt = stmt_to_bytecode(stmt, classed_dir, loaded_classes)
+                    bytecode_stmt = stmt_to_bytecode(stmt, classed_dir, framework_classes_dir, loaded_classes)
                     if bytecode_stmt:
                         convereted_path.append(bytecode_stmt)
 
@@ -754,13 +786,13 @@ def translate_paths_to_bytecode(paths, classed_dir, loaded_classes):
     return jimple_paths
 
 
-def stmt_to_bytecode(stmt, classed_dir, loaded_classes):
+def stmt_to_bytecode(stmt, classed_dir, framework_classes_dir, loaded_classes):
     line_num = -1
     class_name, rest = stmt.split(";->")
     class_name = class_name.replace("_", "/")
     method_name, rest = rest.rsplit("(", 1)
     bytecode_line_num = rest.split(")")[0]
-    found = load_class_lazy(class_name, classed_dir, loaded_classes)
+    found = load_class_lazy(class_name, classed_dir, framework_classes_dir, loaded_classes)
     if not found:
         return None
     method_code = loaded_classes[class_name][method_name]
@@ -788,17 +820,20 @@ def load_all_classes(folder):
         # print(f"loaded content: {loaded_classes[class_name]}")
     return loaded_classes
 
-def load_class_lazy(class_name, folder, loaded_classes):
-    try:
-        if class_name not in loaded_classes:
+def load_class_lazy(class_name, folder, framework_classes_dir, loaded_classes):
+    if class_name not in loaded_classes:
+        try:
             path = folder + "/" + class_name.replace("/", "_") + ".json"
             # print(f"loaded class {class_name}")
             with open(path, 'r') as f:
                 loaded_classes[class_name] = json.load(f)
             # print(f"loaded content: {loaded_classes[class_name]}")
-        return True
-    except:
-        return False
+        except FileNotFoundError:
+            path = framework_classes_dir + "/" + class_name.replace("/", "_") + ".json"
+            # print(f"loaded class {class_name}")
+            with open(path, 'r') as f:
+                loaded_classes[class_name] = json.load(f)
+    return True
 
 def convert_type_from_bytecode_to_jimple(old_type):
 
@@ -859,6 +894,24 @@ def convert_param_list_from_bytecode_to_jimple(params):
             is_object = False
     # print(f"paramlist: {params_list}")
     return params_list
+
+
+def binary_op_2addr(line, operator):
+    dest = line[1].replace(",", "")
+    source = line[2].replace(",", "")
+    return f"{dest} {operator}= {source}"
+
+def binary_op(line, operator):
+    dest = line[1].replace(",", "")
+    source1 = line[2].replace(",", "")
+    source2 = line[3].replace(",", "")
+    return f"{dest} = {source1} {operator} {source2}"
+
+def create_binary_op(instruction, line, operator):
+    if instruction.endswith("/2addr"):
+        return binary_op_2addr(line, operator)
+    else:
+        return binary_op(line, operator)
 
 
 def convert_bytecode_stmt_to_jimple(line):
@@ -947,7 +1000,7 @@ def convert_bytecode_stmt_to_jimple(line):
         var1 = line[1].replace(",", "")
         return f"{var1} = " + line[-1]
     if instruction.startswith("return"):
-        if instruction == "return-void" or instruction == "return":
+        if instruction == "return-void":
             return "return"
         else:
             var1 = line[1].replace(",", "")
@@ -966,108 +1019,36 @@ def convert_bytecode_stmt_to_jimple(line):
         var1 = line[1].replace(",", "")
         cast_type = convert_type_from_bytecode_to_jimple(line[2])
         return f"{var1} = ({cast_type}) {var1}"
+    if instruction.startswith("instance-of"):
+        var1 = line[1].replace(",", "")
+        var2 = line[2].replace(",", "")
+        cast_type = convert_type_from_bytecode_to_jimple(line[3])
+        return f"{var1} = {var2} instanceof {cast_type}"
     if instruction.startswith("array-length"):
         var1 = line[1].replace(",", "")
         var2 = line[2].replace(",", "")
         return f"{var1} = lengthof {var2}"
-    if instruction == "add-int" or instruction == "add-int/lit8" \
-        or instruction == "and-int/lit16":
-        var1 = line[1].replace(",", "")
-        var2 = line[2].replace(",", "")
-        var3 = line[3].replace(",", "")
-        return f"{var1} = {var2} + {var3}"
-    if instruction == "and-int" or instruction == "and-int/lit8" \
-        or instruction == "and-int/lit16" \
-        or instruction == "and-long" :
-        var1 = line[1].replace(",", "")
-        var2 = line[2].replace(",", "")
-        var3 = line[3].replace(",", "")
-        return f"{var1} = {var2} & {var3}"
-    if instruction == "sub-int" or instruction == "sub-int/lit8" \
-        or instruction == "sub-float" or instruction == "sub-float/lit8" \
-        or instruction == "rsub-int" or instruction == "rsub-int/lit8" \
-        or instruction == "sub-long":
-        var1 = line[1].replace(",", "")
-        var2 = line[2].replace(",", "")
-        var3 = line[3].replace(",", "")
-        return f"{var1} = {var2} - {var3}"
-    if instruction == "or-int" or instruction == "or-int/lit8" \
-        or instruction == "or-int/lit16":
-        var1 = line[1].replace(",", "")
-        var2 = line[2].replace(",", "")
-        var3 = line[3].replace(",", "")
-        return f"{var1} = {var2} | {var3}"
-    if instruction == "xor-int" or instruction == "xor-int/lit8":
-        var1 = line[1].replace(",", "")
-        var2 = line[2].replace(",", "")
-        var3 = line[3].replace(",", "")
-        return f"{var1} = {var2} ^ {var3}"
-    if instruction == "rem-int" or instruction == "rem-int/lit8":
-        var1 = line[1].replace(",", "")
-        var2 = line[2].replace(",", "")
-        var3 = line[3].replace(",", "")
-        return f"{var1} = {var2} % {var3}"
-    if instruction == "div-float" or instruction == "div-float/lit8" or instruction == "div-int" or instruction == "div-int/lit8":
-        var1 = line[1].replace(",", "")
-        var2 = line[2].replace(",", "")
-        var3 = line[3].replace(",", "")
-        return f"{var1} = {var2} / {var3}"
-    if instruction == "mul-float" or instruction == "mul-float/lit8" \
-        or instruction == "mul-double" or instruction == "mul-double/lit8" \
-        or instruction == "mul-int/lit8" or instruction == "mul-int/lit16":
-        var1 = line[1].replace(",", "")
-        var2 = line[2].replace(",", "")
-        var3 = line[3].replace(",", "")
-        return f"{var1} = {var2} * {var3}"
-    if instruction == "ushr-int/lit8":
-        var1 = line[1].replace(",", "")
-        var2 = line[2].replace(",", "")
-        var3 = line[3].replace(",", "")
-        return f"{var1} = {var2} > {var3}"
-    if instruction == "shl-int/lit8":
-        var1 = line[1].replace(",", "")
-        var2 = line[2].replace(",", "")
-        var3 = line[3].replace(",", "")
-        return f"{var1} = {var2} < {var3}"
 
-    if instruction == "add-int/2addr" or instruction == "add-float/2addr" \
-        or instruction == "add-long/2addr":
-        var1 = line[1].replace(",", "")
-        var2 = line[2].replace(",", "")
-        return f"{var1} += {var2}"
-    if instruction == "mul-float/2addr":
-        var1 = line[1].replace(",", "")
-        var2 = line[2].replace(",", "")
-        return f"{var1} *= {var2}"
-    if instruction == "sub-int/2addr" or instruction == "sub-float/2addr" \
-        or instruction == "sub-long/2addr":
-        var1 = line[1].replace(",", "")
-        var2 = line[2].replace(",", "")
-        return f"{var1} -= {var2}"
-    if instruction == "or-int/2addr":
-        var1 = line[1].replace(",", "")
-        var2 = line[2].replace(",", "")
-        return f"{var1} |= {var2}"
-    if instruction == "xor-int/2addr":
-        var1 = line[1].replace(",", "")
-        var2 = line[2].replace(",", "")
-        return f"{var1} ^= {var2}"
-    if instruction == "rem-int/2addr" or instruction == "rem-long/2addr":
-        var1 = line[1].replace(",", "")
-        var2 = line[2].replace(",", "")
-        return f"{var1} %= {var2}"
-    if instruction == "div-float/2addr":
-        var1 = line[1].replace(",", "")
-        var2 = line[2].replace(",", "")
-        return f"{var1} %= {var2}"
-    if instruction == "mul-double/2addr":
-        var1 = line[1].replace(",", "")
-        var2 = line[2].replace(",", "")
-        return f"{var1} *= {var2}"
-    if instruction == "shl-int/2addr" or instruction == "shl-long/2addr":
-        var1 = line[1].replace(",", "")
-        var2 = line[2].replace(",", "")
-        return f"{var1} = {var1} << {var2}"
+    if instruction.startswith("add"):
+        return create_binary_op(instruction, line, "+")
+    if instruction.startswith("mul"):
+        return create_binary_op(instruction, line, "*")
+    if instruction.startswith("sub") or instruction.startswith("rsub"):
+        return create_binary_op(instruction, line, "-")
+    if instruction.startswith("and"):
+        return create_binary_op(instruction, line, "&")
+    if instruction.startswith("or"):
+        return create_binary_op(instruction, line, "|")
+    if instruction.startswith("xor"):
+        return create_binary_op(instruction, line, "^")
+    if instruction.startswith("rem"):
+        return create_binary_op(instruction, line, "%")
+    if instruction.startswith("div"):
+        return create_binary_op(instruction, line, "/")
+    if instruction.startswith("shl"):
+        return create_binary_op(instruction, line, "<<")
+    if instruction.startswith("shr") or instruction.startswith("ushr"):
+        return create_binary_op(instruction, line, ">>")
     if instruction == "neg-int":
         var1 = line[1].replace(",", "")
         var2 = line[2].replace(",", "")
@@ -1093,39 +1074,45 @@ def convert_bytecode_stmt_to_jimple(line):
     return "SKIP"
 
 
-
 def translate_paths_to_jimple(path_bytecode, real_source_map):
     old_jimple_stmt = ""
     jimple_path = list()
-    for i, line in enumerate(reversed(path_bytecode)):
-        class_name, method_name, bytecode_line_num, line_num, bytecode = line
-        jimple_class = convert_type_from_bytecode_to_jimple(class_name)
-        method_name, params = method_name.split("(")
-        params, ret = params.split(")")
-        jimple_params = ",".join([convert_type_from_bytecode_to_jimple(x) for x in convert_param_list_from_bytecode_to_jimple(params)])
-        jimple_ret = convert_type_from_bytecode_to_jimple(ret)
-        jimple_method = "<" + jimple_class + ": " + jimple_ret + " " + method_name + "(" + jimple_params + ")>"
-        if "," in jimple_method:
-            jimple_method = '\"' + jimple_method + '\"'
-
-        jimple_stmt = convert_bytecode_stmt_to_jimple(bytecode)
+    count = 0
+    for i, line in enumerate(path_bytecode):
+        bytecode_line_num, jimple_method, jimple_stmt = translate_line_to_jimple(real_source_map, i, line)
 
         if jimple_stmt == "return":
             continue
 
-        if i == 0 and "<java.lang.reflect.Method: java.lang.Object invoke(java.lang.Object,java.lang.Object)>" in jimple_stmt:
-            jimple_stmt = convert_bytecode_stmt_to_jimple("invoke-static {v0}, " + real_source_map[jimple_class])
-        if "," in jimple_stmt:
-            jimple_stmt = '\"' + jimple_stmt + '\"'
-
         if old_jimple_stmt != jimple_method + jimple_stmt:
-            jimple_path.append((str(i), jimple_method, str(bytecode_line_num), jimple_stmt))
+            jimple_path.append((str(count), jimple_method, str(bytecode_line_num), jimple_stmt))
+            count += 1
 
         old_jimple_stmt = jimple_method + jimple_stmt
     return jimple_path
 
 
-def print_list_reverse(out_dir, file_name, path):
+def translate_line_to_jimple(real_source_map, i, line):
+    class_name, method_name, bytecode_line_num, line_num, bytecode = line
+    jimple_class = convert_type_from_bytecode_to_jimple(class_name)
+    method_name, params = method_name.split("(")
+    params, ret = params.split(")")
+    jimple_params = ",".join([convert_type_from_bytecode_to_jimple(x) for x in convert_param_list_from_bytecode_to_jimple(params)])
+    jimple_ret = convert_type_from_bytecode_to_jimple(ret)
+    jimple_method = "<" + jimple_class + ": " + jimple_ret + " " + method_name + "(" + jimple_params + ")>"
+    if "," in jimple_method:
+        jimple_method = '\"' + jimple_method + '\"'
+
+    jimple_stmt = convert_bytecode_stmt_to_jimple(bytecode)
+
+    if i == 0 and "<java.lang.reflect.Method: java.lang.Object invoke(java.lang.Object,java.lang.Object)>" in jimple_stmt:
+        jimple_stmt = convert_bytecode_stmt_to_jimple("invoke-static {v0}, " + real_source_map[jimple_class])
+    if "," in jimple_stmt:
+        jimple_stmt = '\"' + jimple_stmt + '\"'
+    return bytecode_line_num,jimple_method,jimple_stmt
+
+
+def print_list(out_dir, file_name, path):
 
     if not os.path.isdir(out_dir):
         os.makedirs(out_dir)
@@ -1140,3 +1127,84 @@ def print_path_consol(path):
     for l in reversed(path):
         print(l)
     print("---------")
+
+
+def translate_graphs_to_bytecode(graphs, classed_dir, framework_classes_dir, loaded_classes):
+    bytecode_graphs = dict()
+    for graph_num in graphs:
+        bytecode_graphs[graph_num] = list()
+        for graph in graphs[graph_num]:
+            temp_graph = dict()
+            for node in graph:
+                if "(-2)" in node[1]:
+                    continue
+                bytecode_stmt = stmt_to_bytecode(node[1], classed_dir, framework_classes_dir, loaded_classes)
+                dest_node = (node[0], node[1], bytecode_stmt)
+                for next_node in graph[node]:
+                    if "(-2)" in next_node[1]:
+                        continue
+                    bytecode_stmt = stmt_to_bytecode(next_node[1], classed_dir, framework_classes_dir, loaded_classes)
+                    src_node = (next_node[0], next_node[1], bytecode_stmt)
+                    if src_node in temp_graph:
+                        temp_graph[src_node].append(dest_node)
+                    else:
+                        temp_graph[src_node] = [dest_node]
+            bytecode_graphs[graph_num].append(to_node_graph(temp_graph))
+    return bytecode_graphs
+
+
+def translate_sources_to_bytecode(sources, classed_dir, framework_classes_dir, loaded_classes):
+    bytecode_sources = list()
+    for src in sources:
+        bytecode_stmt = stmt_to_bytecode(src[1], classed_dir, framework_classes_dir, loaded_classes)
+        src_node = (src[0], src[1], bytecode_stmt)
+        bytecode_sources.append(src_node)
+    return bytecode_sources
+
+
+def write_flush(f, s):
+    f.write(s)
+    f.write('\n')
+    f.flush()
+
+class statement_node:
+    def __init__(self, node):
+        try: # TODO: remove
+            self.node = node
+            self.id = node[0]
+            self.bytecode_location = node[1]
+            self.clazz = node[2][0]
+            self.method = node[2][1]
+            self.bytecode_line_num = node[2][2]
+            self.code_line_num = node[2][3]
+            self.statement = node[2][4]
+            self.clazz_method = self.clazz + "->" + self.method
+        except Exception as e:
+            print(f"Bad Node: {node}")
+            raise e
+
+    def __hash__(self) -> int:
+        return self.id + hash(self.statement) + hash(self.clazz) + hash(self.method) + hash(self.bytecode_line_num)
+
+    def __eq__(self, o: object) -> bool:
+        if not isinstance(o, statement_node):
+            return False
+        return self.id == o.id and self.statement == o.statement and self.clazz == o.clazz and self.method == o.method and self.bytecode_line_num == o.bytecode_line_num
+
+    def __str__(self) -> str:
+        return f"({self.id}, {self.statement}, {self.clazz}, {self.method}, {self.bytecode_line_num})"
+
+    def __repr__(self) -> str:
+        return str(self)
+
+
+
+def to_node_graph(graph: dict):
+    node_graph = dict()
+    for n in graph:
+        stmt_node = statement_node(n)
+        node_graph[stmt_node] = list()
+        for next_node in graph[n]:
+            next_stmt_node = statement_node(next_node)
+            node_graph[stmt_node].append(next_stmt_node)
+    return node_graph

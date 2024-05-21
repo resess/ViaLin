@@ -72,6 +72,7 @@ public class ClassTaint extends TaintAnalysis {
         }
 
         if (forbiddenClasses.contains(className) || isIgnoredClass(className)) {
+            AnalysisLogger.log(true, "Ignoring class %s%n", className);
             return;
         }
 
@@ -148,6 +149,7 @@ public class ClassTaint extends TaintAnalysis {
                 } else if (line.startsWith(".method")) {
                     if (!line.contains(" native ")) {
                         context.currentMethod = getMethodInfo(className, line);
+                        AnalysisLogger.log(true, "    Method %s is in file %s%n", context.currentMethod.signature(), file);
                         context.maxRegs = 0;
                         boolean shouldTaintMethod = shouldTaint(context.currentMethod, lineNum, classLines);
                         if (!shouldTaintMethod) {
@@ -414,9 +416,9 @@ public class ClassTaint extends TaintAnalysis {
             } else {
                 taintAdditionSite = linesToAdd;
             }
-
+            List<String> savedReg = new ArrayList<>();
             context.maxRegs = handleOneSourceOneDest(tool,
-                taintAdditionSite, instruction, targetReg, srcReg, taintTargReg, taintSrcReg, context);
+                taintAdditionSite, instruction, targetReg, srcReg, taintTargReg, taintSrcReg, context, savedReg);
 
             if (targetIsWide(instruction)) {
                 addCopyTaint(tool, taintAdditionSite, "v" + String.valueOf(getRegNumFromRef(taintTargReg) + 1), taintTargReg);
@@ -618,9 +620,9 @@ public class ClassTaint extends TaintAnalysis {
             } else {
                 taintAdditionSite = linesToAdd;
             }
-
+            List<String> savedReg = new ArrayList<>();
             context.maxRegs = handleOneSourceOneDest(tool,
-                taintAdditionSite, instruction, targetReg, targetReg, taintTargReg, taintTargReg, context);
+                taintAdditionSite, instruction, targetReg, targetReg, taintTargReg, taintTargReg, context, savedReg);
             if (inTryBlock && tool instanceof ViaLinTool) {
                 addTaintCodeReturn(linesToAdd, linesToAddAtMethodEnd, jumpTarget);
             } else {
@@ -661,9 +663,9 @@ public class ClassTaint extends TaintAnalysis {
             } else {
                 taintAdditionSite = linesToAdd;
             }
-
+            List<String> savedReg = new ArrayList<>();
             context.maxRegs = handleOneSourceOneDest(tool,
-                taintAdditionSite, instruction, targetReg, srcReg, taintTargReg, taintSrcReg, context);
+                taintAdditionSite, instruction, targetReg, srcReg, taintTargReg, taintSrcReg, context, savedReg);
 
             if (inTryBlock && tool instanceof ViaLinTool) {
                 addTaintCodeReturn(linesToAdd, linesToAddAtMethodEnd, jumpTarget);
@@ -768,9 +770,9 @@ public class ClassTaint extends TaintAnalysis {
                 String prevInstruction = getToken(prevLine, 0);
                 if (prevInstruction.startsWith("aget")) {
                     if (getRegReference(line, 2).equals(getRegReference(prevLine, 1))) {
-
+                        List<String> savedReg = new ArrayList<>();
                         context.maxRegs = handleOneSourceOneDest(tool,
-                            taintAdditionSite, instruction, getRegReference(prevLine, 2), getRegReference(prevLine, 1), context.taintRegMap.get(getRegReference(prevLine, 2)), taintTargReg, context);
+                            taintAdditionSite, instruction, getRegReference(prevLine, 2), getRegReference(prevLine, 1), context.taintRegMap.get(getRegReference(prevLine, 2)), taintTargReg, context, savedReg);
                     }
                 }
 
@@ -783,9 +785,9 @@ public class ClassTaint extends TaintAnalysis {
                     }
                 }
             } else {
-
+                List<String> savedReg = new ArrayList<>();
                 context.maxRegs = handleOneSourceOneDest(tool,
-                    taintAdditionSite, instruction, targetReg, srcReg, taintTargReg, taintSrcReg, context);
+                    taintAdditionSite, instruction, targetReg, srcReg, taintTargReg, taintSrcReg, context, savedReg);
                 getRegTypeForStructs(context.regType, instruction, targetReg);
             }
 
@@ -816,12 +818,15 @@ public class ClassTaint extends TaintAnalysis {
 
             String moveInstruction = getMoveByInstruction(instruction);
 
+            List<String> savedReg = new ArrayList<>();
+            
             if (targetReg.equals(baseRegRef) || (instruction.equals("iget-wide") && getRegNumFromRef(targetReg) + 1 == getRegNumFromRef(baseRegRef) )) {
                 linesToAdd.clear();
                 linesToAdd.add("    move-object/16 v" + String.valueOf(context.taintTempReg+2) + ", " + baseRegRef);
                 linesToAdd.add(line);
                 linesToAdd.add("    " + moveInstruction + "/16 v" + String.valueOf(context.taintTempReg) + ", " + targetReg);
                 linesToAdd.add("    move-object/16 " + baseRegRef + ", v" + String.valueOf(context.taintTempReg+2));
+                savedReg.add(targetReg);
             }
 
             String jumpTarget = null;
@@ -838,7 +843,7 @@ public class ClassTaint extends TaintAnalysis {
             }
 
             int newMaxRegs = handleIinstanceOpGet(context.taintTempReg+2, context.maxRegs, context.taintRegMap, context.fieldArraysInMethod, line, taintAdditionSite,
-            instruction, context);
+            instruction, context, savedReg);
             context.maxRegs = context.maxOfCurrentMaxRegsAndNewMaxRegs(newMaxRegs);
 
             if (inTryBlock && (tool instanceof ViaLinTool || tool instanceof TaintDroidTool)) { // special case for exception
@@ -847,6 +852,7 @@ public class ClassTaint extends TaintAnalysis {
             }
             if (targetReg.equals(baseRegRef) || (instruction.equals("iget-wide") && getRegNumFromRef(targetReg) + 1 == getRegNumFromRef(baseRegRef) )) {
                 linesToAdd.add("    " + moveInstruction + "/16 " + targetReg + ", v" + String.valueOf(context.taintTempReg));
+                savedReg.remove(savedReg.size()-1);
             }
             getRegTypeForStructs(context.regType, instruction, targetReg);
         } else { // iput
@@ -957,9 +963,9 @@ public class ClassTaint extends TaintAnalysis {
             } else {
                 taintAdditionSite = linesToAdd;
             }
-
+            List<String> savedReg = new ArrayList<>();
             context.maxRegs = handleOneSourceOneDest(tool,
-                taintAdditionSite, instruction, targetReg, srcReg, taintTargReg, taintSrcReg, context);
+                taintAdditionSite, instruction, targetReg, srcReg, taintTargReg, taintSrcReg, context, savedReg);
             if (targetIsWide(instruction)) {
                 addCopyTaint(tool, taintAdditionSite, "v" + String.valueOf(getRegNumFromRef(taintTargReg) + 1), taintTargReg);
             }
@@ -1099,9 +1105,9 @@ public class ClassTaint extends TaintAnalysis {
         } else {
             taintAdditionSite = linesToAdd;
         }
-
+        List<String> savedReg = new ArrayList<>();
         context.maxRegs = handleOneSourceOneDest(tool,
-            taintAdditionSite, instruction, targetReg, srcReg, taintTargReg, taintSrcReg, context);
+            taintAdditionSite, instruction, targetReg, srcReg, taintTargReg, taintSrcReg, context, savedReg);
 
         if (targetIsWide(instruction)) {
             addCopyTaint(tool, taintAdditionSite, "v" + String.valueOf(getRegNumFromRef(taintTargReg) + 1), taintTargReg);
@@ -1161,7 +1167,7 @@ public class ClassTaint extends TaintAnalysis {
 
 
     private Integer handleIinstanceOpGet(Integer taintTempReg, Integer maxRegs, Map<String, String> taintRegMap,
-            Map<String, FieldAccessInfo> fieldArraysInMethod, String line, List<String> linesToAdd, String instruction, InstrumentationContext context) {
+            Map<String, FieldAccessInfo> fieldArraysInMethod, String line, List<String> linesToAdd, String instruction, InstrumentationContext context, List<String> savedReg) {
         String fieldRef = getLastToken(line);
         String fieldType = fieldRef.substring(fieldRef.indexOf(":")+1);
         String fieldClass = getFieldClass(fieldRef);
@@ -1188,9 +1194,8 @@ public class ClassTaint extends TaintAnalysis {
                 if (targetReg.equals(baseRegRef) || (instruction.equals("iget-wide") && getRegNumFromRef(targetReg) + 1 == getRegNumFromRef(baseRegRef) )) {
                     instruction = "move-object";
                 }
-
                 maxRegs = handleOneSourceOneDest(tool,
-                            linesToAdd, instruction, targetReg, baseRegRef, taintTargReg, taintBaseReg, context);
+                            linesToAdd, instruction, targetReg, baseRegRef, taintTargReg, taintBaseReg, context, savedReg);
             }
 
 
@@ -1209,14 +1214,14 @@ public class ClassTaint extends TaintAnalysis {
                 linesToAdd.add("    " + tool.getInstanceFieldInstr() + " " + taintTargReg + ", " + baseRegRef + ", " + whereIsField + "->zzz_" + fieldName + "_" + sanitizeFieldType(fieldType) + tool.fieldNameAndDesc());
             } else {
                 if (targetReg.equals(baseRegRef) || (instruction.equals("iget-wide") && getRegNumFromRef(targetReg) + 1 == getRegNumFromRef(baseRegRef) )) {
-                } else {
+                } else if (!savedReg.contains(targetReg)) {
                     linesToAdd.add("    " + moveInstruction + "/16 v" + String.valueOf(taintTempReg) + ", " + targetReg);
                 }
 
                 linesToAdd.add("    " + tool.getInstanceFieldInstr() + " " + targetReg + ", " + baseRegRef + ", " + whereIsField + "->zzz_" + fieldName + "_" + sanitizeFieldType(fieldType) + tool.fieldNameAndDesc());
                 linesToAdd.add("    " + tool.getMoveTaint() + "/16 " + taintTargReg + ", " + targetReg);
                 if (targetReg.equals(baseRegRef) || (instruction.equals("iget-wide") && getRegNumFromRef(targetReg) + 1 == getRegNumFromRef(baseRegRef) )) {
-                } else {
+                } else if (!savedReg.contains(targetReg)) {
                     linesToAdd.add("    " + moveInstruction + "/16 " + targetReg + ", v" + String.valueOf(taintTempReg));
                 }
 
@@ -1313,9 +1318,14 @@ public class ClassTaint extends TaintAnalysis {
                 linesToAdd.add("    " + tool.getMoveTaint() + "/16 " + taintTargReg + ", " + targetReg);
             }
 
+            List<String> savedReg = new ArrayList<>();
+            savedReg.add(targetReg);
 
             context.maxRegs = handleOneSourceOneDest(tool,
-                            linesToAdd, instruction, targetReg, targetReg, taintTargReg, taintTargReg, context);
+                            linesToAdd, instruction, targetReg, targetReg, taintTargReg, taintTargReg, context, savedReg);
+            
+            savedReg.remove(savedReg.size()-1);
+
             if (targetIsWide(instruction)) {
                 linesToAdd.add("    " + tool.getMoveTaint() + "/16 v" + String.valueOf(getRegNumFromRef(taintTargReg) + 1) + ", " + taintTargReg);
             }
@@ -1363,16 +1373,17 @@ public class ClassTaint extends TaintAnalysis {
     private Integer taintSetStaticField(List<String> linesToAdd, String instruction,
             String fieldName, String fieldType, String targetReg, String taintTargReg, String whereIsField, InstrumentationContext context) {
 
-
+        List<String> savedReg = new ArrayList<>();
         context.maxRegs = handleOneSourceOneDest(tool,
-                linesToAdd, instruction, targetReg, targetReg, taintTargReg, taintTargReg, context);
+                linesToAdd, instruction, targetReg, targetReg, taintTargReg, taintTargReg, context, savedReg);
 
         if (getRegNumFromRef(taintTargReg) < 256) {
             linesToAdd.add("    " + tool.putStaticFieldInstr() + " " + taintTargReg + ", " + whereIsField + "->zzz_" + fieldName + "_" + sanitizeFieldType(fieldType) + tool.fieldNameAndDesc());
         } else {
             String moveInstruction = getMoveByInstruction(instruction);
+            linesToAdd.add("    # Taint: taintSetStaticField, targetReg: " + targetReg + ", taintTargReg: " + taintTargReg + ", moveInstruction: " + moveInstruction);
             linesToAdd.add("    " + moveInstruction + "/16 v" + String.valueOf(context.taintTempReg+1) + ", " + targetReg);
-            linesToAdd.add("    " + moveInstruction + "/16 " + targetReg + ", " + taintTargReg);
+            linesToAdd.add("    move-object/16 " + targetReg + ", " + taintTargReg);
             linesToAdd.add("    " + tool.putStaticFieldInstr() + " " + targetReg + ", " + whereIsField + "->zzz_" + fieldName + "_" + sanitizeFieldType(fieldType) + tool.fieldNameAndDesc());
             linesToAdd.add("    " + moveInstruction + "/16 " + targetReg + ", " + " v" + String.valueOf(context.taintTempReg+1));
         }

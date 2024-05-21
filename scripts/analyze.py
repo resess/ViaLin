@@ -32,7 +32,7 @@ def instr_file_by_file():
             return
         os.system("rm -r temp")
         os.system("mkdir temp")
-        os.system(f"java -Xss16M -jar ViaLin/target/vialin-jar-with-dependencies.jar a true vl temp framework_analysis_results scripts/empty.txt scripts/empty.txt {p}>> debug.log 2>&1")
+        os.system(f"java -Xss16M -jar ViaLin/target/vialin-jar-with-dependencies.jar a true vl temp framework_analysis_results methodSummaries scripts/empty.txt scripts/empty.txt {p}>> debug.log 2>&1")
 
 
 instr_file_by_file()

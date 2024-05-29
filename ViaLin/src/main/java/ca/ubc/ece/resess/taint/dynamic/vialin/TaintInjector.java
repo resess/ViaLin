@@ -312,6 +312,11 @@ public class TaintInjector {
             e.printStackTrace();
             return smaliFiles;
         }
+        try {
+            copyFolder(Paths.get(dexDir + i), Paths.get(dexDir + i + "_orig"));
+        } catch (IOException e) {
+            // pass
+        }
         return smaliFiles;
     }
 
@@ -405,6 +410,10 @@ public class TaintInjector {
             try {
                 System.out.format("Divider: %s, # files %s%n", divider, smaliFiles.size());
                 Smali.assemble(options, smaliFiles.subList(0, smaliFiles.size()/divider));
+                System.out.format("Was able to package into %s: %n", options.outputDexFile);
+                for (String sf : smaliFiles.subList(0, smaliFiles.size()/divider)) {
+                    System.out.println(options.outputDexFile + " --> " + sf);
+                }
                 if (divider == 1) {
                     return new ArrayList<>();
                 }

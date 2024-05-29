@@ -64,6 +64,11 @@ class TaintAnalysis {
         "Lcom/android/internal", // called inside instrumetnation logging
         "Landroid/util/Log",
 
+        "Landroid/support/v7/app",
+        "Lcom/android/messaging/ui",
+        "Lcz/msebera/android/httpclient/message/AbstractHttpMessage",
+        "Landroid/view/View$OnUnhandledKeyEventListener",
+
         // Compiles!
         // "Landroid/Manifest",
         // "Landroid/util",
@@ -492,7 +497,7 @@ class TaintAnalysis {
                 } else {
                     // linesToAdd.add("    # Taint: ModelMethodCall (Non-default), types are " + assign.leftType + " and " + assign.rightType);
                     // throw new Error("Non-default model assignment not implemented: " + assign);
-                    System.out.println("Non-default model assignment not implemented: " + assign);
+                    // System.out.println("Non-default model assignment not implemented: " + assign);
                 }
             }
         } else {
@@ -537,10 +542,40 @@ class TaintAnalysis {
         }
 
         // Handle specific method cases
-        if (calledMethodInfo.signature().equals("Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V")) {
+        if (calledMethodInfo.signature().startsWith("Ljava/lang/StringBuilder;->append(")) {
+            int prevInstructionIndex = previousInstructionIsExact(classLines, lineNum, "move-result-object " + receiverReg);
+            if (prevInstructionIndex != -1) {
+                String[] lastLineSplit = classLines.get(prevInstructionIndex - 2).split("}, ");
+                if (lastLineSplit.length > 1) {
+                    String lastCalledMethod = lastLineSplit[1];
+                    if (lastCalledMethod.startsWith("Ljava/lang/StringBuilder;->append(")) {
+                        String prevLine = classLines.get(prevInstructionIndex - 2);
+                        String prevReceiver = getRegReference(prevLine, 1).replace("{", "").replace("}", "");
+                        if (!prevReceiver.equals(receiverReg)) {
+                            if (!registerIsAssingedAfterInstruction(prevReceiver, prevInstructionIndex, classLines, lineNum)) {
+                                prevLine = changeParamsToLocals(prevLine, context);
+                                prevReceiver = getRegReference(prevLine, 1).replace("{", "").replace("}", "");
+                                context.maxRegs = handleTwoSourceOneDest(tool, taintTempReg, linesToAdd, 
+                                    "move-object/16", prevReceiver, prevReceiver, taintRegMap.get(prevReceiver), taintRegMap.get(prevReceiver), taintRegMap.get(receiverReg), context);
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
+        
+        if (calledMethodInfo.signature().equals("Ljava/lang/System;->arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V")) {
             context.maxRegs = handleOneSourceOneDest(tool,
-                    linesToAdd, instruction, passedRegs[2], passedRegs[2], taintRegMap.get(passedRegs[2]), taintRegMap.get(passedRegs[0]), context, savedReg);
+                    linesToAdd, instruction, passedRegs[2], passedRegs[2], taintRegMap.get(passedRegs[2]), taintRegMap.get(passedRegs[4]), context, savedReg);
+            context.maxRegs = handleTwoSourceOneDest(tool, taintTempReg, linesToAdd, 
+                "move/16", passedRegs[2], passedRegs[2], taintRegMap.get(passedRegs[2]), taintRegMap.get(passedRegs[2]), taintRegMap.get(passedRegs[3]), context);
+            context.maxRegs = handleTwoSourceOneDest(tool, taintTempReg, linesToAdd, 
+                "move/16", passedRegs[2], passedRegs[2], taintRegMap.get(passedRegs[2]), taintRegMap.get(passedRegs[2]), taintRegMap.get(passedRegs[1]), context);
+            context.maxRegs = handleTwoSourceOneDest(tool, taintTempReg, linesToAdd, 
+                "move/16", passedRegs[2], passedRegs[2], taintRegMap.get(passedRegs[2]), taintRegMap.get(passedRegs[2]), taintRegMap.get(passedRegs[0]), context);
+            // context.maxRegs = handleOneSourceOneDest(tool,
+            //         linesToAdd, instruction, passedRegs[2], passedRegs[2], taintRegMap.get(passedRegs[2]), taintRegMap.get(passedRegs[0]), context, savedReg);
             String prevLine = classLines.get(lineNum-2);
             String prevInstruction = getToken(prevLine, 0);
             if (prevInstruction.startsWith("aget")) {
@@ -576,15 +611,15 @@ class TaintAnalysis {
             }
         }
 
-        // TODO: debug
-        if (false) {
-        List<String> parcelLines = Parcels.addParcelTaint(tool, line, instruction, calledMethodInfo, passedRegs, taintRegMap, taintTempReg, returnTaintReg, classAnalysis, context);
-        linesToAdd.addAll(parcelLines);
 
-        Pair<List<String>, Integer> fileLines = FileTaint.addFileTaint(tool, line, instruction, calledMethodInfo, passedRegs, taintRegMap, taintTempReg, returnReg, returnTaintReg, signatureRegister, methodDelta, taintedClassLines, className, threadReg, transformations, context);
-        linesToAdd.addAll(fileLines.first);
-        context.maxRegs = (context.maxRegs > fileLines.second)? context.maxRegs : fileLines.second;
-        } // TODO: debug
+        if (!isFramework) { // TODO: Debug, remove
+            List<String> parcelLines = Parcels.addParcelTaint(tool, line, instruction, calledMethodInfo, passedRegs, taintRegMap, taintTempReg, returnTaintReg, classAnalysis, context);
+            linesToAdd.addAll(parcelLines);
+
+            Pair<List<String>, Integer> fileLines = FileTaint.addFileTaint(tool, line, instruction, calledMethodInfo, passedRegs, taintRegMap, taintTempReg, returnReg, returnTaintReg, signatureRegister, methodDelta, taintedClassLines, className, threadReg, transformations, context);
+            linesToAdd.addAll(fileLines.first);
+            context.maxRegs = (context.maxRegs > fileLines.second)? context.maxRegs : fileLines.second;
+        }
 
         // if (isFramework) {
         //     return context.maxRegs;
@@ -2116,6 +2151,44 @@ class TaintAnalysis {
         return -1;
     }
 
+    public int previousInstructionIsExact(List<String> classLines, int lineNum, String string) {
+        for (int i = lineNum-1; i >= 0; i--) {
+            String line = classLines.get(i).trim();
+            if (line.startsWith(":") || line.startsWith(".")) {
+                break;
+            }
+            if (line.isEmpty()) {
+                continue;
+            }
+            if (line.startsWith(string)) {
+                return i;
+            } else {
+                continue;
+            }
+        }
+        return -1;
+    }
+
+    public int indexOfMatchingGetField(List<String> classLines, int lineNum, String string, String reg) {
+        for (int i = lineNum-1; i >= 0; i--) {
+            String line = classLines.get(i);
+            if (line.startsWith(".")) {
+                break;
+            }
+            if (line.isEmpty()) {
+                continue;
+            }
+            String instruction = getToken(line, 0);
+            if (instruction.startsWith(string)) {
+                String igetTargetReg = getRegReference(line, 1);
+                if (reg.equals(igetTargetReg)) {
+                    return i;
+                }   
+            }
+        }
+        return -1;
+    }
+
     /**
      * Checks if a register is assigned after a given instruction index in a list of class lines.
      *
@@ -2129,7 +2202,9 @@ class TaintAnalysis {
         for (int i = lineNum-2; i > prevInstructionIndex; i--) {
             String line = classLines.get(i);
             String instruction = getToken(line, 0);
-            if (isConst(instruction)) {
+            if (instruction.startsWith(".") || instruction.startsWith(":")) {
+                continue;
+            } else if (isConst(instruction)) {
                 String targetReg = getRegReference(line, 1);
                 if (targetReg.equals(register)) {
                     return true;

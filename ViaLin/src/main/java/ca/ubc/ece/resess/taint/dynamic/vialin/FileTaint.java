@@ -7,7 +7,7 @@ import java.util.Set;
 
 
 public class FileTaint extends TaintAnalysis {
-    public static Pair<List<String>, Integer> addFileTaint(TaintTool tool, String line, String instruction, MethodInfo calledMethodInfo, String[] passedRegs, Map<String, String> taintRegMap, int taintTempReg, String returnTaintReg, String signatureRegister, int methodDelta, List<String> taintedClassLines, String className, String threadReg, Set<String> transformations) {
+    public static Pair<List<String>, Integer> addFileTaint(TaintTool tool, String line, String instruction, MethodInfo calledMethodInfo, String[] passedRegs, Map<String, String> taintRegMap, int taintTempReg, String returnReg, String returnTaintReg, String signatureRegister, int methodDelta, List<String> taintedClassLines, String className, String threadReg, Set<String> transformations,  InstrumentationContext context) {
         if (TaintSink.isEmpty()) {
             return new Pair<>(new ArrayList<>(), 0);
         }
@@ -63,16 +63,26 @@ public class FileTaint extends TaintAnalysis {
                     // System.out.println(passedRegs[0]);
                     // System.out.println(returnTaintReg);
                     if (getRegNumFromRef(returnTaintReg) > 255) {
-                        linesToAdd.add("    move-object/16 v" + taintTempReg + ", " + passedRegs[0]);
+                        if (getRegNumFromRef(passedRegs[0]) > 255) {
+                            // no need to save returnReg, it will be overwritten anyways
+                        } else {
+                            linesToAdd.add("    move-object/16 v" + taintTempReg + ", " + passedRegs[0]);
+                        }
                     }
                     String newLine = "    invoke-static {" + passedRegs[0] + "}, " + tool.getSharedPrefsTaintAll();
                     Pair<List<String>, Integer> rangedInvoke = makeInvokeToRange(newLine, taintTempReg);
-                    linesToAdd = rangedInvoke.first;
+                    linesToAdd.addAll(rangedInvoke.first);
                     int newMaxRegs = rangedInvoke.second;
                     if (getRegNumFromRef(returnTaintReg) > 255) {
-                        linesToAdd.add("    " + tool.getMoveResultTaint() + " " + passedRegs[0]);
-                        linesToAdd.add("    " + tool.getMoveTaint() + "/16 " + returnTaintReg + ", " + passedRegs[0]);
-                        linesToAdd.add("    move-object/16 " + passedRegs[0] + ", v" + taintTempReg);
+                        if (getRegNumFromRef(passedRegs[0]) > 255) {
+                            linesToAdd.add("    " + tool.getMoveResultTaint() + " " + returnReg);
+                            linesToAdd.add("    " + tool.getMoveTaint() + "/16 " + returnTaintReg + ", " + returnReg);
+                            // no need to restore returnReg, it will be overwritten anyways
+                        } else {
+                            linesToAdd.add("    " + tool.getMoveResultTaint() + " " + passedRegs[0]);
+                            linesToAdd.add("    " + tool.getMoveTaint() + "/16 " + returnTaintReg + ", " + passedRegs[0]);
+                            linesToAdd.add("    move-object/16 " + passedRegs[0] + ", v" + taintTempReg);
+                        }
                     } else {
                         linesToAdd.add("    " + tool.getMoveResultTaint() + " " + returnTaintReg);
                     }
@@ -98,7 +108,15 @@ public class FileTaint extends TaintAnalysis {
 
         }
 
+        if (calledMethodInfo.signature().equals("Ljava/io/Writer;->write(Ljava/lang/String;)V")) {
+            String taintReg = taintRegMap.get(passedRegs[0]);
+            String newLine = "    invoke-static {" + taintReg + "}, " + "Ljava/lang/Thread;->setTaintContainer(Ljava/lang/PathTaint;)V"; 
+            Pair<List<String>, Integer> rangedInvoke = makeInvokeToRange(newLine, taintTempReg);
+            linesToAdd = rangedInvoke.first;
+            int newMaxRegs = rangedInvoke.second;
 
+        } else if (calledMethodInfo.signature().equals("Ljava/io/StringWriter;->toString()Ljava/lang/String;")) {
+        }
 
         if (calledMethodInfo.signature().equals("Ljava/io/ObjectOutputStream;-><init>(Ljava/io/OutputStream;)V")) {
             String taintReg = taintRegMap.get(passedRegs[1]);
@@ -194,7 +212,8 @@ public class FileTaint extends TaintAnalysis {
 
             return new Pair<>(linesToAdd, newMaxRegs);
         } else if (calledMethodInfo.signature().startsWith("Ljava/lang/StringBuffer;->toString()Ljava/lang/String;") ||
-                   calledMethodInfo.signature().startsWith("Ljava/io/ByteArrayOutputStream;->toByteArray()[B")) {
+                   calledMethodInfo.signature().startsWith("Ljava/io/ByteArrayOutputStream;->toByteArray()[B") ||
+                   calledMethodInfo.signature().equals("Ljava/io/StringWriter;->toString()Ljava/lang/String;")) {
             if (returnTaintReg != null) {
                 if (tool instanceof ViaLinTool) {
                     if (getRegNumFromRef(returnTaintReg) > 255) {

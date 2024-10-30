@@ -162,28 +162,28 @@ public class Parcels extends TaintAnalysis {
             // System.out.println("----------------");
             if (returnTaintReg != null) {
                 if (calledMethodName.equals("getIntent()Landroid/content/Intent;")) {
-                    // AnalysisLogger.log(true, "Adding set result data taint 3, method: %s, calls %s%n", context.currentMethod.signature(), calledMethodInfo.signature());
-                    // System.out.println("----------------");
-                    // System.out.println(line);
-                    // System.out.println(passedRegs[0]);
-                    // System.out.println(returnTaintReg);
+                    
+                    if (context.currentMethod.getNameAndDesc().equals("getIntent()Landroid/content/Intent;")) {
+                        // do nothing, it will be handled in the caller
+                    } else {
 
-                    String newLine = "    invoke-virtual {" + passedRegs[0] +
-                        "}, " + tool.getIntent();
-                    Pair<List<String>, Integer> rangedInvoke = makeInvokeToRange(newLine, taintTempReg);
-                    linesToAdd.addAll(rangedInvoke.first);
+                        String newLine = "    invoke-virtual {" + passedRegs[0] +
+                            "}, " + tool.getIntent();
+                        Pair<List<String>, Integer> rangedInvoke = makeInvokeToRange(newLine, taintTempReg);
+                        linesToAdd.addAll(rangedInvoke.first);
 
-                    linesToAdd.add("    " + tool.getMoveResultTaint() + " " + returnTaintReg);
+                        linesToAdd.add("    " + tool.getMoveResultTaint() + " " + returnTaintReg);
 
-                    newLine = "    invoke-static {" + returnTaintReg +
-                        "}, " + tool.getParcelTaint();
-                    rangedInvoke = makeInvokeToRange(newLine, taintTempReg);
-                    linesToAdd.addAll(rangedInvoke.first);
+                        newLine = "    invoke-static {" + returnTaintReg +
+                            "}, " + tool.getParcelTaint();
+                        rangedInvoke = makeInvokeToRange(newLine, taintTempReg);
+                        linesToAdd.addAll(rangedInvoke.first);
 
-                    linesToAdd.add("    " + tool.getMoveResultTaint() + " " + returnTaintReg);
-                    newLine = "    invoke-static {" + returnTaintReg + "}, " + tool.getSetReturnTaintInstr();
-                    rangedInvoke = makeInvokeToRange(newLine, taintTempReg);
-                    linesToAdd.addAll(rangedInvoke.first);
+                        linesToAdd.add("    " + tool.getMoveResultTaint() + " " + returnTaintReg);
+                        newLine = "    invoke-static {" + returnTaintReg + "}, " + tool.getSetReturnTaintInstr();
+                        rangedInvoke = makeInvokeToRange(newLine, taintTempReg);
+                        linesToAdd.addAll(rangedInvoke.first);
+                    }
 
                     return linesToAdd;
                 }

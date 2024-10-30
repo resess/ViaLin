@@ -1,0 +1,1228 @@
+11a12,16
+> import traceback
+> from scipy.sparse import csr_matrix
+> from scipy.sparse import csgraph
+> import matplotlib.pyplot as plt
+> import networkx as nx
+13a19,20
+> debug = False
+> 
+51a59
+>     sinks = []
+52a61,62
+>         if "DumpTaint for sink: " in line:
+>             sinks.append(int(line.split("DumpTaint for sink: ")[1]))
+64c74
+<     return report, parcels
+---
+>     return report, parcels, sinks
+196c206
+<     for i, num in enumerate(graphs_lines):
+---
+>     for num in graphs_lines:
+200d209
+<         print(f"Graph cache fix progress: {i}/{len(graphs_lines)}", flush=True)
+264,265c273,274
+<             print(stmt)
+<             parcel_nums = [int(x) for x in stmt.split("(")[0].split("-")]
+---
+>             # print(f"Stmt: {stmt}")
+>             parcel_nums = [int(x) for x in stmt.split("(")[0].split("-") if x]
+301c310
+< def get_graphs_from_reports_cached(report, parcels):
+---
+> def get_graphs_from_reports_cached(report, parcels, sinks):
+313a323,325
+>     print(f"Report length = {len(report)}")
+>     num_processed_lines = 0
+>     profile = {"top": 0, "1": 0, "2": 0, "3": 0, "3.1": 0, "3.2": 0, "3.2.1": 0, "3.2.2": 0, "4": 0, "4.1": 0, "4.1.1": 0, "4.1.2": 0, "4.1.3": 0, "4.1.4": 0, "4.1.5": 0, "4.2": 0, "5": 0}
+314a327,337
+>         profile["top"] += 1
+>         num_processed_lines += 1
+>         if num_processed_lines % 5000 == 1:
+>             profile["1"] += 1
+>             # print(f"=====================")
+>             # print(f"Lines processed = {num_processed_lines} out of {len(report)}")
+>             # print(f"Graph lines size = {len(graphs_lines)}")
+>             # print(f"Graph cache size = {len(graph_cache)}")
+>             # print(f"Profile: {profile}")
+>             # print(f"=====================", flush=True)
+> 
+315a339
+>             profile["2"] += 1
+317c341
+<             print(f"SinkFound:     {sink_line}")
+---
+>             # print(f"SinkFound:     {sink_line}")
+320c344,345
+<             print(f"SourceFound line: {line}")
+---
+>             profile["3"] += 1
+>             # print(f"SourceFound line: {line}")
+321a347
+>                 profile["3.1"] += 1
+327c353,354
+<                 print(line)
+---
+>                 profile["3.2"] += 1
+>                 # print(line)
+328a356
+>                     profile["3.2.1"] += 1
+332a361
+>                     profile["3.2.2"] += 1
+334a364
+>             profile["4"] += 1
+335a366
+>                 profile["4.1"] += 1
+338c369,370
+<                 if sink_line and num not in sinks_found:
+---
+>                 if num in sinks and num not in sinks_found:
+>                     profile["4.1.1"] += 1
+341a374
+>                     profile["4.1.2"] += 1
+343a377
+>                     profile["4.1.3"] += 1
+345a380
+>                     profile["4.1.4"] += 1
+347,348c382,383
+<                 
+<                 # if (node, left, right) not in graphs_lines[num]:
+---
+> 
+>                 profile["4.1.5"] += 1
+356c391,393
+<                 print(f"Ignored malformed line: {line}" )
+---
+>                 profile["4.2"] += 1
+>                 # print(f"Ignored malformed line: {line}" )
+>                 pass
+370,372d406
+<     print("Extending graphs from cache")
+<     graphs_lines = fix_graphs_from_cache(graphs_lines, graph_cache)
+< 
+383c417,438
+<     print(f"Deleted {num_removed_parcels} parcels")
+---
+>     print(f"Deleted {num_removed_parcels} parcels", flush=True)
+> 
+>     print("Extending graphs from cache", flush=True)
+>     graphs_lines = fix_graphs_from_cache(graphs_lines, graph_cache)
+> 
+> 
+>     # for sink_num in sinks_found:
+>     #     if sink_num not in graphs_lines:
+>     #         print(f"Sink {sink_num} not in graphs_lines")
+>     #     else:
+>     #         print(f"Sink {sink_num} in graphs_lines")
+> 
+>     graphs_to_remove = list()
+>     for n in graphs_lines:
+>         if n not in sinks_found:
+>             # print(f"Graph {n} has no sink")
+>             graphs_to_remove.append(n)
+>         # else:
+>         #     print(f"Graph {n} has sink")
+> 
+>     for n in graphs_to_remove:
+>         del graphs_lines[n]
+391c446
+<     print(f"Sinks found: {sinks_found}")
+---
+>     # print(f"Sinks found: {sinks_found}")
+399c454
+<     print(f"Source IDs: {sources_ids}")
+---
+>     print(f"Source IDs: {sources_ids}", flush=True)
+405c460
+<         print(f"Graph lines of {n}: num lines = {len(graphs_lines[n])}", flush = True)
+---
+>         # print(f"Graph lines of {n}: num lines = {len(graphs_lines[n])}", flush = True)
+442,443c497,498
+<             if insn1 in sources_ids:
+<                 print(f"Adding to sources: {l}")
+---
+>             if insn1 in sources_ids and insn1 in insn_stmt_map:
+>                 # print(f"Adding to sources: {l}")
+484c539
+<         print(f"Will split graph for source: {src}")
+---
+>         # print(f"Will split graph for source: {src}")
+487c542
+<             print(f"{src} in graph")
+---
+>             # print(f"{src} in graph")
+730c785
+< def translate_paths_to_bytecode(paths, classed_dir, loaded_classes):
+---
+> def translate_paths_to_bytecode(paths, classed_dir, framework_classes_dir, loaded_classes):
+747c802
+<                     bytecode_stmt = stmt_to_bytecode(stmt, classed_dir, loaded_classes)
+---
+>                     bytecode_stmt = stmt_to_bytecode(stmt, classed_dir, framework_classes_dir, loaded_classes)
+757c812
+< def stmt_to_bytecode(stmt, classed_dir, loaded_classes):
+---
+> def stmt_to_bytecode(stmt, classed_dir, framework_classes_dir, loaded_classes):
+763c818
+<     found = load_class_lazy(class_name, classed_dir, loaded_classes)
+---
+>     found = load_class_lazy(class_name, classed_dir, framework_classes_dir, loaded_classes)
+791,793c846,848
+< def load_class_lazy(class_name, folder, loaded_classes):
+<     try:
+<         if class_name not in loaded_classes:
+---
+> def load_class_lazy(class_name, folder, framework_classes_dir, loaded_classes):
+>     if class_name not in loaded_classes:
+>         try:
+799,801c854,859
+<         return True
+<     except:
+<         return False
+---
+>         except FileNotFoundError:
+>             path = framework_classes_dir + "/" + class_name.replace("/", "_") + ".json"
+>             # print(f"loaded class {class_name}")
+>             with open(path, 'r') as f:
+>                 loaded_classes[class_name] = json.load(f)
+>     return True
+950c1008
+<         if instruction == "return-void" or instruction == "return":
+---
+>         if instruction == "return-void":
+1009a1068,1072
+>     if instruction == "add-float":
+>         var1 = line[1].replace(",", "")
+>         var2 = line[2].replace(",", "")
+>         var3 = line[3].replace(",", "")
+>         return f"{var1} = {var2} + {var3}"
+1014a1078,1082
+>     if instruction == "div-long" or instruction == "div-long/lit8":
+>         var1 = line[1].replace(",", "")
+>         var2 = line[2].replace(",", "")
+>         var3 = line[3].replace(",", "")
+>         return f"{var1} = {var2} / {var3}"
+1016a1085
+>         or instruction == "mul-long" or instruction == "mul-long/lit8" \
+1022c1091
+<     if instruction == "ushr-int/lit8":
+---
+>     if instruction == "ushr-int/lit8" or instruction == "shr-int/lit8":
+1038c1107,1108
+<     if instruction == "mul-float/2addr":
+---
+>     if instruction == "mul-int/2addr"or instruction == "mul-float/2addr" \
+>         or instruction == "mul-long/2addr":
+1047c1117,1123
+<     if instruction == "or-int/2addr":
+---
+>     if instruction == "and-int/2addr" or instruction == "and-float/2addr" \
+>         or instruction == "and-long/2addr":
+>         var1 = line[1].replace(",", "")
+>         var2 = line[2].replace(",", "")
+>         return f"{var1} += {var2}"
+>     if instruction == "or-int/2addr" or instruction == "or-float/2addr" \
+>         or instruction == "or-long/2addr":
+1070a1147,1150
+>     if instruction == "shr-int/2addr" or instruction == "shr-long/2addr":
+>         var1 = line[1].replace(",", "")
+>         var2 = line[2].replace(",", "")
+>         return f"{var1} = {var1} << {var2}"
+1101,1111c1181
+<         class_name, method_name, bytecode_line_num, line_num, bytecode = line
+<         jimple_class = convert_type_from_bytecode_to_jimple(class_name)
+<         method_name, params = method_name.split("(")
+<         params, ret = params.split(")")
+<         jimple_params = ",".join([convert_type_from_bytecode_to_jimple(x) for x in convert_param_list_from_bytecode_to_jimple(params)])
+<         jimple_ret = convert_type_from_bytecode_to_jimple(ret)
+<         jimple_method = "<" + jimple_class + ": " + jimple_ret + " " + method_name + "(" + jimple_params + ")>"
+<         if "," in jimple_method:
+<             jimple_method = '\"' + jimple_method + '\"'
+< 
+<         jimple_stmt = convert_bytecode_stmt_to_jimple(bytecode)
+---
+>         bytecode_line_num, jimple_method, jimple_stmt = translate_line_to_jimple(real_source_map, i, line)
+1116,1120d1185
+<         if i == 0 and "<java.lang.reflect.Method: java.lang.Object invoke(java.lang.Object,java.lang.Object)>" in jimple_stmt:
+<             jimple_stmt = convert_bytecode_stmt_to_jimple("invoke-static {v0}, " + real_source_map[jimple_class])
+<         if "," in jimple_stmt:
+<             jimple_stmt = '\"' + jimple_stmt + '\"'
+< 
+1127a1193,1212
+> def translate_line_to_jimple(real_source_map, i, line):
+>     class_name, method_name, bytecode_line_num, line_num, bytecode = line
+>     jimple_class = convert_type_from_bytecode_to_jimple(class_name)
+>     method_name, params = method_name.split("(")
+>     params, ret = params.split(")")
+>     jimple_params = ",".join([convert_type_from_bytecode_to_jimple(x) for x in convert_param_list_from_bytecode_to_jimple(params)])
+>     jimple_ret = convert_type_from_bytecode_to_jimple(ret)
+>     jimple_method = "<" + jimple_class + ": " + jimple_ret + " " + method_name + "(" + jimple_params + ")>"
+>     if "," in jimple_method:
+>         jimple_method = '\"' + jimple_method + '\"'
+> 
+>     jimple_stmt = convert_bytecode_stmt_to_jimple(bytecode)
+> 
+>     if i == 0 and "<java.lang.reflect.Method: java.lang.Object invoke(java.lang.Object,java.lang.Object)>" in jimple_stmt:
+>         jimple_stmt = convert_bytecode_stmt_to_jimple("invoke-static {v0}, " + real_source_map[jimple_class])
+>     if "," in jimple_stmt:
+>         jimple_stmt = '\"' + jimple_stmt + '\"'
+>     return bytecode_line_num,jimple_method,jimple_stmt
+> 
+> 
+1142c1227,2178
+<     print("---------")
+\ No newline at end of file
+---
+>     print("---------")
+> 
+> 
+> def translate_graphs_to_bytecode(graphs, classed_dir, framework_classes_dir, loaded_classes):
+>     bytecode_graphs = dict()
+>     for graph_num in graphs:
+>         bytecode_graphs[graph_num] = list()
+>         for graph in graphs[graph_num]:
+>             temp_graph = dict()
+>             for node in graph:
+>                 if "(-2)" in node[1]:
+>                     continue
+>                 bytecode_stmt = stmt_to_bytecode(node[1], classed_dir, framework_classes_dir, loaded_classes)
+>                 dest_node = (node[0], node[1], bytecode_stmt)
+>                 for next_node in graph[node]:
+>                     if "(-2)" in next_node[1]:
+>                         continue
+>                     bytecode_stmt = stmt_to_bytecode(next_node[1], classed_dir, framework_classes_dir, loaded_classes)
+>                     src_node = (next_node[0], next_node[1], bytecode_stmt)
+>                     if src_node in temp_graph:
+>                         temp_graph[src_node].append(dest_node)
+>                     else:
+>                         temp_graph[src_node] = [dest_node]
+>             bytecode_graphs[graph_num].append(to_node_graph(temp_graph))
+>     return bytecode_graphs
+> 
+> 
+> def translate_sources_to_bytecode(sources, classed_dir, framework_classes_dir, loaded_classes):
+>     bytecode_sources = list()
+>     for src in sources:
+>         bytecode_stmt = stmt_to_bytecode(src[1], classed_dir, framework_classes_dir, loaded_classes)
+>         src_node = (src[0], src[1], bytecode_stmt)
+>         bytecode_sources.append(src_node)
+>     return bytecode_sources
+> 
+> # Loads the rules dictionary from a file
+> def load_rules():
+>     rules = dict()
+>     with open("rules.txt", 'r') as f:
+>         for line in f:
+>             line = line.strip()
+>             if line.startswith("#") or line == "":
+>                 continue
+>             if "#" in line:
+>                 line = line.split("#")[0]
+>             line = line.rstrip()
+>             line_split = line.split(", ")
+>             instruction, extra_info, in_regs, out_regs, propagation_rule = line_split[0], line_split[1], line_split[2], line_split[3], line_split[4:]
+>             if extra_info == "-":
+>                 extra_info = "default"
+>             if instruction not in rules:
+>                 rules[instruction] = dict()
+>             if extra_info not in rules[instruction]:
+>                 rules[instruction][extra_info] = list()
+>             new_rule = dict()
+>             new_rule['rule'] = propagation_rule
+>             new_rule['in'] = [int(x) if x and x != "*" else "*" for x in in_regs.strip('][').split(' ')]
+>             new_rule['out'] = [int(x) if x and x != "*" else "*" for x in out_regs.strip('][').split(' ')]
+>             rules[instruction][extra_info].append(new_rule)
+> 
+>     return rules
+> 
+> 
+> class statement_node:
+>     def __init__(self, node):
+>         try: # TODO: remove
+>             self.node = node
+>             self.id = node[0]
+>             self.bytecode_location = node[1]
+>             self.clazz = node[2][0]
+>             self.method = node[2][1]
+>             self.bytecode_line_num = node[2][2]
+>             self.code_line_num = node[2][3]
+>             self.statement = node[2][4]
+>             self.clazz_method = self.clazz + "->" + self.method
+>         except Exception as e:
+>             print(f"Bad Node: {node}")
+>             raise e
+> 
+>     def __hash__(self) -> int:
+>         return self.id + hash(self.statement) + hash(self.clazz) + hash(self.method) + hash(self.bytecode_line_num)
+> 
+>     def __eq__(self, o: object) -> bool:
+>         if not isinstance(o, statement_node):
+>             return False
+>         return self.id == o.id and self.statement == o.statement and self.clazz == o.clazz and self.method == o.method and self.bytecode_line_num == o.bytecode_line_num
+> 
+>     def __str__(self) -> str:
+>         return f"({self.id}, {self.statement}, {self.clazz}, {self.method}, {self.bytecode_line_num})"
+> 
+>     def __repr__(self) -> str:
+>         return str(self)
+> 
+> 
+> class register():
+> 
+>     name: str
+>     location: str
+> 
+>     def local(name: str, clazz: str, method: str) -> 'register':
+>         reg = register()
+>         reg.name = name
+>         reg.location = clazz + "->" + method
+>         return reg
+> 
+>     def local_called(name: str, clazz_method: str) -> 'register':
+>         reg = register()
+>         reg.name = name
+>         reg.location = clazz_method
+>         return reg
+> 
+>     def field(desc: str) -> 'register':
+>         reg = register()
+>         reg.name = "field"
+>         reg.location = desc
+>         return reg
+> 
+>     def ret(clazz: str, method: str) -> 'register':
+>         reg = register()
+>         reg.name = "return"
+>         reg.location = clazz + "->" + method
+>         return reg
+> 
+>     def ret_called(desc: str) -> 'register':
+>         reg = register()
+>         reg.name = "return"
+>         reg.location = desc
+>         return reg
+> 
+> 
+>     def __hash__(self) -> int:
+>         return hash(self.name) + hash(self.location)
+> 
+>     def __eq__(self, o: object) -> bool:
+>         if not isinstance(o, register):
+>             return False
+>         return self.name == o.name and self.location == o.location
+> 
+>     def __str__(self) -> str:
+>         return f"({self.name}, {self.location})"
+> 
+>     def __repr__(self) -> str:
+>         return str(self)
+> 
+> 
+> def write_flush(f, s):
+>     f.write(s)
+>     f.write('\n')
+>     f.flush()
+> 
+> 
+> def to_node_graph(graph: dict):
+>     node_graph = dict()
+>     for n in graph:
+>         stmt_node = statement_node(n)
+>         node_graph[stmt_node] = list()
+>         for next_node in graph[n]:
+>             next_stmt_node = statement_node(next_node)
+>             node_graph[stmt_node].append(next_stmt_node)
+>     return node_graph
+> 
+> def get_manipulations_path(graph: dict, modeled_methods: dict) -> dict:
+>     print(f"Getting modeled methods for graph with {len(graph)} nodes")
+>     black_box = dict()
+>     white_box = dict()
+>     to_visit = list()
+>     to_visit.append(list(graph.keys())[0])
+>     visited = set()
+>     visited_stmt = set()
+>     while(len(to_visit)):
+>         n: statement_node = to_visit.pop()
+>         if n in visited:
+>             continue
+> 
+> 
+> 
+>         visited.add(n)
+>         instruction, desc, paramsRegs = parse_bytecode_stmt(n.statement)
+> 
+>         if n in graph:
+>             next_nodes = graph[n]
+>         else:
+>             next_nodes = list()
+> 
+>         for next_node in next_nodes:
+>             next_node: statement_node = next_node
+>             to_visit.append(next_node)
+> 
+>         stmt = n.clazz_method + "(" + n.bytecode_line_num + ")"
+>         if stmt in visited_stmt:
+>             continue
+>         else:
+>             visited_stmt.add(stmt)
+> 
+>         if instruction.startswith("invoke"):
+>             if desc in modeled_methods or desc.startswith("Ljava") or desc.startswith("Landroid/"):
+>                 method_name_desc = desc.split("->")[1]
+>                 method_name = desc.split("->")[1].split("(")[0]
+>                 if method_name.startswith("set") or method_name.startswith("add") \
+>                     or method_name.startswith("put") or method_name.startswith("append") \
+>                     or method_name.startswith("toString") \
+>                     or method_name.startswith("is") or method_name.startswith("has") \
+>                     or method_name.startswith("iterator") or method_name_desc == "next()Ljava/lang/Object;":
+>                     if desc not in white_box:
+>                         white_box[desc] = 1
+>                     else:
+>                         white_box[desc] += 1
+>                 elif desc not in black_box:
+>                     black_box[desc] = 1
+>                 else:
+>                     black_box[desc] += 1
+>             else:
+>                 if desc not in white_box:
+>                     white_box[desc] = 1
+>                 else:
+>                     white_box[desc] += 1
+> 
+>         elif instruction.startswith("return") or instruction.startswith("move") or instruction.startswith("check-cast") \
+>             or instruction.startswith("iput") or instruction.startswith("aput"):
+>             if instruction not in white_box:
+>                 white_box[instruction] = 1
+>             else:
+>                 white_box[instruction] += 1
+>         else:
+>             if instruction not in black_box:
+>                 black_box[instruction] = 1
+>             else:
+>                 black_box[instruction] += 1
+> 
+>     return black_box, white_box
+> 
+> def get_modeled_methods(graph: dict, modeled_methods: dict) -> dict:
+>     print(f"Getting modeled methods for graph with {len(graph)} nodes")
+>     graph_modeled_methods = dict()
+>     method_location = dict()
+>     to_visit = list()
+>     to_visit.append(list(graph.keys())[0])
+>     visited = set()
+>     while(len(to_visit)):
+>         n: statement_node = to_visit.pop()
+>         if n in visited:
+>             continue
+> 
+>         visited.add(n)
+>         instruction, desc, paramsRegs = parse_bytecode_stmt(n.statement)
+> 
+>         if n in graph:
+>             next_nodes = graph[n]
+>         else:
+>             next_nodes = list()
+> 
+>         for next_node in next_nodes:
+>             next_node: statement_node = next_node
+>             to_visit.append(next_node)
+> 
+>         if instruction.startswith("invoke"):
+>             if desc in modeled_methods:
+>                 if desc not in graph_modeled_methods:
+>                     graph_modeled_methods[desc] = 1
+>                     method_location[desc] = set()
+>                 else:
+>                     graph_modeled_methods[desc] += 1
+>                 method_location[desc].add(n.clazz_method)
+> 
+>     return graph_modeled_methods, method_location
+> 
+> 
+> def track_bits(graph: dict, sources: list, graph_num: int, i: int, src_sink_csr_nodes: 'tuple[statement_node,statement_node]', class_info, report) -> 'tuple[list, list]':
+>     try:
+>         csr_matrix_graph = {'rows': [], 'cols': [], 'data': []}
+>         src_sink_csr_variables = {"src": None, "sink": None}
+>         variable_to_csr_matrix_index = dict()
+>         max_csr_matrix_index = [0]
+>         row_col_index_map = dict()
+>         csr_collection = (csr_matrix_graph, variable_to_csr_matrix_index, max_csr_matrix_index, row_col_index_map, src_sink_csr_nodes, src_sink_csr_variables)
+>         instruction_bank = dict()
+>         call_edge_variable_map = dict()
+>         rules = load_rules()
+>         print(f"Bit tracking for graph ({graph_num}, {i})", flush=True)
+>         for src in sources:
+>             src = statement_node(src)
+>             if src not in graph:
+>                 continue
+>             bit_io_map = dict()
+>             write_flush(report, f"Starting from source: {src}")
+>             print(f"Starting from source: {src}")
+>             to_visit = list()
+>             to_visit.append(src)
+>             bit_io_map[src.id] = {"in": dict(), "out": dict()}
+>             visited = dict()
+>             print(f"Number of graph nodes is {len(graph)}", flush=True)
+>             while len(to_visit):
+>                 n : statement_node = to_visit.pop()
+>                 if n.id in visited:
+>                     visited[n.id] += 1
+>                 else:
+>                     visited[n.id] = 1
+> 
+>                 instruction, desc, paramsRegs = parse_bytecode_stmt(n.statement)
+> 
+>                 if visited[n.id] > len(paramsRegs):
+>                     print(f"Skipped instruction {n.id} as it is visited {visited[n.id]} times", flush=True)
+>                     continue
+> 
+>                 if len(visited) % 1000 == 0:
+>                     print(f"visited {len(visited)} nodes", flush=True)
+> 
+>                 write_flush(report, f"----------------")
+>                 write_flush(report, f"visiting: {n}")
+>                 write_flush(report, f"    bytecode is {parse_bytecode_stmt(n.statement)}")
+>                 write_flush(report, f"    method is {n.clazz_method}")
+>                 write_flush(report, f"    bits before: {bit_io_map[n.id]}")
+> 
+>                 # global debug
+>                 # if debug:
+>                 #     print(f"visiting: {n}")
+> 
+>                 full_rule = parse_rule(rules, instruction, desc)
+>                 for rule in full_rule:
+>                     rule, rule_params, in_index, out_index = rule.rule, rule.rule_params, rule.in_index, rule.out_index
+> 
+>                     write_flush(report, f"    rule is {rule} with parameters {rule_params}")
+> 
+>                     in_regs = get_input_registers(in_index, n)
+>                     write_flush(report, f"    in regs: {in_regs}")
+> 
+>                     out_regs = get_output_registers(out_index, n, graph)
+>                     write_flush(report, f"    out regs: {out_regs}")
+> 
+>                     write_flush(report, f"    bits before propagation: {bit_io_map[n.id]}")
+>                     if len(bit_io_map[n.id]["in"]) == 0 and rule != "generate":
+>                         # write_flush(report, f"    skipped instruction {n} as it has no input taint")
+>                         print(f"Skipped instruction {n.id} as it has no input taint", flush=True)
+>                         continue
+> 
+>                     apply_propagation_rule(report, bit_io_map, n, rule, rule_params, out_regs, csr_collection, graph, graph_num, i)
+>                     write_flush(report, f"    bits after: {bit_io_map[n.id]}")
+> 
+>                 update_call_edge_variable_map(call_edge_variable_map, n, graph)
+> 
+>                 if instruction.startswith("invoke"):
+>                     instruction_bank_key = instruction + " " + desc
+>                 else:
+>                     instruction_bank_key = instruction
+>                 if instruction_bank_key not in instruction_bank:
+>                     instruction_bank[instruction_bank_key] = 0
+>                 else:
+>                     instruction_bank[instruction_bank_key] += 1
+> 
+>                 if len(bit_io_map[n.id]["out"]) == 0:
+>                     write_flush(report, f"    instruction has no output taint")
+> 
+>                 process_next_nodes(graph, graph_num, i, rules, report, bit_io_map, to_visit, n, csr_collection, call_edge_variable_map, class_info)
+> 
+> 
+> 
+>         return instruction_bank, csr_matrix_graph, max_csr_matrix_index, variable_to_csr_matrix_index, src_sink_csr_variables
+>     except Exception as e:
+>         write_flush(report, f"({graph_num}, {i}): Exception: for {n}: {traceback.format_exc()}")
+>         print(f"Exception: {traceback.format_exc()}", file=sys.stderr, flush=True)
+>         return instruction_bank, csr_matrix_graph, max_csr_matrix_index, variable_to_csr_matrix_index, src_sink_csr_variables
+> 
+> 
+> def update_call_edge_variable_map(call_edge_variable_map: dict, n: statement_node, graph: dict) -> None:
+>     instruction, desc, paramsRegs = parse_bytecode_stmt(n.statement)
+>     if instruction.startswith("invoke"):
+>         if n in graph:
+>             for next_node in graph[n]:
+>                 if desc == next_node.clazz_method: # TODO: handle reflection too
+>                     for index, arg_reg_name in enumerate(paramsRegs[0:-1]):
+>                         arg_reg = register.local(arg_reg_name, n.clazz, n.method)
+>                         reg_in_method_name = "p"+str(index)
+>                         reg_in_method = register.local_called(reg_in_method_name, desc)
+>                         call_edge = (next_node.clazz_method, n.clazz_method)
+>                         if call_edge not in call_edge_variable_map:
+>                             call_edge_variable_map[call_edge] = dict()
+>                         call_edge_variable_map[call_edge][reg_in_method] = arg_reg
+>                         print(f"Added to call_edge_variable_map: {call_edge}")
+>                     if paramsRegs[-1] != "":
+>                         arg_reg_name = paramsRegs[-1]
+>                         arg_reg = register.local(arg_reg_name, n.clazz, n.method)
+>                         ret_reg = register.ret_called(desc)
+>                         call_edge_variable_map[call_edge][ret_reg] = arg_reg
+>                         print(f"Added to call_edge_variable_map: {call_edge}")
+>                 elif ("execute([Ljava/lang/Object;)Landroid/os/AsyncTask;" in desc and next_node.method == "doInBackground([Ljava/lang/Object;)Ljava/lang/Object;"):
+>                     for index, arg_reg_name in enumerate(paramsRegs[0:-1]):
+>                         arg_reg = register.local(arg_reg_name, n.clazz, n.method)
+>                         reg_in_method_name = "p"+str(index)
+>                         reg_in_method = register.local_called(reg_in_method_name, desc)
+>                         call_edge = (next_node.clazz_method, n.clazz_method)
+>                         if call_edge not in call_edge_variable_map:
+>                             call_edge_variable_map[call_edge] = dict()
+>                         call_edge_variable_map[call_edge][reg_in_method] = arg_reg
+>                     if paramsRegs[-1] != "":
+>                         arg_reg_name = paramsRegs[-1]
+>                         arg_reg = register.local(arg_reg_name, n.clazz, n.method)
+>                         ret_reg = register.ret_called(desc)
+>                         call_edge_variable_map[call_edge][ret_reg] = arg_reg
+> 
+> 
+> def get_return_to_register(node: statement_node, called_node: statement_node, class_info: dict, report):
+>     # write_flush(report, f"Getting return to register for {node.clazz_method}")
+>     classed_dir, framework_classes_dir, loaded_classes = class_info
+> 
+>     class_name, _ = node.clazz.split(";")
+>     class_name = class_name.replace("_", "/")
+> 
+>     found = load_class_lazy(class_name, classed_dir, framework_classes_dir, loaded_classes)
+>     # if not found:
+>     #     raise Exception("Can't find class")
+>     # else:
+>     #     write_flush(report, f"Found {node.clazz}")
+> 
+>     method_name = node.method
+>     method_code = loaded_classes[class_name][method_name]
+>     # write_flush(report, f"Called node: {called_node}")
+>     # write_flush(report, f"Method code of caller {node}: ")
+>     found_reg = ""
+>     for i, (bytecode_line_num, bytecode_line) in enumerate(method_code.items()):
+>         if called_node.method in bytecode_line:
+>             # write_flush(report, f"X {bytecode_line_num}: {bytecode_line}")
+>             # Check the next line for 'move-result' instruction
+>             next_line = method_code[str(int(bytecode_line_num)+1)].strip()
+>             if next_line.startswith('move-result'):
+>                 found_reg = next_line.split(" ")[-1]
+>                 # write_flush(report, f"    return reg: {found_reg}")
+>                 return found_reg
+>         # else:
+>         #     write_flush(report, f"{bytecode_line_num}: {bytecode_line}")
+>     raise Exception("Cannot find return register")
+> 
+> # Add the next nodes to the queue and proapgate the input bits from the current node to the next nodes
+> def process_next_nodes(graph: dict, graph_num: int, i: int, rules: dict, report: list, bit_io_map: dict, to_visit: list, n: statement_node, csr_collection: tuple, call_edge_variable_map: dict, class_info) -> None:
+>     if n in graph:
+>         for next_node in graph[n]:
+>             # if not next_node[2]:
+>             #     meta_write_flush(report, f"({graph_num}, {i}): Skipped next node is non-type: {next_node}")
+>             #     continue
+>             write_flush(report, f"        next: {next_node}")
+>             write_flush(report, f"        bytecode is {parse_bytecode_stmt(next_node.statement)}")
+>             write_flush(report, f"        method is {next_node.clazz_method}")
+> 
+>             if next_node.id < n.id:
+>                 write_flush(report, f"({graph_num}, {i}): Graph is cylic!, edge from {n} to {next_node}")
+>                 write_flush(f"({graph_num}, {i}): Graph is cylic!, edge from {n} to {next_node}")
+>                 print(f"({graph_num}, {i}): Graph is cylic!, edge from {n} to {next_node}", flush=True)
+> 
+> 
+> 
+>             # Update the input bits for the next node
+>             current_instruction, current_desc, _ = parse_bytecode_stmt(n.statement)
+>             next_instruction, next_desc, next_paramsRegs = parse_bytecode_stmt(next_node.statement)
+> 
+> 
+>             if current_instruction.startswith("return"):
+>                 write_flush(report, f"        Instruction is a return, we need to find the method it returns to")
+>                 write_flush(report, f"        Instruction is {n}")
+>                 write_flush(report, f"        Returning to {next_node}")
+>                 return_to_register = get_return_to_register(next_node, n, class_info, report)
+>                 write_flush(report, f"        The return reg is {return_to_register}")
+> 
+> 
+>             # next_in_index = list()
+>             # next_rules = parse_rule(rules, next_instruction, next_desc)
+> 
+>             # for next_rule in next_rules:
+>             #     _, _, next_in_index_partial, _ = next_rule.rule, next_rule.rule_params, next_rule.in_index, next_rule.out_index
+>             #     next_in_index.append(next_in_index_partial)
+> 
+>             # next_in_regs = get_input_registers(next_in_index, next_node)
+> 
+>             if next_node.id not in bit_io_map:
+>                 bit_io_map[next_node.id] = {"in": dict(), "out": dict()}
+>             write_flush(report, f"        bits before: {bit_io_map[next_node.id]}")
+> 
+>             visit_next = True
+> 
+>             for reg in bit_io_map[n.id]["out"]:
+>                 write_flush(report, f"        Inspecting reg: {reg}")
+>                 if reg.name == "return": # must translate first to next method as we are exiting the callee
+>                     write_flush(report, f"        Handling return")
+>                     reverse_call_edge = (n.clazz_method, next_node.clazz_method)
+>                     if reverse_call_edge in call_edge_variable_map:
+>                         original_arg_reg = call_edge_variable_map[reverse_call_edge][reg]
+>                         bit_io_map[next_node.id]["in"][original_arg_reg] = bit_io_map[n.id]["out"][reg]
+>                         build_report = build_csr_matrix(csr_collection, n, reg, next_node, original_arg_reg, bit_io_map[n.id]["out"][reg], report)
+>                         write_flush(report, f"        will add to graph for next node by method return: {build_report}")
+>                     else:
+>                         # raise Exception(f"({graph_num}, {i}): Could not find call_edge_variable_map 1 for {n} to {next_node}")
+>                         print(f"({graph_num}, {i}): Could not find call_edge_variable_map 1 for {n} to {next_node}", flush=True)
+>                         write_flush(report, f"({graph_num}, {i}): Could not find call_edge_variable_map 1 for {n} to {next_node}")
+>                 elif reg.name != "field" and reg.name != "return": # local
+>                     if reg.location == next_node.clazz_method: # local in the same method
+>                         bit_io_map[next_node.id]["in"][reg] = bit_io_map[n.id]["out"][reg]
+>                         build_report = build_csr_matrix(csr_collection, n, reg, next_node, reg, bit_io_map[n.id]["out"][reg], report)
+>                         write_flush(report, f"        will add to graph for next node: {build_report}")
+>                     elif (current_instruction.startswith("invoke") and n.clazz_method == next_node.clazz_method):
+>                         # We are in the same method, but we are calling another method
+>                         # The "out" reg are actually the translated paramter in the callee of n
+>                         # Need to translate it back into the contex that we are in to pass it to next_node
+>                         reverse_call_edge = (current_desc, n.clazz_method)
+>                         if reverse_call_edge in call_edge_variable_map:
+>                             original_arg_reg = call_edge_variable_map[reverse_call_edge][reg]
+>                             bit_io_map[next_node.id]["in"][original_arg_reg] = bit_io_map[n.id]["in"][original_arg_reg]
+>                             build_report = build_csr_matrix(csr_collection, n, original_arg_reg, next_node, original_arg_reg, bit_io_map[n.id]["in"][original_arg_reg], report)
+>                             write_flush(report, f"        will add to graph for next node: {build_report}")
+>                         else:
+>                             # raise Exception(f"({graph_num}, {i}): Could not find call_edge_variable_map 2 for {n} to {next_node}")
+>                             print(f"({graph_num}, {i}): Could not find call_edge_variable_map 2 for {n} to {next_node}", flush=True)
+>                             write_flush(report, f"({graph_num}, {i}): Could not find call_edge_variable_map 2 for {n} to {next_node}")
+>                     else: # must translate first to next method as we are exiting the callee
+>                         reverse_call_edge = (n.clazz_method, next_node.clazz_method)
+>                         if reverse_call_edge in call_edge_variable_map:
+>                             if reg in call_edge_variable_map[reverse_call_edge]:
+>                                 original_arg_reg = call_edge_variable_map[reverse_call_edge][reg]
+>                                 bit_io_map[next_node.id]["in"][original_arg_reg] = bit_io_map[n.id]["out"][reg]
+>                                 build_report = build_csr_matrix(csr_collection, n, reg, next_node, original_arg_reg, bit_io_map[n.id]["out"][reg], report)
+>                                 write_flush(report, f"        will add to graph for next node by method exit: {build_report}")
+>                             else:
+>                                 # raise Exception(f"({graph_num}, {i}): Could not find {reg} in call_edge_variable_map 3 for {n} to {next_node}")
+>                                 print(f"({graph_num}, {i}): Could not find call_edge_variable_map 3 for {n} to {next_node}", flush=True)
+>                                 write_flush(report, f"({graph_num}, {i}): Could not find call_edge_variable_map 3 for {n} to {next_node}")
+>                         else:
+>                             # visit_next = False
+>                             # raise Exception(f"({graph_num}, {i}): Could not find call_edge_variable_map 4 for {n} to {next_node}")
+>                             print(f"({graph_num}, {i}): Could not find call_edge_variable_map 4 for {reverse_call_edge}", flush=True)
+>                             write_flush(report, f"({graph_num}, {i}): Could not find call_edge_variable_map 4 for {reverse_call_edge}")
+>                 elif reg.name == "field":
+>                     if reg.location == next_desc:
+>                         bit_io_map[next_node.id]["in"][reg] = bit_io_map[n.id]["out"][reg]
+>                         build_report = build_csr_matrix(csr_collection, n, reg, next_node, reg, bit_io_map[n.id]["out"][reg], report)
+>                         write_flush(report, f"        will add to graph for next node (field): {build_report}")
+>                 else:
+>                     raise Exception(f"({graph_num}, {i}): Un-supported reg type: {reg}")
+> 
+>             write_flush(report, f"        bits after: {bit_io_map[next_node.id]}")
+>             if len(bit_io_map[next_node.id]["in"]) == 0 and len(bit_io_map[next_node.id]["out"]) == 0:
+>                 write_flush(report, f"        No bits propagated here, exiting")
+>                 raise Exception(f"({graph_num}, {i}): No bits propagated here, exiting")
+> 
+>             if visit_next:
+>                 to_visit.append(next_node)
+> 
+> 
+> 
+> def build_csr_matrix(csr_collection: tuple, src_node: statement_node, src_var: str, dest_node: statement_node, dest_var: str, weight: int, report: list) -> None:
+> 
+>     src_var_node = str(src_var) + '_' + str(src_node)
+>     dest_var_node = str(dest_var) + '_' + str(dest_node)
+>     csr_matrix_graph, variable_to_csr_matrix_index, max_csr_matrix_index, row_col_index_map, src_sink_csr_nodes, src_sink_csr_variables = csr_collection
+> 
+>     if src_var_node not in variable_to_csr_matrix_index:
+>         variable_to_csr_matrix_index[src_var_node] = max_csr_matrix_index[0]
+>         max_csr_matrix_index[0] += 1
+>     if dest_var_node not in variable_to_csr_matrix_index:
+>         variable_to_csr_matrix_index[dest_var_node] = max_csr_matrix_index[0]
+>         max_csr_matrix_index[0] += 1
+> 
+>     src_index = variable_to_csr_matrix_index[src_var_node]
+>     dest_index = variable_to_csr_matrix_index[dest_var_node]
+> 
+>     print(f"Comparing {src_sink_csr_nodes[1].id} and {dest_node.id}", flush=True)
+>     if src_sink_csr_nodes[0].id == src_node.id:
+>         src_sink_csr_variables["src"] = src_index
+>         print(f"src_sink_csr_variables[src] = {src_index}", flush=True)
+>     if src_sink_csr_nodes[1].id == dest_node.id:
+>         src_sink_csr_variables["sink"] = dest_index
+>         print(f"src_sink_csr_variables[sink] = {dest_index}", flush=True)
+> 
+>     row_col_index = (src_index, dest_index)
+>     if row_col_index not in row_col_index_map:
+>         row_col_index_map[row_col_index] = len(csr_matrix_graph['rows'])
+>         csr_matrix_graph['rows'].append(src_index)
+>         csr_matrix_graph['cols'].append(dest_index)
+>         csr_matrix_graph['data'].append(weight)
+>     else:
+>         csr_matrix_graph['data'][row_col_index_map[row_col_index]] = max(weight, csr_matrix_graph['data'][row_col_index_map[row_col_index]])
+> 
+>     result = f"Added ({src_index}, {dest_index})\n"
+>     result += f"            from {src_var_node}\n"
+>     result += f"            to {dest_var_node}"
+>     return result
+> 
+> # Apply the bit propagation rule
+> def apply_propagation_rule(report: "list[str]", bit_io_map: dict, n: "statement_node", rule: str, rule_params: "list[str]", out_regs: "list[register]", csr_collection: tuple, graph, graph_num, i) -> None:
+> 
+>     instruction, desc, paramsRegs = parse_bytecode_stmt(n.statement)
+> 
+>     # For function calls, we need to propagate bits from arguments to parametes
+>     if instruction.startswith("invoke"):
+>         for index, arg_reg_name in enumerate(paramsRegs[0:-1]):
+>             arg_reg = register.local(arg_reg_name, n.clazz, n.method)
+>             if arg_reg in bit_io_map[n.id]["in"]:
+>                 reg_in_method_name = "p"+str(index)
+>                 reg_in_method = register.local_called(reg_in_method_name, desc)
+> 
+>                 if "execute([Ljava/lang/Object;)Landroid/os/AsyncTask;" in desc:
+>                     for next_node in graph[n]:
+>                         if next_node.method == "doInBackground([Ljava/lang/Object;)Ljava/lang/Object;":
+>                             reg_in_method = register.local_called(reg_in_method_name, next_node.clazz_method)
+> 
+>                 bit_io_map[n.id]["out"][reg_in_method] = bit_io_map[n.id]["in"][arg_reg]
+>                 build_report = build_csr_matrix(csr_collection, n, arg_reg, n, reg_in_method, bit_io_map[n.id]["in"][arg_reg], report)
+>                 write_flush(report, f"    will add to graph for current node by method call: {build_report}")
+> 
+>     # Apply regular propagation rules
+> 
+>     if rule == "generate":
+>         for out_reg in out_regs:
+>             bit_io_map[n.id]["out"][out_reg] = int(rule_params[0])
+>     elif rule == "propagate":
+>         try:
+>             assert len(bit_io_map[n.id]["in"]) == 1
+>         except AssertionError as e:
+>             print(f"AssertionError: {bit_io_map[n.id]}")
+>             write_flush(report, f"({graph_num}, {i}): propagating from more than one input register for node {n}, input registers: {bit_io_map[n.id]['in']}")
+>         propagated_value = max(v for _, v in bit_io_map[n.id]["in"].items())
+>         for out_reg in out_regs:
+>             for in_reg in bit_io_map[n.id]["in"]:
+>                 bit_io_map[n.id]["out"][out_reg] = propagated_value
+>                 build_report = build_csr_matrix(csr_collection, n, in_reg, n, out_reg, propagated_value, report)
+>                 write_flush(report, f"    will add to graph for current node by propagation: {build_report}")
+>     elif rule == "max":
+>         propagated_value = max(v for _, v in bit_io_map[n.id]["in"].items())
+>         if rule_params: # There is a specified max value for the instruction
+>             propagated_value = min(propagated_value, int(rule_params[0]))
+>         for out_reg in out_regs:
+>             for in_reg in bit_io_map[n.id]["in"]:
+>                 bit_io_map[n.id]["out"][out_reg] = propagated_value
+>                 build_report = build_csr_matrix(csr_collection, n, in_reg, n, out_reg, propagated_value, report)
+>                 write_flush(report, f"    will add to graph for current node by max: {build_report}")
+>     elif rule == "add":
+>         propagated_value = sum(v for _, v in bit_io_map[n.id]["in"].items())
+>         for out_reg in out_regs:
+>             bit_io_map[n.id]["out"][out_reg] = propagated_value
+>             for in_reg in bit_io_map[n.id]["in"]:
+>                 bit_io_map[n.id]["out"][out_reg] = propagated_value
+>                 build_report = build_csr_matrix(csr_collection, n, in_reg, n, out_reg, propagated_value, report)
+>                 write_flush(report, f"    will add to graph for current node by add: {build_report}")
+> 
+> 
+> # Find the output and registers for the instruction
+> def get_output_registers(out_index: "list[int]", n: statement_node, graph: "dict[statement_node, list[statement_node]]") -> "list[register]":
+> 
+>     instruction, desc, paramsRegs = parse_bytecode_stmt(n.statement)
+>     out_regs : "list[register]" = list()
+> 
+>     index: int
+>     for index in out_index:
+>         if instruction.startswith("iput") or instruction.startswith("sput"):
+>             out_regs.append(register.field(desc))
+>         elif instruction.startswith("return"):
+>             out_regs.append(register.ret(n.clazz, n.method))
+>         else:
+>             out_regs.append(register.local(paramsRegs[index], n.clazz, n.method))
+> 
+>     # For method calls, we should check if it executes a call (not a model)
+>     # In that case, we don't propagate from arguments to return
+>     if instruction.startswith("invoke"):
+>         modeled_call = True
+>         instruction, desc, paramsRegs = parse_bytecode_stmt(n.statement)
+>         if n in graph:
+>             for next_node in graph[n]:
+>                 if desc == next_node.clazz_method: # TODO: also handle reflection
+>                     modeled_call = False
+>                     break
+> 
+>         if not modeled_call:
+>             out_regs.clear()
+> 
+>     return out_regs
+> 
+> # Find the input and registers for the instruction
+> def get_input_registers(in_index: "list[int]", n: statement_node) -> "list[register]":
+>     instruction, desc, paramsRegs = parse_bytecode_stmt(n.statement)
+>     in_regs : "list[register]" = list()
+>     if in_index[0] == "*":
+>         # For the case where all input registers are used (*)
+> 
+>         if instruction.startswith("invoke"):
+>             input_reg_names = paramsRegs[0:-1]
+>         else:
+>             raise Exception(f"Non invoke with * params: {n.statement}")
+> 
+>         for p in input_reg_names:
+>             in_regs.append(register.local(p, n.clazz, n.method))
+>     else:
+>         # For the case where only some input registers are used
+>         if instruction.startswith("iget") or instruction.startswith("sget"):
+>             in_regs.append(register.field(desc))
+>         for index in in_index:
+>             in_regs.append(register.local(paramsRegs[index], n.clazz, n.method))
+>     return in_regs
+> 
+> class rule:
+>     def __init__(self, rule: str, rule_params: "list[str]", in_index: "list[int]", out_index: "list[int]"):
+>         self.rule = rule
+>         self.rule_params = rule_params
+>         self.in_index = in_index
+>         self.out_index = out_index
+> 
+> def parse_rule(rules, instruction, desc):
+>     all_rules = list()
+>     full_rule_dict = rules[instruction]
+>     if desc in full_rule_dict:
+>         full_rule_list = full_rule_dict[desc]
+>     else:
+>         full_rule_list = full_rule_dict["default"]
+>     for full_rule in full_rule_list:
+>         rule_type, rule_params = full_rule["rule"][0], full_rule["rule"][1:]
+>         in_index, out_index = full_rule["in"], full_rule["out"]
+>         all_rules.append(rule(rule_type, rule_params, in_index, out_index))
+>     return all_rules
+> 
+> 
+> 
+> def parse_bytecode_stmt(line):
+>     if "=" in line:
+>         assigned_var, line = line.split("=")
+>         assigned_var = assigned_var.strip().split(" ")[1]
+>     else:
+>         assigned_var = ""
+>     # print(line)
+>     line = line.strip().split(" ")
+>     instruction = line[0]
+>     if instruction.startswith("invoke"):
+>         instruction = "invoke"
+>         paramsRegs = " ".join(line[1:-1]).replace("},", "").replace("{", "")
+>         if ".." in paramsRegs:
+>             # print(line)
+>             first_reg = int(line[1][2:])
+>             last_reg = int(line[3][1:].replace("},", ""))
+>             range_params = list()
+>             for i in range(first_reg, last_reg+1):
+>                 range_params.append("v" + str(i))
+>             paramsRegs = ", ".join(range_params)
+>         paramsRegs = paramsRegs.split(", ")
+>         paramsRegs = paramsRegs + [assigned_var]
+>         desc = line[-1]
+>         return instruction, desc, paramsRegs
+>     if instruction.startswith("iget") or instruction.startswith("sget"):
+>         paramsRegs = [line[1].replace(",", "")]
+>         if instruction.startswith("iget"):
+>             paramsRegs.append(line[2].replace(",", ""))
+>         desc = line[-1]
+>         return instruction, desc, paramsRegs
+>     if instruction.startswith("iput") or instruction.startswith("sput"):
+>         paramsRegs = [line[1].replace(",", "")]
+>         if instruction.startswith("iput"):
+>             paramsRegs.append(line[2].replace(",", ""))
+>         desc = line[-1]
+>         return instruction, desc, paramsRegs
+>     if instruction.startswith("aget") or instruction.startswith("aput") :
+>         var1 = line[1].replace(",", "")
+>         var2 = line[2].replace(",", "")
+>         var3 = line[3].replace(",", "")
+>         desc = line[-1]
+>         paramsRegs = [var1, var2, var3]
+>         return instruction, desc, paramsRegs
+>     if instruction.startswith("move"):
+>         var1 = line[1].replace(",", "")
+>         var2 = line[2].replace(",", "")
+>         desc = line[-1]
+>         paramsRegs = [var1, var2]
+>         return instruction, desc, paramsRegs
+>     if instruction.startswith("int-to-") or instruction.startswith("long-to-") or instruction.startswith("float-to-") or instruction.startswith("double-to-"):
+>         var1 = line[1].replace(",", "")
+>         var2 = line[2].replace(",", "")
+>         dest_type = instruction.split("-")[2]
+>         desc = line[-1]
+>         paramsRegs = [var1, var2]
+>         return instruction, desc, paramsRegs
+>     if instruction.startswith("const"):
+>         var1 = line[1].replace(",", "")
+>         desc = line[-1]
+>         paramsRegs = [var1]
+>         return instruction, desc, paramsRegs
+>     if instruction.startswith("return"):
+>         if instruction == "return-void":
+>             paramsRegs = []
+>         else:
+>             var1 = line[1].replace(",", "")
+>             paramsRegs = [var1]
+>         desc = line[-1]
+>         return instruction, desc, paramsRegs
+>     if instruction.startswith("throw"):
+>         var1 = line[1].replace(",", "")
+>         desc = line[-1]
+>         paramsRegs = [var1]
+>         return instruction, desc, paramsRegs
+>     if instruction.startswith("if-"):
+>         var1 = line[1].replace(",", "")
+>         var2 = line[2].replace(",", "")
+>         if_type = instruction.split("-")[1]
+>         desc = line[-1]
+>         paramsRegs = [var1, var2]
+>         return instruction, desc, paramsRegs
+>     if instruction.startswith("goto"):
+>         desc = line[-1]
+>         paramsRegs = []
+>         return instruction, desc, paramsRegs
+>     if instruction.startswith("check-cast"):
+>         var1 = line[1].replace(",", "")
+>         cast_type = convert_type_from_bytecode_to_jimple(line[2])
+>         desc = line[-1]
+>         paramsRegs = [var1]
+>         return instruction, desc, paramsRegs
+>     if instruction.startswith("array-length"):
+>         var1 = line[1].replace(",", "")
+>         var2 = line[2].replace(",", "")
+>         desc = line[-1]
+>         paramsRegs = [var1, var2]
+>         return instruction, desc, paramsRegs
+>     if instruction == "new-array":
+>         var1 = line[1].replace(",", "")
+>         var2 = line[2].replace(",", "")
+>         arr_type = convert_type_from_bytecode_to_jimple(line[3])
+>         desc = line[-1]
+>         paramsRegs = [var1, var2]
+>         return instruction, desc, paramsRegs
+>     if instruction.endswith("/2addr") or instruction.startswith("neg-int"):
+>         var1 = line[1].replace(",", "")
+>         var2 = line[2].replace(",", "")
+>         desc = line[-1]
+>         paramsRegs = [var1, var2]
+>         return instruction, desc, paramsRegs
+>     else:
+>         try:
+>             var1 = line[1].replace(",", "")
+>             var2 = line[2].replace(",", "")
+>             var3 = line[3].replace(",", "")
+>             desc = line[-1]
+>             paramsRegs = [var1, var2, var3]
+>             return instruction, desc, paramsRegs
+>         except:
+>             pass
+> 
+> 
+> 
+>     print(f"Warning, skipped instruction {line}", flush=True)
+>     raise Exception(f"Un-supported instruction: {line}")
+> 
+> def compute_flow(csr_matrix_graph, max_csr_matrix_index, src, sink):
+>     row = np.array(csr_matrix_graph['rows'])
+>     col = np.array(csr_matrix_graph['cols'])
+>     data = np.array(csr_matrix_graph['data'])
+>     matrix_len = max_csr_matrix_index[0]
+>     matrix = csr_matrix((data, (row, col)), shape=(matrix_len, matrix_len))
+>     maximum_flow_result = csgraph.maximum_flow(matrix, src, sink)
+>     flow = maximum_flow_result.flow_value
+>     residual = maximum_flow_result.residual
+>     print(f"Max flow for ({src} , {sink}) is {flow}", flush=True)
+> 
+>     source_nodes = csgraph.depth_first_order(matrix - residual, src)[0]
+> 
+>     source_component = list(source_nodes)
+>     sink_component = list(set(range(matrix_len)) - set(source_component))
+>     # print(f"Source graph: {source_component}", flush=True)
+>     # print(f"Sink graph: {sink_component}", flush=True)
+> 
+>     # Find the min cut edges
+>     min_cut_edges = list()
+>     for edge in zip(csr_matrix_graph['rows'], csr_matrix_graph['cols']):
+>         if edge[0] in source_component and edge[1] in sink_component:
+>             min_cut_edges.append(edge)
+> 
+>     print(f"Min cut edges: {min_cut_edges}", flush=True)
+> 
+>     # # Create a csr_graph for source components
+>     # source_csr_matrix_graph = {'rows': [], 'cols': [], 'data': []}
+>     # for i in range(len(csr_matrix_graph['rows'])):
+>     #     if csr_matrix_graph['rows'][i] in source_component and csr_matrix_graph['cols'][i] in source_component:
+>     #         source_csr_matrix_graph['rows'].append(csr_matrix_graph['rows'][i])
+>     #         source_csr_matrix_graph['cols'].append(csr_matrix_graph['cols'][i])
+>     #         source_csr_matrix_graph['data'].append(csr_matrix_graph['data'][i])
+>     # source_csr_matrix_row = np.array(source_csr_matrix_graph['rows'])
+>     # source_csr_matrix_col = np.array(source_csr_matrix_graph['cols'])
+>     # source_csr_matrix_data = np.array(source_csr_matrix_graph['data'])
+>     # source_csr_matrix_len = len(source_component)
+>     # source_csr_matrix = csr_matrix((source_csr_matrix_data, (source_csr_matrix_row, source_csr_matrix_col)), shape=(source_csr_matrix_len, source_csr_matrix_len))
+> 
+>     # draw_bit_graph(source_csr_matrix)
+> 
+>     # small_matrix = matrix[0:100, 0:100]
+>     # draw_bit_graph(small_matrix)
+> 
+> 
+>     draw_bit_graph(matrix)
+> 
+>     # print(str(matrix.toarray()), flush=True)
+>     # print(f"Flow graph:", flush=True)
+>     # print(str(maximum_flow_result.residual.toarray()), flush=True)
+> 
+> 
+> def draw_bit_graph(graph_csr):
+>     # G = nx.Graph()
+>     G = nx.DiGraph(directed=True)
+>     edge_labels = {}  # Dictionary to hold edge weights
+>     for i in range(graph_csr.shape[0]):
+>         for j in range(graph_csr.shape[1]):
+>             if graph_csr[i, j] != 0:
+>                 G.add_edge(i, j)
+>                 edge_labels[(i, j)] = graph_csr[i, j]  # Add edge weight to dictionary
+>                 # G.add_weighted_edges_from([(i, j, graph_csr[i, j])])
+> 
+>     A = nx.nx_agraph.to_agraph(G)
+> 
+>     for n1, n2 in A.edges():
+>         A.get_edge(n1, n2).attr['label'] = edge_labels[(int(n1), int(n2))]
+> 
+> 
+>     A.layout('dot', args='-Nfontsize=10 -Nwidth=".2" -Nheight=".2" -Nmargin=0 -Gfontsize=8')
+> 
+>     A.draw('test_fig.pdf', format='pdf', prog='dot')
+> 
+>     # Draw the graph
+>     # pos = nx.spring_layout(G, seed=42)  # Layout algorithm (you can choose others)
+>     # # pos = nx.kamada_kawai_layout(G)
+>     # plt.figure(figsize=(18,18))
+>     # nx.draw(G, pos, with_labels=True, node_color='skyblue')
+>     # # nx.draw_networkx(G, pos, arrows=True, with_labels=True)
+>     # nx.draw_networkx_edges(G, pos, arrows=True)
+>     # nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels)
+>     # plt.title("CSR Matrix as Nodes and Edges")
+>     # plt.savefig('test_fig.pdf')
+> 
+> 
+> def get_src_sink_csr_nodes(src_insn_sink_ins_pairs, graph):
+>     src_csr_node = 0
+>     sink_csr_node = 0
+>     for src_ins, sink_ins in src_insn_sink_ins_pairs:
+>         key = list(graph.keys())[0]
+>         if key.id == src_ins:
+>             for n in graph:
+>                 for next_node in graph[n]:
+>                     if next_node.id == sink_ins:
+>                         src_csr_node = key
+>                         sink_csr_node = next_node
+>                         return src_csr_node, sink_csr_node
+>     raise Exception(f"Could not find src and sink nodes")
+> 
+> 
+> def read_modeled_methods(modeled_methods_file):
+>     modeled_methods = dict()
+>     with open(modeled_methods_file, 'r') as m_file:
+>          for line in m_file:
+>             method_name, method_set = line.strip().split(":")
+>             method_set = method_set.strip().replace("[", "").replace("]", "").split(", ")
+>             method_set = set(method_set)
+>             modeled_methods[method_name] = method_set
+>     return modeled_methods
+> 

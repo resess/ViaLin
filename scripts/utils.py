@@ -260,9 +260,10 @@ def get_parcel_graph(num, graphs_lines, new_graphs):
         return
     last_line = None
     new_graph = list()
+    # print(f"Getting parcel graph {num}")
     for l in graphs_lines[num]:
         stmt = l[0]
-        if "(-2)" in stmt: # parcels
+        if last_line and "(-2)" in stmt: # parcels
             # print(f"Stmt: {stmt}")
             parcel_nums = [int(x) for x in stmt.split("(")[0].split("-") if x]
             for parcel_num in parcel_nums:
@@ -289,6 +290,7 @@ def get_parcel_graph(num, graphs_lines, new_graphs):
 
     graphs_lines[num] = list() # erase to save memory
     new_graphs[num] = new_graph
+    # print(f"Added new graph {new_graph}")
     return new_graph
 
 
@@ -302,6 +304,7 @@ def complete_graphs_from_parcels(graphs_lines):
 
 def get_graphs_from_reports_cached(report, parcels, sinks):
     sinks_found = dict()
+    wrong_sinks = dict()
     graphs_lines = dict()
     graph_cache = dict()
     graphs_rev = dict()
@@ -313,7 +316,12 @@ def get_graphs_from_reports_cached(report, parcels, sinks):
     source_stmt_map = dict()
     sink_stmt_map = dict()
     print("Extracting lines")
+    node, left, right = [None, None, None]
+    last_node, last_left, last_right = [None, None, None]
     for line in report:
+        if "DumpTaint-field" in line and "FieldAccessPath: java.lang.Thread.paramTaint" in line:
+            num = int(line.split("DumpTaint-field-")[1].split(":")[0])
+            wrong_sinks[num] = line
         if "SinkFound:" in line:
             sink_line = line.split("SinkFound: ")[1].split(", ")[0]
             # print(f"SinkFound:     {sink_line}")
@@ -346,11 +354,29 @@ def get_graphs_from_reports_cached(report, parcels, sinks):
                     right = None
                 if num not in graphs_lines:
                     graphs_lines[num] = list()
+                    last_node, last_left, last_right = [None, None, None]
 
                 # if (node, left, right) not in graphs_lines[num]:
                 graphs_lines[num].append((node, left, right))
-
                 graph_cache[node] = {"left": left, "right" : right}
+
+                if last_left and node and node != last_left and last_left not in graph_cache:
+                    # Lcom/passportparking/mobile/pplibrary/e/au;-><init>(Ljava/util/HashMap;)V(31)id(162515159188)
+                    if "->" in last_left and "->" in node:
+                        last_left_class = last_left.split("->")[0]
+                        node_class = node.split("->")[0]
+                        # print(last_left.split("("))
+                        # print(node.split("("))
+                        last_left_num = int(last_left.split("(")[-1].replace(")", ""))
+                        node_num = int(node.split("(")[-1].replace(")", ""))
+                        # print(f"Comparing {last_left_class} <--> {node_class}")
+                        if last_left_class == node_class and last_left_num > node_num:
+                            graphs_lines[num].append((last_left, node, None))
+                            graph_cache[last_left] = {"left": node, "right" : None}
+                            # print(f"Added missing line: {last_left} -> {node}")
+                            # print(f"  nums: {last_left_num} -> {node_num}")
+
+                last_node, last_left, last_right = node, left, right
                 # if num == 1042804163:
                 #     print(graph_cache)
                 #     input("Press enter to continue")
@@ -381,17 +407,19 @@ def get_graphs_from_reports_cached(report, parcels, sinks):
     del parcels
 
     print(f"Deleted {num_removed_parcels} parcels", flush=True)
-
+    # print(f"Remaining graphs: {graphs_lines}")
     print("Extending graphs from cache", flush=True)
     graphs_lines = fix_graphs_from_cache(graphs_lines, graph_cache)
 
+    print(f"Warning: wrong sinks? {wrong_sinks}", flush=True)
+    print(f"Sinks found: {sinks_found}", flush=True)
     graphs_to_remove = list()
     for n in graphs_lines:
         if n not in sinks_found:
-            # print(f"Graph {n} has no sink")
+            print(f"Graph {n} has no sink")
             graphs_to_remove.append(n)
-        # else:
-        #     print(f"Graph {n} has sink")
+        else:
+            print(f"Graph {n} has sink")
 
     for n in graphs_to_remove:
         del graphs_lines[n]
@@ -410,7 +438,7 @@ def get_graphs_from_reports_cached(report, parcels, sinks):
     graphs = dict()
     pair_cache = dict()
 
-    # print(f"Source IDs: {sources_ids}", flush=True)
+    print(f"Source IDs: {sources_ids}", flush=True)
     for n in graphs_lines:
         graph_rev = dict()
         sink_insn = None
@@ -462,6 +490,8 @@ def get_graphs_from_reports_cached(report, parcels, sinks):
                 src_sink_pairs[(stmt1, insn_stmt_map[sink_insn])] = None
                 # print(f"Adding src: {(source_insn, sink_insn)}, {(stmt1, sink_insn)}, {(stmt1, insn_stmt_map[sink_insn])}")
                 # print(f"Adding src: {stmt1}:{source_insn}")
+            # elif insn1 in sources_ids and insn1 not in insn_stmt_map:
+            #     print(f"Source not found: {insn1}")
             if right:
                 new_node = (insn3, stmt3)
                 new_neighbor = (insn1, stmt1)
@@ -480,7 +510,7 @@ def get_graphs_from_reports_cached(report, parcels, sinks):
                 insn_stmt_map[insn1] = stmt1
                 insn_stmt_map[insn3] = stmt3
 
-        graphs[n] = split_graphs_by_source_statement_instance(graph_rev, sources)
+        graphs[n] = split_graphs_by_source_statement_instance(graph_rev, sources, insn_stmt_map)
         del graph_rev
         del graphs_lines[n][:]
 
@@ -491,7 +521,7 @@ def get_graphs_from_reports_cached(report, parcels, sinks):
     return graphs, insn_stmt_map, src_insn_sink_ins_pairs, src_sink_ins_pairs, src_sink_pairs, real_source_map, sources, sinks_found, source_stmt_map, sink_stmt_map
 
 
-def split_graphs_by_source_statement_instance(graph_rev, sources):
+def split_graphs_by_source_statement_instance(graph_rev, sources, insn_stmt_map):
     graphs = list()
 
     for src in sources:
@@ -499,11 +529,11 @@ def split_graphs_by_source_statement_instance(graph_rev, sources):
         # print(graph_rev)
         if src in graph_rev:
             # print(f"{src} in graph")
-            graphs.append(traverse_graph_from_stmt_inst_and_reverse(graph_rev, src))
+            graphs.append(traverse_graph_from_stmt_inst_and_reverse(graph_rev, src, insn_stmt_map))
     return graphs
 
 
-def traverse_graph_from_stmt_inst_and_reverse(graph_rev, src):
+def traverse_graph_from_stmt_inst_and_reverse(graph_rev, src, insn_stmt_map):
     graph = dict()
     to_visit = list()
     to_visit.append(src)
@@ -514,7 +544,6 @@ def traverse_graph_from_stmt_inst_and_reverse(graph_rev, src):
         if n in visited:
             continue
         visited.add(n)
-        # print(f"    visiting: {n}")
         if n in graph_rev:
             # print(f"    next nodes are: {graph_rev[n]}")
             for next_node in graph_rev[n]:
@@ -522,6 +551,18 @@ def traverse_graph_from_stmt_inst_and_reverse(graph_rev, src):
                     graph[next_node] = set()
                 graph[next_node].add(n)
                 to_visit.append(next_node)
+        else:
+            # print(f"no next nodes for {n}")
+            # print(f"possible {n[0] + 1}")
+            if n[0] + 1 in insn_stmt_map:
+                # print(f"--> {n[0] + 1}, {insn_stmt_map[n[0] + 1]}")
+                next_node = (n[0] + 1, insn_stmt_map[n[0] + 1])
+                if next_node not in graph:
+                    graph[next_node] = set()
+                graph[next_node].add(n)
+                to_visit.append(next_node)
+            # else:
+            #     print(f"No next")
     # print(f"Graph: {graph}", flush=True)
     # print(f"--------------", flush=True)
     return graph
@@ -584,102 +625,89 @@ def get_graphs_from_reports_ordered(report):
     return graphs
 
 
-def translate_graphs_to_paths(graphs, insn_stmt_map, sources, sinks):
+def translate_graphs_to_paths(graphs, bytecode_graphs, insn_stmt_map, sources, sinks, get_sink_func):
     paths = dict()
     divergent = dict()
     path_sources = dict()
     path_sinks = dict()
+    graph_src_sink_pairs = dict()
+    paths_info = dict()
+    seen_sources = set()
     for n in graphs:
-        translate_to_path_task(graphs, insn_stmt_map, sources, sinks, paths, divergent, path_sources, path_sinks, n)
-    # with Pool() as pool:
-    #     pool.map(translate_to_path_task_expand, [(graphs, insn_stmt_map, sources, sinks, paths, divergent, path_sources, path_sinks, n) for n in graphs])
+        translate_to_path_task(graphs, bytecode_graphs, insn_stmt_map, sources, sinks, paths, paths_info, divergent, path_sources, path_sinks, graph_src_sink_pairs, n, get_sink_func, seen_sources)
 
-    # print(f"Translated paths: {paths}", flush=True)
+    print(f"Translated paths: {paths}", flush=True)
     # print(f"Divergent: {divergent}", flush=True)
-    return paths, divergent, path_sources, path_sinks
+    return paths, paths_info, divergent, path_sources, path_sinks, graph_src_sink_pairs
 
-# def translate_to_path_task_expand(task_input):
-#     translate_to_path_task(task_input[0], task_input[1], task_input[2], task_input[3],
-#                            task_input[4], task_input[5], task_input[6], task_input[7], task_input[8])
 
-def translate_to_path_task(graphs, insn_stmt_map, sources, sinks, paths, divergent, path_sources, path_sinks, n):
+def translate_to_path_task(graphs, bytecode_graphs, insn_stmt_map, sources, sinks, paths, paths_info, divergent, path_sources, path_sinks, graph_src_sink_pairs, n, get_sink_func, seen_sources):
     paths[n] = []
     divergent[n] = []
     path_sources[n] = []
     path_sinks[n] = []
-    # print(f"Will translate graphs for: {n}", flush=True)
-    for g in graphs[n]:
-            # p, div = translate_single_graphs_to_paths_from_sink(n, g, insn_stmt_map, sinks[n])
-        sink = get_sink(g, sinks[n])
+    graph_src_sink_pairs[n] = dict()
+    paths_info[n] = []
+    for i, g in enumerate(graphs[n]):
+        sink = None
         for source in sources:
-            p, div = translate_single_graphs_to_paths_from_src(n, g, insn_stmt_map, source, sink)
-                # p = combine_src_sink_path(p_src, p_sink)
+            if source in seen_sources:
+                continue
+            if not sink:
+                sink = get_sink_func(g, sinks[n])
+            p, div, graph_src_sink_pair = translate_single_graphs_to_paths_from_src(n, g, insn_stmt_map, source, sink, i)
             if p:
-                    # print("    Found a graph")
+                seen_sources.add(source)
+                print(f"Found path {n}_{i} from {source} to {sink} in graph {n}:")
+                print(f"    {p}")
                 paths[n].append(p)
+                paths_info[n].append({'graph': bytecode_graphs[n][i], 'graph_num': n, 'src_sink_graph_index': i, 'source': source, 'sink': sink})
                 path_sources[n].append(source)
                 path_sinks[n].append((sinks[n], sink))
                 divergent[n].append(div)
+                if i not in graph_src_sink_pairs[n]:
+                    graph_src_sink_pairs[n][i] = list()
+                graph_src_sink_pairs[n][i].append(graph_src_sink_pair)
             else:
-                    # print("    Didn't find a graph")
                 pass
 
-# def translate_single_graphs_to_paths_from_sink(num, graph, insn_stmt_map, sinks_found):
-#     sink = get_sink(graph, sinks_found)
-#     to_visit = list()
-#     to_visit.append(sink)
-#     path = list()
-#     visited_si = set()
-#     path_set = set(path)
-#     graph_set = set(graph)
-#     path_is_divergant = False
-#     while len(to_visit):
-#         n = to_visit.pop(0)
-#         visited_si.add(n)
-#         if n[1] not in path_set:
-#             path.append(n[1])
-#             path_set.add(n[1])
-#         if n in graph_set:
-#             if len(graph[n]) > 1:
-#                 path_is_divergant = True
-#             for next_node in graph[n]:
-#                 if next_node not in visited_si and next_node not in to_visit:
-#                     to_visit.append(next_node)
-#         else:
-#             path.remove(n[1])
-#             path.append(n[1])
 
-#     return path, path_is_divergant
-
-
-def translate_single_graphs_to_paths_from_src(num, graph, insn_stmt_map, source, sink):
+def translate_single_graphs_to_paths_from_src(num, graph, insn_stmt_map, source, sink, graph_sub_num):
     graph_rev = reverse_graph(graph)
 
     to_visit = list()
     visited_si = set()
 
-    if source in graph_rev:
-        to_visit.append(source)
-        visited_si.add(source[0])
+    if source not in graph_rev:
+        return None, False, None
+
+    # if source not in graph_rev:
+    to_visit.append(source)
+    visited_si.add(source[0])
+
+    # for n in graph_rev:
+    #     to_visit.append(n)
+    #     visited_si.add(n[0])
+
 
     time_dict = dict()
     path_is_divergant = False
-    print("=========")
-    print(f"Graph: {num}")
-    print(f"Source: {source}")
-    print(f"Sink: {sink}")
+    # print("=========")
+    # print(f"Graph, src, sink: ({num}_{source[0]}_{sink[0]}_{graph_sub_num})")
+    # print(f"Source: {source}")
+    # print(f"Sink: {sink}")
+
+
     while len(to_visit):
         n = to_visit.pop(0)
         if n[0] < source[0]:
-            return None, False
-        # if n[0] > sink[0]:
-        #     print(f"Node is after sink: {n}", flush=True)
+            return None, False, None
+
         if n[1] not in time_dict:
             time_dict[n[1]] = n[0] # Map statement to first time it is executed
         elif n[0] < time_dict[n[1]]:
             time_dict[n[1]] = n[0]
         if n == sink:
-            # print(f"Visited the sink: {n}", flush=True)
             continue
         if n in graph_rev:
             if len(graph_rev[n]) > 1:
@@ -707,10 +735,12 @@ def translate_single_graphs_to_paths_from_src(num, graph, insn_stmt_map, source,
 
     # path.reverse()
     if path:
-        print(f"    Found a path")
+        # print(f"    Found a path")
+        graph_src_sink_pair = (source, sink)
     else:
-        print(f"    Didn't find a path")
-    return path, path_is_divergant
+        # print(f"    Didn't find a path")
+        graph_src_sink_pair = None
+    return path, path_is_divergant, graph_src_sink_pair
 
 
 def combine_src_sink_path(p_src, p_sink):
@@ -735,7 +765,7 @@ def reverse_graph(graph):
             graph_rev[neighbour].append(node)
     return graph_rev
 
-def get_sink(graph, sink_found):
+def get_last_sink(graph, sink_found):
     method_name = sink_found.split("->")[1].split("(")[0]
     class_name = "L" + sink_found.split("->")[0].replace(".", "/") + ";"
     sinks = list()
@@ -758,6 +788,44 @@ def get_sink(graph, sink_found):
     # print(f"Sink list: {sinks}")
     return sinks[0]
 
+
+def get_first_sink(graph, sink_found):
+    # This is a graph that starts from a sink and has many sources
+    # method_name = sink_found.split("->")[1].split("(")[0]
+    # class_name = sink_found.split("->")[0].replace(".", "/")
+    sinks = list()
+    no_edge_nodes = list()
+    vals = set()
+    for k in graph:
+        # k_method_name = k[1].split("->")[1].split("(")[0]
+        # k_class_name = k[1].split("->")[0]
+        # print(f"k is {k}, sink_found is {sink_found}")
+        # print(f"Comparing {k_method_name} <--> {method_name} and {k_class_name} <--> {class_name}")
+        # if method_name == k_method_name and class_name == k_class_name:
+        # print(f"Comparing {k} <--> {sink_found}")
+        if k[1] == sink_found:
+            # print(f"SinkFoundInGraph: {k}, sink_found is {sink_found}")
+            sinks.append(k)
+        for n in graph[k]:
+            # print(f"     Adding {n} to vals")
+            vals.add(n)
+    for k in graph:
+        if k not in vals:
+            # k_method_name = k[1].split("->")[1].split("(")[0]
+            # k_class_name = k[1].split("->")[0]
+            # if method_name == k_method_name and class_name == k_class_name:
+            #     return k
+            no_edge_nodes.append(k)
+
+    # # print(f"Sink list: {sinks}")
+    if len(sinks):
+        sinks.sort(key=lambda x: x[0])
+        # print(f"get_first_sink: Sinks: {sinks}")
+        return sinks[0]
+    else:
+        no_edge_nodes.sort(key=lambda x: x[0])
+        # print(f"get_first_sink: No edge nodes: {no_edge_nodes}")
+        return no_edge_nodes[0]
 
 def translate_paths_to_bytecode(paths, classed_dir, framework_classes_dir, loaded_classes):
     # print(f"loaded_classes: ")
@@ -794,6 +862,9 @@ def stmt_to_bytecode(stmt, classed_dir, framework_classes_dir, loaded_classes):
     bytecode_line_num = rest.split(")")[0]
     found = load_class_lazy(class_name, classed_dir, framework_classes_dir, loaded_classes)
     if not found:
+        return None
+    if method_name not in loaded_classes[class_name]:
+        print(f"Cannot find method {method_name} in class {class_name}")
         return None
     method_code = loaded_classes[class_name][method_name]
     if bytecode_line_num in method_code:
@@ -987,6 +1058,9 @@ def convert_bytecode_stmt_to_jimple(line):
         var2 = line[2].replace(",", "")
         var3 = line[3].replace(",", "")
         return f"{var2}[{var3}] = {var1}"
+    if instruction.startswith("move-exception"):
+        var1 = line[1].replace(",", "")
+        return f"exception {var1}"
     if instruction.startswith("move"):
         var1 = line[1].replace(",", "")
         var2 = line[2].replace(",", "")
@@ -1049,7 +1123,7 @@ def convert_bytecode_stmt_to_jimple(line):
         return create_binary_op(instruction, line, "<<")
     if instruction.startswith("shr") or instruction.startswith("ushr"):
         return create_binary_op(instruction, line, ">>")
-    if instruction == "neg-int":
+    if instruction.startswith("neg-"):
         var1 = line[1].replace(",", "")
         var2 = line[2].replace(",", "")
         return f"{var1} = ~ {var2}"
@@ -1058,6 +1132,13 @@ def convert_bytecode_stmt_to_jimple(line):
         var2 = line[2].replace(",", "")
         arr_type = convert_type_from_bytecode_to_jimple(line[3])
         return f"{var1} = new {arr_type}({var2})"
+    if instruction == "new-instance":
+        var1 = line[1].replace(",", "")
+        new_type = convert_type_from_bytecode_to_jimple(line[2])
+        return f"{var1} = new {new_type}"
+    if instruction == "monitor-exit":
+        var1 = line[1].replace(",", "")
+        return f"monitor-exit {var1}"
     # if instruction.contains("->"):
     #     class_name, method_name = desc.split("->")
     #     method_name, params = method_name.split("(")
@@ -1074,11 +1155,17 @@ def convert_bytecode_stmt_to_jimple(line):
     return "SKIP"
 
 
-def translate_paths_to_jimple(path_bytecode, real_source_map):
+def translate_paths_to_jimple(path_bytecode, real_source_map, class_filter):
     old_jimple_stmt = ""
     jimple_path = list()
     count = 0
     for i, line in enumerate(path_bytecode):
+
+        # print(f"Check to filter {line[0]}")
+        if not class_filter(line[0]):
+            # print(f"Filtered {line}")
+            continue
+
         bytecode_line_num, jimple_method, jimple_stmt = translate_line_to_jimple(real_source_map, i, line)
 
         if jimple_stmt == "return":
@@ -1089,6 +1176,7 @@ def translate_paths_to_jimple(path_bytecode, real_source_map):
             count += 1
 
         old_jimple_stmt = jimple_method + jimple_stmt
+    # sys.exit(1)
     return jimple_path
 
 
@@ -1139,11 +1227,19 @@ def translate_graphs_to_bytecode(graphs, classed_dir, framework_classes_dir, loa
                 if "(-2)" in node[1]:
                     continue
                 bytecode_stmt = stmt_to_bytecode(node[1], classed_dir, framework_classes_dir, loaded_classes)
+                if not bytecode_stmt:
+                    continue
                 dest_node = (node[0], node[1], bytecode_stmt)
+                if node[0] == 162515159163:
+                    print(f"Dest node: {node}")
                 for next_node in graph[node]:
                     if "(-2)" in next_node[1]:
                         continue
                     bytecode_stmt = stmt_to_bytecode(next_node[1], classed_dir, framework_classes_dir, loaded_classes)
+                    if not bytecode_stmt:
+                        continue
+                    if next_node[0] == 162515159163:
+                        print(f"    Next node: {next_node}")
                     src_node = (next_node[0], next_node[1], bytecode_stmt)
                     if src_node in temp_graph:
                         temp_graph[src_node].append(dest_node)
@@ -1157,8 +1253,9 @@ def translate_sources_to_bytecode(sources, classed_dir, framework_classes_dir, l
     bytecode_sources = list()
     for src in sources:
         bytecode_stmt = stmt_to_bytecode(src[1], classed_dir, framework_classes_dir, loaded_classes)
-        src_node = (src[0], src[1], bytecode_stmt)
-        bytecode_sources.append(src_node)
+        if bytecode_stmt:
+            src_node = (src[0], src[1], bytecode_stmt)
+            bytecode_sources.append(src_node)
     return bytecode_sources
 
 
@@ -1175,6 +1272,7 @@ class statement_node:
             self.bytecode_location = node[1]
             self.clazz = node[2][0]
             self.method = node[2][1]
+            self.method_name = self.method.split("(")[0]
             self.bytecode_line_num = node[2][2]
             self.code_line_num = node[2][3]
             self.statement = node[2][4]
@@ -1208,3 +1306,6 @@ def to_node_graph(graph: dict):
             next_stmt_node = statement_node(next_node)
             node_graph[stmt_node].append(next_stmt_node)
     return node_graph
+
+# 162515159162
+# 162515159163

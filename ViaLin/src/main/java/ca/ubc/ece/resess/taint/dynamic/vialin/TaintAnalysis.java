@@ -69,66 +69,69 @@ class TaintAnalysis {
         "Lcz/msebera/android/httpclient/message/AbstractHttpMessage",
         "Landroid/view/View$OnUnhandledKeyEventListener",
 
+        // Sinks
+        // "Lorg/apache/http/client/", 
+        // "Lcz/msebera/android/httpclient/client/",
+        // "Lretrofit2/",
+        // "Lokhttp3/",
+        // "Lcom/squareup/okhttp/",
+        
+        "Lokio/",
+        "Lcom/android/okhttp/okio/",
+        "Lcom/google/gson",
+        "Lorg/json/", // TODO: remove
+
+
         // Compiles!
-        // "Landroid/Manifest",
-        // "Landroid/util",
-        // "Landroid/hidl/manager",
-        // "Lcom/android/providers/contacts",
-        // "Landroid/app/IActivityManager",
-        // "Landroid/os/BatteryStats",
-        // "Landroid/test/",
-        // "Lcom/android/server/power",
-        // "Lcom/android/internal/telephony",
-        // "Lcom/android/commands/",
-        // "Lcom/android/internal/",
-        // "Lcom/android/messaging/",
-        // "Lcom/android/providers/",
-        // "Lcom/android/phone/",
-        // "Lcom/android/server/",
-        // "Landroid/icu",
-        // "Landroid/provider",
-        // "Landroid/nfcs",
-        // "Landroid/printservice",
-        // "Landroid/Rsssssss",
-        // "Landroid/inputmethodservice",
-        // "Landroid/print",
-        // "Landroid/preference",
-        // "Landroid/graphics",
-        // "Landroid/database",
-        // "Landroid/gesture",
-        // "Landroid/service",
-        // "Landroid/telecom",
-        // "Landroid/net",
-        // "Landroid/sax",
-        // "Landroid/bluetooth",
-        // "Landroid/accounts",
-        // "Landroid/accessibilityservice",
-        // "Landroid/ddm",
-        // "Landroid/content",
-        // "Landroid/transition",
-        // "Landroid/mtp",
-        // "Landroid/companion",
-        // "Lcom/auth0/jwt",
-        // "Landroid/widget",
-        // "Landroid/support",
-        // "Landroid/view/View$OnUnhandledKeyEventListener"
+        "Landroid/Manifest",
+        "Landroid/util",
+        "Landroid/hidl/manager",
+        "Lcom/android/providers/contacts",
+        "Landroid/app/IActivityManager",
+        "Landroid/os/BatteryStats",
+        "Landroid/test/",
+        "Lcom/android/server/power",
+        "Lcom/android/internal/telephony",
+        "Lcom/android/commands/",
+        "Lcom/android/internal/",
+        "Lcom/android/messaging/",
+        "Lcom/android/providers/",
+        "Lcom/android/phone/",
+        "Lcom/android/server/",
+        "Landroid/icu",
+        "Landroid/provider",
+        "Landroid/nfcs",
+        "Landroid/printservice",
+        "Landroid/Rsssssss",
+        "Landroid/inputmethodservice",
+        "Landroid/print",
+        "Landroid/preference",
+        "Landroid/graphics",
+        "Landroid/database",
+        "Landroid/gesture",
+        "Landroid/service",
+        "Landroid/telecom",
+        "Landroid/net",
+        "Landroid/sax",
+        "Landroid/bluetooth",
+        "Landroid/accounts",
+        "Landroid/accessibilityservice",
+        "Landroid/ddm",
+        "Landroid/content",
+        "Landroid/transition",
+        "Landroid/mtp",
+        "Landroid/companion",
+        "Lcom/auth0/jwt",
+        "Landroid/widget",
+        "Landroid/support",
+        "Landroid/view/View$OnUnhandledKeyEventListener",
+        "Landroid/view/",
+        "Landroid/text/",
+
         // android.app.ActivityThread should be enabled
-/*
-04-28 17:37:33.225  2897  2897 I System.out: Khaled: addView stacktrace
-04-28 17:37:33.225  2897  2897 I System.out:     dalvik.system.VMStack.getThreadStackTrace(Native Method)
-04-28 17:37:33.225  2897  2897 I System.out:     java.lang.Thread.getStackTrace(Thread.java:6601)
-04-28 17:37:33.225  2897  2897 I System.out:     android.view.WindowManagerImpl.addView(WindowManagerImpl.java:94)
-04-28 17:37:33.225  2897  2897 I System.out:     android.app.ActivityThread.handleResumeActivity(ActivityThread.java:3750)
-04-28 17:37:33.226  2897  2897 I System.out:     android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2910)
-04-28 17:37:33.226  2897  2897 I System.out:     android.app.ActivityThread.-wrap11(Unknown Source:0)
-04-28 17:37:33.226  2897  2897 I System.out:     android.app.ActivityThread$H.handleMessage(ActivityThread.java:1596)
-04-28 17:37:33.226  2897  2897 I System.out:     android.os.Handler.dispatchMessage(Handler.java:105)
-04-28 17:37:33.226  2897  2897 I System.out:     android.os.Looper.loop(Looper.java:164)
-04-28 17:37:33.226  2897  2897 I System.out:     android.app.ActivityThread.main(ActivityThread.java:6600)
-04-28 17:37:33.226  2897  2897 I System.out:     java.lang.reflect.Method.invoke(Native Method)
-04-28 17:37:33.226  2897  2897 I System.out:     com.android.internal.os.Zygote$MethodAndArgsCaller.run(Zygote.java:240)
-04-28 17:37:33.226  2897  2897 I System.out:     com.android.internal.os.ZygoteInit.main(ZygoteInit.java:772)
-*/
+
+        "Ljavax/" // To get around native methods inside it that require precise modeling of params 
+
      };
 
      private static final Set<String> ignoreClass = new HashSet<>(Arrays.asList(ignoreArray));
@@ -271,6 +274,81 @@ class TaintAnalysis {
                 linesToAdd.add("    " + tool.getMoveResultTaint() + " " + targetTaintReg);
             }
         }
+    }
+
+    public Integer handleReturnAtSink(TaintTool tool, List<String> linesToAdd, String instruction,
+            String targReg, String sourceReg, String destTaintReg, String srcTaintReg, InstrumentationContext context, List<String> savedReg) {
+
+        if (tool instanceof ViaLinTool) {
+            context.maxRegs = handleReturnAtSink(context.taintTempReg, context.maxRegs, linesToAdd, instruction, targReg, sourceReg, destTaintReg, context.signatureRegister, context.deltaReg, srcTaintReg, context.methodDelta, context.regType, savedReg);
+        }
+
+        return context.maxRegs;
+    }
+
+    public Integer handleReturnAtSink(Integer taintTempReg, Integer maxRegs, List<String> linesToAdd, String instruction, String targReg, String sourceReg, String taintTargReg, String signatureRegister, String deltaReg, String leftTaint, int delta, Map<String, String> regType, List<String> savedReg) {
+
+        String moveInstruction = getMoveByInstruction(instruction);
+
+        String label = delta + "_" + linesToAdd.size();
+        String smallReg = targReg;
+        if (getRegNumFromRef(targReg) > 255) {
+            smallReg = sourceReg;
+            if (getRegNumFromRef(smallReg) > 255) {
+                smallReg = "v0";
+                String v0Type = regType.get("v0");
+                if (v0Type == null) {
+                    moveInstruction = null;
+                } else {
+                    moveInstruction = getMoveInstructionByType(v0Type);
+                    moveInstruction = moveInstruction.replace("/16", "");
+                }
+            }
+        }
+
+
+
+        if (!savedReg.contains(smallReg)) {
+            if (getRegNumFromRef(deltaReg) > 255 || getRegNumFromRef(taintTargReg) > 255) {
+                if (!instruction.startsWith("invoke-with-return")) {
+                    if (moveInstruction != null) {
+                        linesToAdd.add("    " + moveInstruction + "/16 v" + taintTempReg + ", " + smallReg);
+                    }
+                }
+            }
+        }
+
+
+
+
+        addConstTaint(linesToAdd, smallReg, deltaReg, delta);
+
+        String newLine = "    invoke-static {" + leftTaint + ", " + signatureRegister + ", " + deltaReg + "}, Ljava/lang/PathTaint;->propagateSinkReturn(Ljava/lang/PathTaint;Ljava/lang/String;I)Ljava/lang/PathTaint;";
+        Pair<List<String>, Integer> rangedInvoke = makeInvokeToRange(newLine, taintTempReg);
+        linesToAdd.addAll(rangedInvoke.first);
+        int newMaxRegs = rangedInvoke.second;
+        maxRegs = (maxRegs > newMaxRegs)? maxRegs : newMaxRegs;
+        if (getRegNumFromRef(taintTargReg) > 255) {
+            linesToAdd.add("    move-result-object "+ smallReg);
+            linesToAdd.add("    move-object/16 " + taintTargReg + ", "  + smallReg);
+
+        } else {
+            linesToAdd.add("    move-result-object "+ taintTargReg);
+        }
+
+        // }
+
+        
+        if (!savedReg.contains(smallReg)) {
+            if (getRegNumFromRef(deltaReg) > 255 || getRegNumFromRef(taintTargReg) > 255) {
+                if (!instruction.startsWith("invoke-with-return")) {
+                    if (moveInstruction != null) {
+                        linesToAdd.add("    " + moveInstruction + "/16 " + smallReg + ", v" + taintTempReg);
+                    }
+                }
+            }
+        }
+        return maxRegs;
     }
 
     public Integer handleOneSourceOneDest(TaintTool tool, List<String> linesToAdd, String instruction,
@@ -862,6 +940,34 @@ class TaintAnalysis {
         return maxRegs;
     }
 
+    public boolean isSink(String line) {
+        if (line == null) {
+            return false;
+        }
+
+        String delim = "L";
+        String search = ", L";
+        if (line.indexOf(search) == -1) {
+            delim = "[";
+            search = ", \\[";
+        }
+        String calledMethod = delim + line.split(search, 2)[1];
+
+        String instruction = getToken(line, 0);
+
+        MethodInfo calledMethodInfo = new MethodInfo(calledMethod, instruction.contains("static"));
+
+        Set<String> classesOfMethod = classAnalysis.getClassOfMethod(calledMethodInfo.getClassName(), calledMethodInfo.getNameAndDesc());
+        classesOfMethod.add(calledMethodInfo.getClassName());
+        int[] sinkParams = TaintSink.sinkParams(classesOfMethod, calledMethodInfo.getNameAndDesc());
+
+        if (sinkParams.length > 0) {
+            return true;
+        }
+        return false;
+    }
+
+
     /**
      * Injects taint sink handling.
      * Returns the maximum number of registers used in the process.
@@ -873,7 +979,7 @@ class TaintAnalysis {
      * @param context the InstrumentationContext to use for the injection
      * @return the maximum number of registers used in the process
      */
-    public int injectTaintSink(TaintTool tool, String line, List<String> linesToAdd, int taintTempReg, InstrumentationContext context) {
+    public int injectTaintSink(TaintTool tool, String line, int lineNum, List<String> linesToAdd, int taintTempReg, InstrumentationContext context) {
         if (line == null) {
             return 0;
         }
@@ -938,12 +1044,92 @@ class TaintAnalysis {
 
                 context.maxRegs = handleOneSourceOneDest(tool, linesToAdd, instruction, taintedVar, taintedVar, taintTargReg, taintTargReg, context, savedReg);
 
+                String newLine = "    invoke-static {" + taintTargReg + "}, Ljava/lang/PathTaint;->setSinkId(Ljava/lang/PathTaint;)V";
+                Pair<List<String>, Integer> rangedInvoke = makeInvokeToRange(newLine, taintTempReg);
+                linesToAdd.addAll(rangedInvoke.first);
+                int newMaxRegs = rangedInvoke.second;
+                context.maxRegs = (context.maxRegs > newMaxRegs)? context.maxRegs : newMaxRegs;
+
                 String type = calledMethodInfo.getParams().get(sinkParam);
 
-                String newLine = "    invoke-static {" + taintTargReg + "}, " + tool.getTaintDumpInstrOneArg();
+                newLine = "    invoke-static {" + taintTargReg + "}, " + tool.getTaintDumpInstrOneArg();
                 if (type.startsWith("L") || type.startsWith("[")) {
                     newLine = "    invoke-static {" + taintTargReg + ", " + taintedVar + "}, " + tool.getTaintDumpInstrTwoArg();
                 }
+
+                rangedInvoke = makeInvokeToRange(newLine, taintTempReg);
+                linesToAdd.addAll(rangedInvoke.first);
+                newMaxRegs = rangedInvoke.second;
+                context.maxRegs = (context.maxRegs > newMaxRegs)? context.maxRegs : newMaxRegs; 
+            }
+
+            if (tool instanceof ViaLinTool && sinkParams.length != 0) {
+                linesToAdd.add("    invoke-static {}, Ljava/lang/PathTaint;->finishDumpTaint()V");
+            }
+
+            if (tool instanceof ViaLinTool && sinkParams.length != 0) {
+                if (!calledMethodInfo.getReturnType().equals("V")) {
+                    int nextMoveIndex = nextInstructionContains(context.classLines, lineNum, "move-result");
+                    if (nextMoveIndex != -1) {
+                        String moveInstruction = getToken(context.classLines.get(nextMoveIndex), 0);
+                        String returnReg = getRegReference(context.classLines.get(nextMoveIndex), 1);
+                        String returnTaintReg = context.taintRegMap.get(returnReg);
+                        context.maxRegs = handleReturnAtSink(tool, linesToAdd, moveInstruction, returnReg, returnReg, returnTaintReg, returnTaintReg, context, savedReg);
+                        String newLine = "    invoke-static {" + returnTaintReg + "}, Ljava/lang/PathTaint;->setSinkId(Ljava/lang/PathTaint;)V";
+                        Pair<List<String>, Integer> rangedInvoke = makeInvokeToRange(newLine, taintTempReg);
+                        linesToAdd.addAll(rangedInvoke.first);
+                        int newMaxRegs = rangedInvoke.second;
+                        context.maxRegs = (context.maxRegs > newMaxRegs)? context.maxRegs : newMaxRegs;
+                    }
+                }
+            }
+
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Failed to inject at sink: " + line);
+            throw e;
+        }
+        return context.maxRegs;
+    }
+
+     public int injectViewCounting(TaintTool tool, String line, List<String> linesToAdd, int taintTempReg, InstrumentationContext context) {
+        if (line == null) {
+            return 0;
+        }
+
+        List<String> savedReg = new ArrayList<>();
+
+        String delim = "L";
+        String search = ", L";
+        if (line.indexOf(search) == -1) {
+            delim = "[";
+            search = ", \\[";
+        }
+        String calledMethod = delim + line.split(search, 2)[1];
+
+        String instruction = getToken(line, 0);
+
+        MethodInfo calledMethodInfo = new MethodInfo(calledMethod, instruction.contains("static"));
+
+
+        if (calledMethodInfo.signature().startsWith("Landroid/view/") || calledMethodInfo.signature().startsWith("Landroid/widget/")) {
+            // do count
+        } else {
+            return context.maxRegs;
+        }
+
+        String[] passedRegs = parsePassedRegs(line);
+        if (passedRegs == null) {
+            return context.maxRegs;
+        }
+
+        try {
+
+            for (int i = 0; i < passedRegs.length; i++) {
+
+                String taintedVar = passedRegs[i];
+                String taintTargReg = context.taintRegMap.get(taintedVar);
+
+                String newLine = "    invoke-static {" + taintTargReg + "}, Ljava/lang/PathTaint;->logViewAPI(Ljava/lang/PathTaint;)V";
 
                 Pair<List<String>, Integer> rangedInvoke = makeInvokeToRange(newLine, taintTempReg);
                 linesToAdd.addAll(rangedInvoke.first);
@@ -952,15 +1138,13 @@ class TaintAnalysis {
 
             }
 
-            if (tool instanceof ViaLinTool && sinkParams.length != 0) {
-                linesToAdd.add("    invoke-static {}, Ljava/lang/PathTaint;->finishDumpTaint()V");
-            }
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("Failed to inject at sink: " + line);
+            System.out.println("Failed to inject at ViewAPI: " + line);
             throw e;
         }
         return context.maxRegs;
     }
+
 
 
     /**
@@ -1592,17 +1776,19 @@ class TaintAnalysis {
                 continue;
             }
 
-            linesToAdd.add("    # addGetParamTaintAfterCall -> reg: " + passedRegs[i] + ", taint: " + taintReg);
+            // For the case where the paramter register is overwritten by the return of the method
+            // Should not propagate taint to overwritten register
+            if (!moveResultReg.isEmpty() && passedRegs[i].equals(moveResultReg)) {
+                // moveInstruction = getMoveByInstruction(currentInstruction) + "/16";
+                continue;
+            }
+
+            linesToAdd.add("    # addGetParamTaintAfterCall -> reg: " + passedRegs[i] + ", taint: " + taintReg + ", returnReg: " + moveResultReg);
+
             if (getRegNumFromRef(taintReg) > 255 ) {
                 String smallReg = passedRegs[i];
 
                 String moveInstruction = getMoveInstructionByType(calledMethodInfo.getParams().get(i));
-
-                // For the case where the paramter register is overwritten by the return of the method
-                // Need to adjust the type to the return of the method
-                if (!moveResultReg.isEmpty() && passedRegs[i].equals(moveResultReg)) {
-                    moveInstruction = getMoveByInstruction(currentInstruction) + "/16";
-                }
 
                 if (getRegNumFromRef(passedRegs[i]) > 255 ) {
                     if (!moveResultReg.isEmpty()) {

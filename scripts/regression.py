@@ -31,11 +31,11 @@ def main(device_id):
 
     os.system(f"adb -s {device_id} uninstall ca.ubc.resess.vialinminitester > /dev/null 2>&1")
 
-    os.system("python3 scripts/extract_path.py test/output/WhatsApp/results_vialin/app-release.log")
+    os.system("python3 scripts/extract_path.py test/output/WhatsApp/results_vialin/app-release.log methodSummaries/ framework_classes/ test/output/WhatsApp/results_vialin/")
 
     # Check 3 flows are detected
     num_flows = 0
-    with open("test/output/WhatsApp/results_vialin/app-release.paths/sources_sinks.csv", "r") as f:
+    with open("test/output/WhatsApp/results_vialin/app-release/paths/sources_sinks.csv", "r") as f:
         for l in f:
             if l.startswith("path_"):
                 num_flows += 1
@@ -58,10 +58,10 @@ def main(device_id):
         print("Test Result: GP Overhead Test Failed", flush=True)
 
     os.system(f"(echo 17; echo 1) | python3 evaluation_package/GPBench/scripts/run_gp.py vl {device_id} test/output/ test/temp/ norebuild")
-    os.system("python3 scripts/extract_path.py test/output/results_vialin/17.com.viagogo.consumer.viagogo.playstore.single_list.log")
+    os.system("python3 scripts/extract_path.py test/output/results_vialin/17.com.viagogo.consumer.viagogo.playstore.single_list.log  methodSummaries/ framework_classes/ test/output/results_vialin/")
 
     num_flows = 0
-    with open("test/output/results_vialin/17.com.viagogo.consumer.viagogo.playstore.single_list.paths/sources_sinks.csv", "r") as f:
+    with open("test/output/results_vialin/17.com.viagogo.consumer.viagogo.playstore.single_list/paths/sources_sinks.csv", "r") as f:
         for l in f:
             if l.startswith("path_"):
                 num_flows += 1
@@ -72,9 +72,9 @@ def main(device_id):
 
     # GPBench: Accuracy
     os.system(f"(echo 13; echo 1) | python3 evaluation_package/GPBench/scripts/run_gp.py vl {device_id} test/output/ test/temp/ norebuild")
-    os.system("python3 scripts/extract_path.py test/output/results_vialin/13.com.ackroo.mrgas.single_list.log")
+    os.system("python3 scripts/extract_path.py test/output/results_vialin/13.com.ackroo.mrgas.single_list.log  methodSummaries/ framework_classes/ test/output/results_vialin/")
     num_flows = 0
-    with open("test/output/results_vialin/13.com.ackroo.mrgas.single_list.paths/sources_sinks.csv", "r") as f:
+    with open("test/output/results_vialin/13.com.ackroo.mrgas.single_list/paths/sources_sinks.csv", "r") as f:
         for l in f:
             if l.startswith("path_"):
                 num_flows += 1
@@ -92,7 +92,7 @@ def main(device_id):
     files = utils.get_all_files("test/output/droidbench/")
     for f in files:
         if f.endswith(".log"):
-            os.system(f"python3 scripts/extract_path.py {f} test/output/droidbench/")
+            os.system(f"python3 scripts/extract_path.py {f}  methodSummaries/ framework_classes/ test/output/droidbench/ ")
 
     os.system("python3 scripts/compare_droidbench.py test/ground_truth/droidbench.csv test/output/droidbench/ test/ground_truth/droidbench/")
 

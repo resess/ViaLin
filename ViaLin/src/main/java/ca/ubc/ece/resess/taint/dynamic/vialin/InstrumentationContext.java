@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class InstrumentationContext {
+    public List<String> classLines;
     public MethodInfo currentMethod;
     public int maxRegs = 0;
     public Integer taintTempReg;

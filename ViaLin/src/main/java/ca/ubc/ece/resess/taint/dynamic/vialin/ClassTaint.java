@@ -80,6 +80,7 @@ public class ClassTaint extends TaintAnalysis {
         classToMethodIndexMap.put(className, classIndex);
 
         InstrumentationContext context = new InstrumentationContext();
+        context.classLines = classLines;
 
         boolean inAnnon = false;
         Deque<String> tryCatches = new ArrayDeque<>();
@@ -301,11 +302,7 @@ public class ClassTaint extends TaintAnalysis {
         }
 
 
-        int newMaxRegs = injectTaintSink(tool, line, taintAdditionSite, context.taintTempReg+1, context);
-        context.maxRegs = context.maxOfCurrentMaxRegsAndNewMaxRegs(newMaxRegs);
-        
-        newMaxRegs = injectViewCounting(tool, line, taintAdditionSite, context.taintTempReg+1, context);
-        context.maxRegs = context.maxOfCurrentMaxRegsAndNewMaxRegs(newMaxRegs);
+        int newMaxRegs;
 
         Set<String> transformations = new HashSet<>();
         if (!line.startsWith("    invoke-polymorphic")) {
@@ -313,6 +310,12 @@ public class ClassTaint extends TaintAnalysis {
             context.maxRegs = context.maxOfCurrentMaxRegsAndNewMaxRegs(newMaxRegs);
             lastCalled = line;
         }
+
+        newMaxRegs = injectTaintSink(tool, line, lineNum, taintAdditionSite, context.taintTempReg+1, context);
+        context.maxRegs = context.maxOfCurrentMaxRegsAndNewMaxRegs(newMaxRegs);
+        
+        newMaxRegs = injectViewCounting(tool, line, taintAdditionSite, context.taintTempReg+1, context);
+        context.maxRegs = context.maxOfCurrentMaxRegsAndNewMaxRegs(newMaxRegs);
 
 
         newMaxRegs = injectTaintSeedByReflection(tool, line, taintAdditionSite, context.taintTempReg+1, className, context.extraTaintMethods, context);
@@ -463,7 +466,7 @@ public class ClassTaint extends TaintAnalysis {
         int newMaxRegs = addGetParamTaintAfterCall(tool, lastCalled, taintAdditionSite, classLines, lineNum, context.taintTempReg+1, context);
         context.maxRegs = context.maxOfCurrentMaxRegsAndNewMaxRegs(newMaxRegs);
 
-        if (shouldModelMethod(lastCalled)) {
+        if (shouldModelMethod(lastCalled) || isSink(lastCalled)) {
             context.maxRegs = addPropagateReturnTaint(tool, taintAdditionSite, taintTargReg, targetReg, instruction, context);
         } else {
             addGetReturnTaint(tool, taintAdditionSite, taintTargReg, targetReg, instruction, context);

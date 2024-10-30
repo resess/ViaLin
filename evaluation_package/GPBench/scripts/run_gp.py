@@ -123,7 +123,7 @@ print("Tainting", flush=True)
 
 os.system(f"rm -r {temp_dir}; mkdir {temp_dir}; \
     java -Xss16M -jar ViaLin/target/vialin-jar-with-dependencies.jar \
-    t false {mode} {temp_dir} framework_analysis_results \
+    t false {mode} {temp_dir} framework_analysis_results methodSummaries \
     evaluation_package/GPBench/config/{source_list} evaluation_package/GPBench/config/{sink_list} \
     evaluation_package/GPBench/apps/{apk_name} > {log_name} 2>&1")
 

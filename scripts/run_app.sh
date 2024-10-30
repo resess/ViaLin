@@ -25,7 +25,7 @@ fi
 
 rm -r $temp_dir
 mkdir $temp_dir
-java -Xss16M -Xmx8G -jar ViaLin/target/vialin-jar-with-dependencies.jar t false vl $temp_dir framework_analysis_results ${src_list} ${sink_list} $apk_name
+java -Xss16M -Xmx8G -jar ViaLin/target/vialin-jar-with-dependencies.jar t false vl $temp_dir framework_analysis_results methodSummaries ${src_list} ${sink_list} $apk_name
 
 
 rm $out_dir/apps/$out_apk

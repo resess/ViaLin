@@ -72,18 +72,24 @@ public interface SharedPreferences {
         public static void addSharedPrefsTaint(Editor editor, String key, PathTaint fileTaint, Object object) {
             String taint = PathTaint.fileTaint(fileTaint, object);
             if (!taint.isEmpty()) {
-                // StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-                // System.out.format("PathTaint: addSharedPrefsTaint: in method %s->%s, taint is %s %n", ste.getClassName(), ste.getMethodName(), taint);
+                StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+                System.out.format("PathTaint: addSharedPrefsTaint: for key %s in method %s->%s, taint is %s %n", key, ste.getClassName(), ste.getMethodName(), taint);
                 editor.putString(key+"ZZZ_taint", taint);
+            } else {
+                StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+                System.out.format("PathTaint: addSharedPrefsTaint: for key %s in method %s->%s, taint is empty %n", key, ste.getClassName(), ste.getMethodName());
             }
         }
 
         public static void addSharedPrefsTaint(Editor editor, String key, PathTaint fileTaint) {
             String taint = PathTaint.fileTaint(fileTaint);
             if (!taint.isEmpty()) {
-                // StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-                // System.out.format("PathTaint: addSharedPrefsTaint: in method %s->%s, taint is %s %n", ste.getClassName(), ste.getMethodName(), taint);
+                StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+                System.out.format("PathTaint: addSharedPrefsTaint: for key %s in method %s->%s, taint is %s %n", key, ste.getClassName(), ste.getMethodName(), taint);
                 editor.putString(key+"ZZZ_taint", taint);
+            } else {
+                StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+                System.out.format("PathTaint: addSharedPrefsTaint: for key %s in method %s->%s, taint is empty %n", key, ste.getClassName(), ste.getMethodName());
             }
         }
 
@@ -275,12 +281,12 @@ public interface SharedPreferences {
             contained.site = taint;
             contained.delta = -2;
             contained.timeStamp = System.nanoTime();
-            // StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-            // System.out.format("PathTaint: getSharedPrefsTaint: in method %s->%s, taint is %s %n", ste.getClassName(), ste.getMethodName(), taint);
+            StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+            System.out.format("PathTaint: getSharedPrefsTaint: for key %s in method %s->%s, taint is %s %n", key, ste.getClassName(), ste.getMethodName(), taint);
             return contained;
         } else {
-            // StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-            // System.out.format("PathTaint: getSharedPrefsTaint: in method %s->%s, taint is null %n", ste.getClassName(), ste.getMethodName());
+            StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+            System.out.format("PathTaint: getSharedPrefsTaint: for key %s in method %s->%s, taint is null %n", key, ste.getClassName(), ste.getMethodName());
             return null;
         }
     }
@@ -299,13 +305,13 @@ public interface SharedPreferences {
             PathTaint contained = new PathTaint();
             contained.site = taintStr;
             contained.delta = -2;
+            StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+            System.out.format("PathTaint: getSharedPrefsTaintAll: in method %s->%s, taint is %s %n", ste.getClassName(), ste.getMethodName(), taintStr);
             return contained;
-            // StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-            // System.out.format("PathTaint: getSharedPrefsTaint: in method %s->%s, taint is %s %n", ste.getClassName(), ste.getMethodName(), taintStr);
         } else {
+            StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+            System.out.format("PathTaint: getSharedPrefsTaintAll: in method %s->%s, taint is null %n", ste.getClassName(), ste.getMethodName());
             return null;
-            // StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-            // System.out.format("PathTaint: getSharedPrefsTaint: in method %s->%s, taint is null %n", ste.getClassName(), ste.getMethodName());
         }
     }
 

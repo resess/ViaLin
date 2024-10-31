@@ -37,6 +37,9 @@ import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.Arrays;
+import java.lang.reflect.Method;
+
 
 public class PathTaint {
     public PathTaint left;
@@ -45,7 +48,32 @@ public class PathTaint {
     public int delta;
     public long timeStamp;
 
-    private static final int MAX_ENTRIES = 100*1024;
+    // For user feedback tracking
+    public String sinkId;
+
+    // public static AtomicInteger taintNum = new AtomicInteger(0);
+    // public static final AtomicBoolean lock = new AtomicBoolean(false);
+    // static int openTaints = 0;
+    // static List<String> whereOpened = new ArrayList<>();
+
+    private static final Boolean trueBoolean = new Boolean(true);
+    private static final int MAX_ENTRIES = 100*1024; //100*1024;
+
+    private static Map<String, Boolean> dumpCache = Collections.synchronizedMap(new LinkedHashMap<String, Boolean>(MAX_ENTRIES+1, .75F, true) {
+        // This method is called just after a new entry has been added
+        @Override
+        public boolean removeEldestEntry(Map.Entry<String, Boolean> eldest) {
+            return size() > MAX_ENTRIES;
+        }
+    });
+
+    private static Map<Integer, Integer> viewCache = Collections.synchronizedMap(new LinkedHashMap<Integer, Integer>(MAX_ENTRIES+1, .75F, true) {
+        // This method is called just after a new entry has been added
+        @Override
+        public boolean removeEldestEntry(Map.Entry<Integer, Integer> eldest) {
+            return size() > MAX_ENTRIES;
+        }
+    });
 
     private static Map<Integer, Long> pathTaintCache = Collections.synchronizedMap(new LinkedHashMap<Integer, Long>(MAX_ENTRIES+1, .75F, true) {
         // This method is called just after a new entry has been added
@@ -54,6 +82,10 @@ public class PathTaint {
             return size() > MAX_ENTRIES;
         }
     });
+
+    private static String packageName = null;
+
+
 
     static Set<Integer> taintCache = new HashSet<>();
 
@@ -87,28 +119,56 @@ public class PathTaint {
             ByteArrayOutputStream os = new ByteArrayOutputStream();
             DeflaterOutputStream dos = new DeflaterOutputStream(os);
 
-
-            for (Object arg: args) {
-                if (arg instanceof PathTaint) {
-                    PathTaint pathTaint = (PathTaint) arg;
-                    if (pathTaint != null) {
-                        tainted = tainted || PathTaint.dumpTraverseLoop(pathTaint, num, visitedTaints, os, dos);
-                    }
-                } else {
-                    if (arg != null) {
-                        tainted = tainted || PathTaint.dumpObjectLoop(arg, num, visitedTaints, visitedObjects, os, dos);
+            // synchronized (pathTaintCache) {
+                for (Object arg: args) {
+                    if (arg instanceof PathTaint) {
+                        PathTaint pathTaint = (PathTaint) arg;
+                        if (pathTaint != null) {
+                            boolean tempTainted = PathTaint.dumpTraverseLoop(pathTaint, num, visitedTaints, os, dos);
+                            if (tempTainted) {
+                                tainted = true;
+                            }
+                        }
+                    } else {
+                        if (arg != null) {
+                            printObject(arg);
+                            boolean tempTainted = PathTaint.dumpObjectLoop(arg, num, visitedTaints, visitedObjects, os, dos);
+                            if (tempTainted) {
+                                tainted = true;
+                            }
+                        }
                     }
                 }
-            }
 
-            if (toPrint != null && tainted == true) {
-                System.out.println(toPrint);
-            }
+                if (toPrint != null && tainted == true) {
+                    // if (packageName != null) {
+                    //     try {
+                    //         OutputStream out = new BufferedOutputStream(new FileOutputStream("/data/data/" + packageName + "/dumpTaint-" + num + ".txt"));
+                    //         out.write((toPrint + "\n").getBytes());
+                    //         out.flush();
+                    //     } catch (Exception e) {
+                    //         e.printStackTrace();
+                    //     }
+                    // }
+                    System.out.println(toPrint);
+                }
 
-            if (tainted) {
-                long endTime = Thread.getNativeCurrentTime();
-                long elapsed = endTime - startTime;
-                System.out.println("DumpTaintTime: " + elapsed);
+                if (tainted) {
+                    long endTime = Thread.getNativeCurrentTime();
+                    long elapsed = endTime - startTime;
+                    System.out.println("DumpTaintTime: " + elapsed);
+                }
+            // }
+        }
+
+        private void printObject(Object obj) {
+            if (obj == null) {
+                return;
+            }
+            try {
+                System.out.println("PathTaint: Sink param: " + obj.toString());
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
@@ -134,7 +194,7 @@ public class PathTaint {
         try {
             String threadName = Thread.currentThread().getName();
             StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-            String str = String.format("StackTrace: T(%s), at %s", threadName, System.nanoTime());
+            String str = String.format("StackTrace: T(%s), of %s", threadName, name);
             StringBuilder sb = new StringBuilder(str);
             for (StackTraceElement ste : stackTrace) {
                 sb.append("\n");
@@ -155,16 +215,54 @@ public class PathTaint {
     }
 
     public static void printSinkFound(String sink) {
-
         StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
         System.out.format("PathTaint: SinkFound: %s->%s(%s), %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), sink);
+        try {
+            StackTraceElement [] stackTraceElements = Thread.currentThread().getStackTrace();
+            StringBuilder sb = new StringBuilder("PathTaint: sink stacktrace " + ste.getClassName() + "->" + ste.getMethodName() + "(" + ste.getLineNumber() + ")" + " \n");
+            for (StackTraceElement elem : stackTraceElements) {
+                sb.append("    ");
+                sb.append(elem.toString());
+                sb.append("\n");
+            }
+            System.out.println(sb.toString());
+        } catch (Exception e) {
+            System.out.println("PathTaint: sink stacktrace failed");
+            e.printStackTrace();
+        }
     }
 
     public static void printSinkFound(String signature, String sink, int delta) {
         System.out.format("PathTaint: SinkFound: %s(%s), %s%n", signature, delta, sink);
+        try {
+            StackTraceElement [] stackTraceElements = Thread.currentThread().getStackTrace();
+            StringBuilder sb = new StringBuilder("PathTaint: sink stacktrace " + signature + "\n");
+            for (StackTraceElement elem : stackTraceElements) {
+                sb.append("    ");
+                sb.append(elem.toString());
+                sb.append("\n");
+            }
+            System.out.println(sb.toString());
+        } catch (Exception e) {
+            System.out.println("PathTaint: sink stacktrace failed");
+            e.printStackTrace();
+        }
     }
 
     public static PathTaint addTaintSource(PathTaint pathTaint, String site, int delta) {
+
+        if (packageName == null) {
+            try {
+                Class<?> clazz = Class.forName("android.app.ActivityThread");
+                Method method  = clazz.getDeclaredMethod("currentPackageName", null);
+                packageName = (String) method.invoke(clazz, null);
+            } catch (Exception e) {
+                System.out.println("PathTaint: could not get package name");
+                e.printStackTrace();
+                packageName = null;
+            }
+        }
+
         PathTaint newTaint = new PathTaint();
         newTaint.site = site;
         newTaint.delta = delta;
@@ -174,26 +272,120 @@ public class PathTaint {
         }
         newTaint.timeStamp = System.nanoTime();
         System.out.format("PathTaint: SourceFound: %s(%s)id(%s)%n", newTaint.site, newTaint.delta, newTaint.timeStamp);
+        // printMethodName(String.valueOf(newTaint.timeStamp));
+        try {
+            StackTraceElement [] stackTraceElements = Thread.currentThread().getStackTrace();
+            StringBuilder sb = new StringBuilder("PathTaint: source stacktrace " + newTaint.site + "(" + newTaint.delta + ")id(" + newTaint.timeStamp + ")\n");
+            for (StackTraceElement elem : stackTraceElements) {
+                sb.append("    ");
+                sb.append(elem.toString());
+                sb.append("\n");
+            }
+            System.out.println(sb.toString());
+        } catch (Exception e) {
+            System.out.println("PathTaint: source stacktrace failed");
+            e.printStackTrace();
+        }
         return newTaint;
     }
 
     public static PathTaint propagateOneArg(PathTaint other, String site, int delta) {
-        try {
-            if (other.site == null) {
-                StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-                System.out.format("PathTaint: in method %s->%s(%s), trying to propagate-one from null left %s(%s)%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), site, delta);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // try {
+        //     if (other.site == null) {
+        //         StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //         System.out.format("PathTaint: in method %s->%s(%s), trying to propagate-one from null left %s(%s)%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), site, delta);
+        //     }
+        // } catch (Exception e) {
+        //     e.printStackTrace();
+        // }
 
         PathTaint newTaint = new PathTaint();
         newTaint.site = site;
         newTaint.delta = delta;
         newTaint.left = other;
-        newTaint.timeStamp = System.nanoTime();
-        // System.out.format("PathTaint: propagateOneArg %s <-- %s%n", newTaint, other);
+        newTaint.timeStamp = other.timeStamp + 1;
+        newTaint.sinkId = other.sinkId;
+        // if (newTaint.sinkId != null) {
+        //     System.out.format("PathTaint: propArg after sink %s <-- %s%n", newTaint, other);    
+        // }
+        // if (!newTaint.site.startsWith("Landroid")) {
+            // System.out.format("PathTaint: propArg %s <-- %s%n", newTaint, other);
+        // }
         return newTaint;
+    }
+
+
+    private static int updateSet(Set<Object> visitedObjects, Object next) {
+        try {
+            if (visitedObjects.size() > MAX_ENTRIES) {
+                // System.out.println("PathTaint: max visited objects size reached, will not add more");
+                return -1;
+            }
+            if (next != null) {
+                visitedObjects.add(System.identityHashCode(next));
+            }
+            return 1;
+        } catch (Throwable e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    private static int checkInSet(Set<Object> visitedObjects, Object next) {
+        try {
+            if (visitedObjects.size() > MAX_ENTRIES) {
+                // System.out.println("PathTaint: max visited objects size reached, assume object is visited");
+                return 1;
+            }
+            // System.out.println("PathTaint: checkInSet for object " + next.getClass().getName());
+            if (visitedObjects.contains(System.identityHashCode(next))) {
+                return 1;
+            }
+            return 0;
+        } catch (Throwable e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    public static PathTaint propagateSinkReturn(PathTaint other,  String site, int delta) {
+        // try {
+        //     if (other.site == null) {
+        //         StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //         System.out.format("PathTaint: in method %s->%s(%s), trying to propagate-one from null left %s(%s)%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), site, delta);
+        //     }
+        // } catch (Exception e) {
+        //     e.printStackTrace();
+        // }
+        // System.out.format("PathTaint: propSinkReturn is called%n");
+        PathTaint right = null;
+        ArrayList<Object> args = Thread.getTempObjects();
+        Set<Object> visitedObjects = new HashSet<>();
+        for (Object arg: args) {
+            if (arg instanceof PathTaint) {
+                PathTaint pathTaint = (PathTaint) arg;
+                if (pathTaint != null) {
+                    // System.out.format("PathTaint: propSinkReturn checking a taint object%n");
+                    right = pathTaint;
+                    break;
+                }
+            } else {
+                if (arg != null) {
+                    // System.out.format("PathTaint: propSinkReturn checking a regular object%n");
+                    right = getInternalObjectTaint(arg, visitedObjects);
+                    if (right != null) {
+                        break;
+                    }
+                }
+            }
+        }
+        
+        if (right != null) {
+            PathTaint newTaint = propagateTwoArgs(other, right, site, delta);
+            // System.out.format("PathTaint: propSinkReturn %s <-- %s ^ %s %n", newTaint, other, right);
+            return newTaint;
+        }
+        return null;
     }
 
     public void setSite(String site) {
@@ -220,23 +412,23 @@ public class PathTaint {
 
 
     public static PathTaint propagateTwoArgs(PathTaint left, PathTaint right, String site, int delta) {
-        try {
-            if (left != null && left.site == null) {
-                StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-                System.out.format("PathTaint: in method %s->%s(%s), trying to propagate-two from null left %s(%s)%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), site, delta);
-                left = null;
-            }
-            if (right != null && right.site == null) {
-                StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-                System.out.format("PathTaint: in method %s->%s(%s), trying to propagate-two from null right %s(%s)%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), site, delta);
-                right = null;
-            }
-            if (left == null && right == null) {
-                return null;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // try {
+        //     if (left != null && left.site == null) {
+        //         StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //         System.out.format("PathTaint: in method %s->%s(%s), trying to propagate-two from null left %s(%s)%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), site, delta);
+        //         left = null;
+        //     }
+        //     if (right != null && right.site == null) {
+        //         StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //         System.out.format("PathTaint: in method %s->%s(%s), trying to propagate-two from null right %s(%s)%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), site, delta);
+        //         right = null;
+        //     }
+        //     if (left == null && right == null) {
+        //         return null;
+        //     }
+        // } catch (Exception e) {
+        //     e.printStackTrace();
+        // }
 
 
         PathTaint newTaint = new PathTaint();
@@ -244,13 +436,37 @@ public class PathTaint {
         newTaint.delta = delta;
         newTaint.left = left;
         newTaint.right = right;
-        newTaint.timeStamp = System.nanoTime();
-        // System.out.format("PathTaint: propagateTwoArgs %s <-- %s ^ %s %n", newTaint, left, right);
+        if (left == null) {
+            newTaint.timeStamp = right.timeStamp + 1;
+            newTaint.sinkId = right.sinkId;
+        } else if (right == null) {
+            newTaint.timeStamp = left.timeStamp + 1;
+            newTaint.sinkId = left.sinkId;
+        } else {
+            newTaint.timeStamp = Math.max(left.timeStamp, right.timeStamp) + 1;
+            if (left.sinkId == null) {
+                newTaint.sinkId = right.sinkId;
+                // if (newTaint.sinkId != null) {
+                //     System.out.format("PathTaint: propTwoArgs after sink (left was null) %s%n", newTaint.sinkId);
+                // }
+            } else {
+                newTaint.sinkId = left.sinkId;
+                // if (newTaint.sinkId != null) {
+                //     System.out.format("PathTaint: propTwoArgs after sink (right was null) %s%n", newTaint.sinkId);
+                // }
+            }
+        }
+        // if (newTaint.sinkId != null) {
+        //     System.out.format("PathTaint: propTwoArgs after sink %s <-- %s ^ %s %n", newTaint, left, right);
+        // }
+        // if (!newTaint.site.startsWith("Landroid")) {
+            // System.out.format("PathTaint: propTwoArgs %s <-- %s ^ %s %n", newTaint, left, right);
+        // }
         return newTaint;
     }
 
     public String toString() {
-        return site + "(" + delta + ")";
+        return site + "(" + delta + ")id(" + timeStamp + ")";
     }
 
     public static void finishDumpTaint() {
@@ -271,33 +487,171 @@ public class PathTaint {
             if (next == null) {
                 continue;
             }
+            // Integer nextHash = System.identityHashCode(next);
+            // try {
+            //     if(visitedObjects.contains(nextHash)) {
+            //         continue;
+            //     }
+            // } catch (Exception e) {
+            //     continue;
+            // }
+            // visitedObjects.add(nextHash);
+
             try {
-                if(visitedObjects.contains(next)) {
+                int checkInSetResult = checkInSet(visitedObjects, next);
+                if(checkInSetResult != 0) {
                     continue;
                 }
+
+                // Check if the object is an array
+                if (next.getClass().isArray()) {
+                    if (next instanceof char[]) {
+                        // System.out.println("PathTaint: Sink field: " + next.getClass() + ": " + new String((char[]) next));
+                    } else if (next instanceof byte[]) {
+                        // System.out.println("PathTaint: Sink field: " + next.getClass() + ": " + Arrays.toString((byte[]) next));
+                    } else if (next instanceof int[]) {
+                        // System.out.println("PathTaint: Sink field: " + next.getClass() + ": " + Arrays.toString((int[]) next));
+                    } else if (next instanceof long[]) {
+                        // System.out.println("PathTaint: Sink field: " + next.getClass() + ": " + Arrays.toString((long[]) next));
+                    } else if (next instanceof float[]) {
+                        // System.out.println("PathTaint: Sink field: " + next.getClass() + ": " + Arrays.toString((float[]) next));
+                    } else if (next instanceof double[]) {
+                        // System.out.println("PathTaint: Sink field: " + next.getClass() + ": " + Arrays.toString((double[]) next));
+                    } else if (next instanceof boolean[]) {
+                        // System.out.println("PathTaint: Sink field: " + next.getClass() + ": " + Arrays.toString((boolean[]) next));
+                    } else if (next instanceof short[]) {
+                        // System.out.println("PathTaint: Sink field: " + next.getClass() + ": " + Arrays.toString((short[]) next));
+                    } else if (next instanceof char[]) {
+                        // System.out.println("PathTaint: Sink field: " + next.getClass() + ": " + Arrays.toString((char[]) next));
+                    } else if (next instanceof Object[]) {
+                        for (Object obj : (Object[]) next) {
+                            stack.push(obj);
+                        }
+                    }
+                } else {
+                    // System.out.println("PathTaint: Sink field: " + next.getClass() + ": " + next.toString());
+                }
+                
+            } catch (Exception e) {
+                e.printStackTrace();
+                continue;
+            }
+            int updateSetResult = updateSet(visitedObjects, next);
+            if (updateSetResult == -1) {
+                continue;
+            }
+
+
+            // System.out.println("PathTaint: check class " + next.getClass());
+            Class superClass = next.getClass().getSuperclass();
+            if (superClass != null && superClass != Object.class) {
+                // System.out.println("PathTaint: added super " + superClass);
+                stack.push((superClass.cast(next)));
+            }
+            
+            try {
+                for (Field field : next.getClass().getDeclaredFields()) {
+                    boolean tempTainted = processField("DeclaredField", stack, next, field, num, visitedTaints, visitedObjects, os, dos);
+                    if (tempTainted) {
+                        tainted = true;
+                    }
+                    // if (tainted) {
+                    //     System.out.println("DumpTaint-field-" + num + ": Tainted, will check next field, remaining objects in stack are: " + stack.size());
+                    // }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            // if (tainted) {
+            //     System.out.println("DumpTaint-field-" + num + ": Tainted, will check next object, remaining objects in stack are: " + stack.size());
+            // }
+        }
+        return tainted;
+    }
+
+    private static boolean processField(String type, Stack<Object> stack, Object next, Field field, int num, Set<Integer> visitedTaints, Set<Object> visitedObjects, ByteArrayOutputStream os, DeflaterOutputStream dos) throws Exception {
+        boolean tainted = false;
+        field.setAccessible(true);
+        // System.out.println("PathTaint: check field " + next.getClass().getName() + "." + field.getName());
+        if (field.getType().equals(PathTaint.class)) {
+            PathTaint pathTaint = (PathTaint) field.get(next);
+            if (pathTaint != null) {
+                String thisAccessPath = next.getClass().getName() + "." + field.getName();
+                System.out.println("DumpTaint-field-" + num + ": FieldAccessPath: " + thisAccessPath);
+                boolean tempTainted = dumpTraverseLoop(pathTaint, num, visitedTaints, os, dos);
+                if (tempTainted) {
+                    tainted = true;
+                }
+                // System.out.println("DumpTaint-field-" + num + ": Returned: " + thisAccessPath);
+            } else {
+                // String thisAccessPath = next.getClass().getName() + "." + field.getName();
+                // System.out.println("DumpTaint-field-No-TAINT-" + num + ": FieldAccessPath: " + thisAccessPath);
+            }
+        } else {
+            Object value = field.get(next);
+            if (value != null) {
+                if (!value.getClass().equals(Thread.class)) {
+                    stack.push(value);
+                }
+            }
+        }
+        // if (tainted) {
+        //     System.out.println("DumpTaint-field-" + num + ": Tainted, remaining objects in stack are: " + stack.size());
+        // }
+        return tainted;
+    }
+
+    private static PathTaint getInternalObjectTaint(Object object, Set<Object> visitedObjects) {
+        Stack<Object> stack = new Stack<>();
+        stack.push(object);
+        while(!stack.isEmpty()) {
+            Object next = stack.pop();
+            if (next == null) {
+                continue;
+            }
+           
+            try {
+                int checkInSetResult = checkInSet(visitedObjects, next);
+                if(checkInSetResult != 0) {
+                    continue;
+                }
+
             } catch (Exception e) {
                 continue;
             }
-            visitedObjects.add(next);
+            int updateSetResult = updateSet(visitedObjects, next);
+            if (updateSetResult == -1) {
+                continue;
+            }
+
+            // System.out.println("PathTaint: getInternalObjectTaint check class " + next.getClass());
+            Class superClass = next.getClass().getSuperclass();
+            if (superClass != null && superClass != Object.class) {
+                // System.out.println("PathTaint: added super " + superClass);
+                stack.push((superClass.cast(next)));
+            }
+            
             try {
                 for (Field field : next.getClass().getDeclaredFields()) {
-                    tainted = tainted || processField("DeclaredField", stack, next, field, num, visitedTaints, os, dos);
+                    PathTaint taint = getInternalFieldTaint(stack, next, field);
+                    if (taint != null) {
+                        return taint;
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        return tainted;
+        return null;
     }
 
-    private static boolean processField(String type, Stack<Object> stack, Object next, Field field, int num, Set<Integer> visitedTaints, ByteArrayOutputStream os, DeflaterOutputStream dos) throws Exception {
-        boolean tainted = false;
+    private static PathTaint getInternalFieldTaint(Stack<Object> stack, Object next, Field field) throws Exception {
         field.setAccessible(true);
+        // System.out.println("PathTaint: check field " + next.getClass().getName() + "." + field.getName());
         if (field.getType().equals(PathTaint.class)) {
             PathTaint pathTaint = (PathTaint) field.get(next);
-            if (pathTaint != null && pathTaint.left != null) {
-                // System.out.println("DumpTaint: FieldAccessPath: ");
-                tainted = tainted || dumpTraverseLoop(pathTaint.left, num, visitedTaints, os, dos);
+            if (pathTaint != null) {
+                return pathTaint;
             }
         } else {
             Object value = field.get(next);
@@ -305,118 +659,19 @@ public class PathTaint {
                 stack.push(value);
             }
         }
-        return tainted;
-    }
-
-    public static boolean dumpTraverseLoopPath(PathTaint pathTaint, int num, Set<Integer> visitedTaints, ByteArrayOutputStream os, DeflaterOutputStream dos) {
-
-        String header = "DumpTaint-path-"+ num + ": ->";
-        boolean tainted = false;
-
-        if (pathTaint.site.startsWith("Ljava") || pathTaint.site.startsWith("Landroid") || pathTaint.site.startsWith("Lcom/google") || pathTaint.site.startsWith("Lcom/android") || pathTaint.site.startsWith("Lkotlin"))
-        {
-            return tainted;
-        }
-
-
-        String sourcesHeader = "DumpTaint-sources-"+ num + ": ->";
-        StringBuilder sources = new StringBuilder();
-
-        Deque<PathTaint> stack = new ArrayDeque<>(10*1024);
-        Set<PathTaint> visitedPathsTaints = new HashSet<>(20*1024);
-        StringBuilder sb = new StringBuilder(1024);
-        String currentMethod = "";
-        long pathLength = 0;
-
-        stack.push(pathTaint);
-
-        int maxStackSize = 0;
-
-        while (!stack.isEmpty()) {
-            maxStackSize = Math.max(maxStackSize, stack.size());
-            PathTaint next = stack.pop();
-            int stringCode = (next.site + next.delta).hashCode();
-
-            visitedPathsTaints.add(next);
-
-            if (!visitedTaints.contains(stringCode)) {
-                visitedTaints.add(stringCode);
-
-                String nextSite = next.site;
-
-                if (nextSite == null) {
-                    System.out.println("PathTaint: Null taint");
-                }
-                if (!(nextSite.startsWith("Ljava") || nextSite.startsWith("Landroid") || nextSite.startsWith("Lcom/google") || nextSite.startsWith("Lcom/android") || nextSite.startsWith("Lkotlin")))
-                {
-
-                    int hashCode = System.identityHashCode(next);
-                    if (nextSite.equals(currentMethod)) {
-                        sb.append(":");
-                        sb.append(next.delta);
-                    } else {
-                        sb.append("\n");
-                        sb.append(header);
-                        sb.append(nextSite);
-                        sb.append(":");
-                        sb.append(next.delta);
-                    }
-                    currentMethod = nextSite;
-
-                    if (next.left == null && next.right == null) {
-                        sb.append(":STARTPATH");
-                        if (next.delta != -2) {
-                            sources.append(sourcesHeader);
-                            sources.append(nextSite);
-                            sources.append("(");
-                            sources.append(next.delta);
-                            sources.append(")id(");
-                            sources.append(hashCode);
-                            sources.append(")\n");
-                        }
-                    }
-
-                    pathLength += 1;
-                }
-                // else {
-                //     ignoredLength += 1;
-                // }
-            }
-            PathTaint left = next.left;
-            if (left != null) {
-                if (!visitedPathsTaints.contains(left)) {
-                    stack.push(left);
-                }
-            }
-            PathTaint right = next.right;
-            if (right != null) {
-                if (!visitedPathsTaints.contains(right)) {
-                    stack.push(right);
-                }
-            }
-            tainted = true;
-
-
-        }
-
-        System.out.println("PathTaint: visitedPathsTaints.size = " + visitedPathsTaints.size());
-        System.out.println("PathTaint: visitedTaints.size = " + visitedTaints.size());
-        System.out.println("PathTaint: stack.size = " + maxStackSize);
-        System.out.println("PathTaint: sources.size = " + sources.length());
-
-
-        if (tainted)
-        {
-            System.out.println(sb.toString());
-            System.out.println(sources.toString());
-            System.out.println(sourcesHeader + "PathLength: " + pathLength);
-        }
-
-        return tainted;
+        return null;
     }
 
 
+    // Fastest version so far
     public static boolean dumpTraverseLoop(PathTaint pathTaint, int num, Set<Integer> visitedTaints, ByteArrayOutputStream os, DeflaterOutputStream dos) {
+        
+        if (packageName != null) {
+            System.out.println("PathTaint: packageName is " + packageName);
+        } else {
+            System.out.println("PathTaint: packageName is null");
+        }
+
         String header = "DumpTaint-"+ num + ": ->";
         boolean tainted = false;
         Deque<PathTaint> stack = new ArrayDeque<>(1024);
@@ -427,29 +682,52 @@ public class PathTaint {
         Set<Integer> visitedCacheless = new HashSet<>();
         boolean fastMode = false;
 
+        // OutputStream out = new BufferedOutputStream (System.out);
+        OutputStream out;
+        if (packageName != null) {
+            try {
+                out = new BufferedOutputStream(new FileOutputStream("/data/data/" + packageName + "/dumpTaint-" + num + ".txt", true));
+            } catch (Exception e) {
+                out = new BufferedOutputStream(System.out);
+            }
+        } else {
+            out = new BufferedOutputStream(System.out);
+        }
+
+        // PrintWriter pout = null;
+        // try {
+        //     pout = new PrintWriter(System.out, false);
+        // } catch (Exception e) {
+        //     e.printStackTrace();
+        // }
+        
+
+        // Get output directory by reflection
+
         int numIters = 0;
         stack.push(pathTaint);
         while (!stack.isEmpty()) {
 
             PathTaint next = stack.pop();
 
-            if (numIters > 10 * 1024) {
-                stack.clear();
-            }
+            // if (numIters > 10 * 1024) {
+            //     System.out.println("PathTaint-debug-" + num + ": Number of iterations is large " + numIters);
+            //     // stack.clear();
+            // }
 
-            if (numIters > 10 * 1024) {
-                // stack.clear();
-                if (cacheHit > 0) {
-                    System.out.println("PathTaint-debug-" + num + ": Swiching to cacheless mode, numIters = " + numIters);
-                    break;
-                }
-                fastMode = true;
-            }
+            // if (numIters > 10 * 1024) {
+            //     // stack.clear();
+            //     if (cacheHit > 0) {
+            //         // System.out.println("PathTaint-debug-" + num + ": Swiching to cacheless mode, numIters = " + numIters);
+            //         // break;
+            //     }
+            //     // fastMode = true;
+            // }
 
             int hashCode = System.identityHashCode(next);
 
             boolean inCache = false;
-            boolean isFramework = true;
+            // boolean isFramework = true;
             String nextSite = next.site;
 
 
@@ -460,13 +738,13 @@ public class PathTaint {
             pathTaintCache.put(hashCode, next.timeStamp);
             cacheMiss += 1;
 
-
-            if (!inFramework(nextSite)) {
-                isFramework = false;
+            if (pathTaintCache.size() == MAX_ENTRIES) { // for non-cold cache
+                if (cacheHit < 5) {
+                    System.out.println("PathTaint-debug-" + num + ": Cache is useless, erasing it");
+                    pathTaintCache.clear();
+                }
             }
-
-
-
+            
             int leftHashCode = 0;
             int rightHashCode = 0;
 
@@ -474,22 +752,32 @@ public class PathTaint {
             if (left != null) {
                 String leftSite = left.site;
                 leftHashCode = System.identityHashCode(left);
-                if (!inFramework(leftSite))
-                {
-                    isFramework = false;
-                }
+                // if (!inFramework(leftSite))
+                // {
+                //     isFramework = false;
+                // }
             }
             PathTaint right = next.right;
             if (right != null) {
                 String rightSite = right.site;
                 rightHashCode = System.identityHashCode(right);
-                if (!inFramework(rightSite))
-                {
-                    isFramework = false;
-                }
+                // if (!inFramework(rightSite))
+                // {
+                //     isFramework = false;
+                // }
             }
             try {
-                if (!isFramework && !fastMode) {
+                if (/*!isFramework && */ !fastMode) {
+                    // if (next.sinkId != null) {
+                    //    if (!next.sinkId.contains(String.valueOf(next.timeStamp))) {
+                    //        System.out.println("This flow already passed through the SinkID: " + next.sinkId);
+                    //        System.out.println(header + "Cancelled by SinkID: " + next.sinkId);
+                    //        continue;
+                    //    }
+                    // }
+                    //  else {
+                    //     System.out.println("SinkID: null");
+                    // }
                     StringBuilder sb = new StringBuilder();
                     sb.append(nextSite);
                     sb.append("(");
@@ -522,9 +810,11 @@ public class PathTaint {
                         sb.append(")");
                     }
                     String dumpString = sb.toString();
-                    System.out.println(header + dumpString);
+                    // System.out.println(header + dumpString);
+                    out.write((header + dumpString + "\n").getBytes());
+                    // pout.println(header + dumpString);
                     numIters += 1;
-                } else if (!isFramework && fastMode) {
+                } else if (/* !isFramework && */ fastMode) {
                     if (left == null) {
                         StringBuilder sb = new StringBuilder();
                         sb.append(nextSite);
@@ -537,21 +827,29 @@ public class PathTaint {
                         sb.append(next.timeStamp);
                         sb.append(")");
                         String dumpString = sb.toString();
-                        System.out.println(header + dumpString);
+                        // System.out.println(header + dumpString);
+                        out.write((header + dumpString + "\n").getBytes());
+                        // pout.println(header + dumpString);
                         numIters += 1;
                     }
                 }
 
                 if (!inCache) {
                     if (left != null) {
-                        if (!visitedTaints.contains(leftHashCode)) {
-                            stack.push(left);
+                        // if (!visitedTaints.contains(leftHashCode)) {
+                        if (!stack.contains(left)) {
+                            // stack.push(left);
+                            stack.addLast(left);
                         }
+                        // }
                     }
                     if (right != null) {
-                        if (!visitedTaints.contains(rightHashCode)) {
-                            stack.push(right);
+                        // if (!visitedTaints.contains(rightHashCode)) {
+                        if (!stack.contains(right)) {
+                            // stack.push(right);
+                            stack.addLast(right);
                         }
+                        // }
                     }
                 }
 
@@ -567,20 +865,24 @@ public class PathTaint {
         System.out.println("PathTaint-debug-" + num + ": DumpCache cache hits are " + cacheHit);
         System.out.println("PathTaint-debug-" + num + ": DumpCache cache misses are " + cacheMiss);
 
-        if (pathTaintCache.size() == MAX_ENTRIES) { // for non-cold cache
-            if (cacheHit < 5) {
-                System.out.println("PathTaint-debug-" + num + ": Cache is useless, erasing it at the end");
-                pathTaintCache.clear();
-            }
+        try {
+            out.flush();
+        } catch (Exception e) {
+            System.out.println("PathTaint-debug-" + num + ": Could not print the graph!");
+            e.printStackTrace();
         }
+        // pout.flush();
+
+        // synchronized (pathTaintCache) {
+            if (pathTaintCache.size() == MAX_ENTRIES) { // for non-cold cache
+                if (cacheHit < 5) {
+                    System.out.println("PathTaint-debug-" + num + ": Cache is useless, erasing it at the end");
+                    pathTaintCache.clear();
+                }
+            }
+        // }
 
         return tainted;
-    }
-
-    private static boolean inFramework(String site) {
-        return site.startsWith("Ljava") || site.startsWith("Landroid")
-        || site.startsWith("Lcom/google") || site.startsWith("Lcom/android")
-        || site.startsWith("Lkotlin");
     }
 
     public static String parcelTaint(PathTaint pathTaint) {
@@ -593,8 +895,18 @@ public class PathTaint {
                 }
                 taintCache.add(taintCode);
             } else {
+                // System.out.format("PathTaint: Ignored ParcelTaint%n");
                 return "";
             }
+
+            // StringBuilder fullStackTrace = new StringBuilder();
+            // for (StackTraceElement elem : Thread.currentThread().getStackTrace()) {
+            //     fullStackTrace.append("     ");
+            //     fullStackTrace.append(elem.toString());
+            //     fullStackTrace.append("\n");
+            // }
+            // System.out.format("PathTaint: ParcelTaint: StackTrace: %s%n", fullStackTrace.toString());
+            // System.out.format("PathTaint: ParcelTaint: %s(%s)%n", pathTaint.toString(), System.identityHashCode(pathTaint));
 
             int num = ((new Random()).nextInt()) & Integer.MAX_VALUE;
             String toPrint = "DumpTaint for parcel: " + num;
@@ -605,8 +917,10 @@ public class PathTaint {
             // return String.valueOf(num);
             taintDump.run();
             if (taintDump.tainted) {
+                System.out.println("PathTaint: ParcelTaint: Tainted");
                 return String.valueOf(num);
             }
+            System.out.println("PathTaint: ParcelTaint: Not tainted");
             return "";
         }
         return "";
@@ -622,8 +936,21 @@ public class PathTaint {
             taintCache.add(taintCode);
             taintCache.add(objectCode);
         } else {
+            // System.out.format("PathTaint: Ignored ParcelTaint-obj%n");
             return "";
         }
+
+        // StringBuilder fullStackTrace = new StringBuilder();
+        // for (StackTraceElement elem : Thread.currentThread().getStackTrace()) {
+        //     fullStackTrace.append("     ");
+        //     fullStackTrace.append(elem.toString());
+        //     fullStackTrace.append("\n");
+        // }
+        // System.out.format("PathTaint: ParcelTaint-obj: StackTrace: %s%n", fullStackTrace.toString());
+        // if (pathTaint != null) {
+        //     System.out.format("PathTaint: ParcelTaint-obj: %s(%s)%n", pathTaint.toString(), System.identityHashCode(pathTaint));
+        // }
+
 
         int num = ((new Random()).nextInt()) & Integer.MAX_VALUE;
         String toPrint = "DumpTaint for parcel: " + num;
@@ -637,8 +964,10 @@ public class PathTaint {
         // return String.valueOf(num);
         taintDump.run();
         if (taintDump.tainted) {
+            System.out.println("PathTaint: ParcelTaint: Tainted");
             return String.valueOf(num);
         }
+        System.out.println("PathTaint: ParcelTaint: Not tainted");
         return "";
     }
 
@@ -653,8 +982,18 @@ public class PathTaint {
                 }
                 taintCache.add(taintCode);
             } else {
+                // System.out.format("PathTaint: Ignored FileTaint%n");
                 return "";
             }
+
+            // StringBuilder fullStackTrace = new StringBuilder();
+            // for (StackTraceElement elem : Thread.currentThread().getStackTrace()) {
+            //     fullStackTrace.append("     ");
+            //     fullStackTrace.append(elem.toString());
+            //     fullStackTrace.append("\n");
+            // }
+            // System.out.format("PathTaint: FileTaint: StackTrace: %s%n", fullStackTrace.toString());
+            // System.out.format("PathTaint: FileTaint: %s(%s)%n", pathTaint.toString(), System.identityHashCode(pathTaint));
 
             int num = ((new Random()).nextInt()) & Integer.MAX_VALUE;
             String toPrint = "DumpTaint for file: " + num;
@@ -665,8 +1004,10 @@ public class PathTaint {
             // return String.valueOf(num);
             taintDump.run();
             if (taintDump.tainted) {
+                System.out.println("PathTaint: FileTaint: Tainted");
                 return String.valueOf(num);
             }
+            System.out.println("PathTaint: FileTaint: Not tainted");
             return "";
         }
         return "";
@@ -683,10 +1024,22 @@ public class PathTaint {
             taintCache.add(taintCode);
             taintCache.add(objectCode);
         } else {
+            // System.out.format("PathTaint: Ignored FileTaint-obj%n");
             return "";
         }
 
         int num = ((new Random()).nextInt()) & Integer.MAX_VALUE;
+
+        // StringBuilder fullStackTrace = new StringBuilder();
+        // for (StackTraceElement elem : Thread.currentThread().getStackTrace()) {
+        //     fullStackTrace.append("     ");
+        //     fullStackTrace.append(elem.toString());
+        //     fullStackTrace.append("\n");
+        // }
+        // System.out.format("PathTaint: FileTaint-obj: StackTrace: %s%n", fullStackTrace.toString());
+        // if (pathTaint != null) {
+        //     System.out.format("PathTaint: FileTaint-obj: %s(%s)%n", pathTaint.toString(), System.identityHashCode(pathTaint));
+        // }
 
         String toPrint = "DumpTaint for file: " + num;
         List <Object> args = new ArrayList<>();
@@ -699,8 +1052,10 @@ public class PathTaint {
         // return String.valueOf(num);
         taintDump.run();
         if (taintDump.tainted) {
+            System.out.println("PathTaint: FileTaint: Tainted");
             return String.valueOf(num);
         }
+        System.out.println("PathTaint: FileTaint: Not tainted");
         return "";
     }
 
@@ -758,6 +1113,8 @@ public class PathTaint {
         }
     }
 
+
+    /* -- Khaled: Taint -- */
 
     public static void addFileTaint(File file, PathTaint fileTaint, Object object) {
         String taintFileName = file.getAbsolutePath() + ".taint";
@@ -842,6 +1199,39 @@ public class PathTaint {
             return null;
             // StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
             // System.out.format("PathTaint: getFileTaint: in method %s->%s, taint is null %n", ste.getClassName(), ste.getMethodName());
+        }
+    }
+
+    // @Override
+    // protected void finalize() throws java.lang.Throwable {
+    //     sizeCollectedBytes += 12 + (4*4);
+    //     numCollected +=1;
+    // }
+
+    public static void setSinkId(PathTaint pathTaint) {
+        if (pathTaint != null) {
+            pathTaint.sinkId = "[" + pathTaint.timeStamp + "]: " + pathTaint.site + "(" + pathTaint.delta + ")";
+        }
+    }
+
+    public static void logViewAPI(PathTaint taint) {
+        if (taint != null && taint.sinkId != null) {
+            Integer sinkHash = taint.sinkId.hashCode();
+            if (viewCache.containsKey(sinkHash)) {
+                return;
+            }
+            viewCache.put(sinkHash, sinkHash);
+            String toPrint = "API:"  + taint.site + "(" + taint.delta + "), sink:" + taint.sinkId;
+            System.out.println("PathTaint: ViewAPI: time: " + taint.timeStamp + ", " + toPrint);
+            
+            // String toPrint = "API:"  + taint.site + "(" + taint.delta + "), sink:" + taint.sinkId;
+            // Integer toPrintHash = toPrint.hashCode();
+            // Integer sinkHash = taint.sinkId.hashCode();
+            // if (viewCache.containsKey(toPrintHash) && viewCache.get(toPrintHash).equals(sinkHash)) {
+            //     return;
+            // }
+            // viewCache.put(toPrintHash, sinkHash);
+            // System.out.println("PathTaint: ViewAPI: time: " + taint.timeStamp + ", " + toPrint);
         }
     }
 

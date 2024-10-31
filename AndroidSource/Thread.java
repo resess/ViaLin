@@ -415,7 +415,121 @@ class Thread implements Runnable {
     public PathTaint paramTaint157;
     public PathTaint paramTaint158;
     public PathTaint paramTaint159;
+    public PathTaint paramTaint160;
+    public PathTaint paramTaint161;
+    public PathTaint paramTaint162;
+    public PathTaint paramTaint163;
+    public PathTaint paramTaint164;
+    public PathTaint paramTaint165;
+    public PathTaint paramTaint166;
+    public PathTaint paramTaint167;
+    public PathTaint paramTaint168;
+    public PathTaint paramTaint169;
     public PathTaint taintContainer;
+
+    // public TaintDroid returnTaintTaintDroid = new TaintDroid();
+    // public static TaintDroid asyncTaskParamTaintDroid = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid0 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid1 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid2 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid3 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid4 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid5 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid6 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid7 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid8 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid9 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid10 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid11 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid12 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid13 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid14 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid15 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid16 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid17 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid18 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid19 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid20 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid21 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid22 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid23 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid24 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid25 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid26 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid27 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid28 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid29 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid30 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid31 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid32 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid33 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid34 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid35 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid36 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid37 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid38 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid39 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid40 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid41 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid42 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid43 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid44 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid45 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid46 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid47 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid48 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid49 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid50 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid51 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid52 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid53 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid54 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid55 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid56 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid57 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid58 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid59 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid60 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid61 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid62 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid63 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid64 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid65 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid66 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid67 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid68 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid69 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid70 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid71 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid72 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid73 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid74 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid75 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid76 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid77 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid78 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid79 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid80 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid81 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid82 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid83 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid84 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid85 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid86 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid87 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid88 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid89 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid90 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid91 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid92 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid93 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid94 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid95 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid96 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid97 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid98 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid99 = new TaintDroid();
+    // public static TaintDroid paramTaintTaintDroid100 = new TaintDroid();
 
 
     public int[] paramTaintTaintDroidArray = new int[256];
@@ -632,6 +746,8 @@ class Thread implements Runnable {
 
 
     public List<Object> dumpTaintArgs = new ArrayList<>();
+    public ArrayList<Object> tempObjects = new ArrayList<>();
+
 
     public static void addToTaintDump(PathTaint pt) {
         // PathTaint shadow = new PathTaint();
@@ -646,6 +762,7 @@ class Thread implements Runnable {
         // StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
         // System.out.printf("PathTaint: in method %s->%s(%s), Added %s (%s) to taint dump, args now is %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), shadow, shadow.left, Thread.currentThread().dumpTaintArgs);
         Thread.currentThread().dumpTaintArgs.add(pt);
+        Thread.currentThread().tempObjects.add(pt);
     }
 
     public static void addToTaintDump(PathTaint pt, Object obj) {
@@ -663,8 +780,19 @@ class Thread implements Runnable {
         args.add(obj);
         // StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
         // System.out.printf("PathTaint: in method %s->%s(%s), Added %s (%s) and %s to taint dump, args now is %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), shadow, shadow.left, obj, Thread.currentThread().dumpTaintArgs);
+
+        ArrayList<Object> temp = Thread.currentThread().tempObjects;
+        temp.add(pt);
+        temp.add(obj);
     }
 
+
+    public static ArrayList<Object> getTempObjects() {
+        ArrayList<Object> arr = new ArrayList<>();
+        arr.addAll(Thread.currentThread().tempObjects);
+        Thread.currentThread().tempObjects.clear();
+        return arr;
+    }
 
     public static int[] getParamArrayTaintDroid() {
         return Thread.currentThread().paramTaintTaintDroidArray;
@@ -680,12 +808,15 @@ class Thread implements Runnable {
 
     public static PathTaint getTaintContainer(PathTaint taint) {
         if (taint == null) {
+            // System.out.format("PathTaint: getTaintContainer with params %s, null%n", Thread.currentThread().taintContainer);
             return Thread.currentThread().taintContainer;
         }
+        // System.out.format("PathTaint: getTaintContainer with params %s, %s, %s, %s%n", Thread.currentThread().taintContainer, taint, taint.site, taint.delta);
         return PathTaint.propagateTwoArgs(Thread.currentThread().taintContainer, taint, taint.site, taint.delta) ;
     }
 
     public static void setTaintContainer(PathTaint taint) {
+        // System.out.format("PathTaint: setTaintContainer with params %s%n", taint);
         Thread.currentThread().taintContainer = taint;
     }
 
@@ -773,11 +904,6 @@ class Thread implements Runnable {
     public static PathTaint getReturnTaint() {
         PathTaint taint = Thread.currentThread().returnTaint;
         // if (taint != null) {
-            // synchronized (PathTaint.whereOpened) {
-            //     if (PathTaint.whereOpened.size() < 2048) {
-            //         PathTaint.whereOpened.add("GetRetTaint: " + taint.site + ":" + taint.delta + "\n");
-            //     }
-            // }
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
         //     System.out.format("PathTaint: getReturnTaint: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
@@ -788,17 +914,13 @@ class Thread implements Runnable {
         PathTaint taint = Thread.currentThread().throwTaint;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: getReturnTaint: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        //     System.out.format("PathTaint: getThrowTaint: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
 
     public static int getThrowTaintInt() {
         int taint = Thread.currentThread().throwTaintTaintDroidint;
-        // if (taint != null) {
-        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: getReturnTaint: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
-        // }
         return taint;
     }
 
@@ -810,13 +932,8 @@ class Thread implements Runnable {
     public static PathTaint getReturnTaint(Thread currentThread) {
         PathTaint taint = currentThread.returnTaint;
         // if (taint != null) {
-        //     synchronized (PathTaint.whereOpened) {
-        //         if (PathTaint.whereOpened.size() < 2048) {
-        //             PathTaint.whereOpened.add("GetRetTaint: " + taint.site + ":" + taint.delta + "\n");
-        //         }
-        //     }
-        // //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        // //     System.out.format("PathTaint: getReturnTaint: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getReturnTaint: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -825,17 +942,13 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.throwTaint;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: getReturnTaint: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        //     System.out.format("PathTaint: getThrowTaint: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
 
     public static int getThrowTaintInt(Thread currentThread) {
         int taint = currentThread.throwTaintTaintDroidint;
-        // if (taint != null) {
-        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: getReturnTaint: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
-        // }
         return taint;
     }
 
@@ -851,13 +964,8 @@ class Thread implements Runnable {
     public static PathTaint getParamTaint0(Thread currentThread) {
         PathTaint taint = currentThread.paramTaint0;
         // if (taint != null) {
-        //     synchronized (PathTaint.whereOpened) {
-        //         if (PathTaint.whereOpened.size() < 2048) {
-        //             PathTaint.whereOpened.add("GetParam0: " + taint.site + ":" + taint.delta + "\n");
-        //         }
-        //     }
-        // //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        // //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint0 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint0: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -865,13 +973,8 @@ class Thread implements Runnable {
     public static PathTaint getParamTaint1(Thread currentThread) {
         PathTaint taint = currentThread.paramTaint1;
         // if (taint != null) {
-        //     synchronized (PathTaint.whereOpened) {
-        //         if (PathTaint.whereOpened.size() < 2048) {
-        //             PathTaint.whereOpened.add("GetParam1: " + taint.site + ":" + taint.delta + "\n");
-        //         }
-        //     }
-        // //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        // //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint1 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint1: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -879,13 +982,8 @@ class Thread implements Runnable {
     public static PathTaint getParamTaint2(Thread currentThread) {
         PathTaint taint = currentThread.paramTaint2;
         // if (taint != null) {
-        //     synchronized (PathTaint.whereOpened) {
-        //         if (PathTaint.whereOpened.size() < 2048) {
-        //             PathTaint.whereOpened.add("GetParam2: " + taint.site + ":" + taint.delta + "\n");
-        //         }
-        //     }
-        // //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        // //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint2 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint2: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -894,7 +992,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint3;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint3 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint3: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -903,7 +1001,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint4;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint4 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint4: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -912,7 +1010,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint5;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint5 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint5: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -921,7 +1019,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint6;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint6 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint6: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -930,7 +1028,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint7;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint7 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint7: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -939,7 +1037,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint8;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint8 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint8: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -948,7 +1046,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint9;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint9 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint9: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -957,7 +1055,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint10;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint10 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint10: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -965,7 +1063,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint11;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint11 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint11: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -973,7 +1071,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint12;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint12 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint12: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -981,7 +1079,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint13;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint13 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint13: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -989,7 +1087,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint14;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint14 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint14: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -997,7 +1095,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint15;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint15 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint15: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1005,7 +1103,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint16;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint16 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint16: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1013,7 +1111,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint17;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint17 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint17: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1021,7 +1119,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint18;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint18 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint18: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1029,7 +1127,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint19;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint19 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint19: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1037,7 +1135,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint20;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint20 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint20: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1045,7 +1143,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint21;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint21 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint21: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1053,7 +1151,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint22;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint22 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint22: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1061,7 +1159,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint23;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint23 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint23: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1069,7 +1167,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint24;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint24 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint24: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1077,7 +1175,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint25;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint25 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint25: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1085,7 +1183,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint26;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint26 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint26: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1093,7 +1191,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint27;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint27 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint27: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1101,7 +1199,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint28;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint28 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint28: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1109,7 +1207,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint29;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint29 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint29: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1117,7 +1215,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint30;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint30 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint30: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1125,7 +1223,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint31;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint31 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint31: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1133,7 +1231,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint32;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint32 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint32: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1141,7 +1239,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint33;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint33 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint33: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1149,7 +1247,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint34;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint34 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint34: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1157,7 +1255,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint35;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint35 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint35: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1165,7 +1263,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint36;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint36 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint36: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1173,7 +1271,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint37;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint37 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint37: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1181,7 +1279,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint38;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint38 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint38: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1189,7 +1287,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint39;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint39 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint39: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1197,7 +1295,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint40;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint40 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint40: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1205,7 +1303,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint41;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint41 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint41: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1213,7 +1311,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint42;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint42 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint42: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1221,7 +1319,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint43;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint43 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint43: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1229,7 +1327,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint44;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint44 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint44: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1237,7 +1335,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint45;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint45 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint45: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1245,7 +1343,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint46;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint46 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint46: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1253,7 +1351,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint47;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint47 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint47: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1261,7 +1359,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint48;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint48 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint48: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1269,7 +1367,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint49;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint49 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint49: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1277,7 +1375,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint50;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint50 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint50: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1285,7 +1383,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint51;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint51 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint51: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1293,7 +1391,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint52;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint52 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint52: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1301,7 +1399,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint53;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint53 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint53: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1309,7 +1407,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint54;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint54 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint54: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1317,7 +1415,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint55;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint55 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint55: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1325,7 +1423,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint56;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint56 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint56: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1333,7 +1431,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint57;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint57 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint57: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1341,7 +1439,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint58;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint58 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint58: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1349,7 +1447,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint59;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint59 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint59: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1357,7 +1455,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint60;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint60 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint60: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1365,7 +1463,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint61;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint61 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint61: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1373,7 +1471,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint62;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint62 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint62: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1381,7 +1479,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint63;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint63 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint63: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1389,7 +1487,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint64;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint64 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint64: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1397,7 +1495,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint65;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint65 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint65: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1405,7 +1503,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint66;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint66 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint66: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1413,7 +1511,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint67;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint67 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint67: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1421,7 +1519,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint68;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint68 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint68: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1429,7 +1527,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint69;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint69 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint69: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1437,7 +1535,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint70;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint70 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint70: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1445,7 +1543,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint71;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint71 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint71: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1453,7 +1551,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint72;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint72 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint72: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1461,7 +1559,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint73;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint73 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint73: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1469,7 +1567,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint74;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint74 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint74: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1477,7 +1575,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint75;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint75 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint75: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1485,7 +1583,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint76;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint76 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint76: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1493,7 +1591,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint77;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint77 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint77: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1501,7 +1599,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint78;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint78 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint78: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1509,7 +1607,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint79;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint79 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint79: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1517,7 +1615,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint80;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint80 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint80: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1525,7 +1623,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint81;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint81 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint81: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1533,7 +1631,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint82;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint82 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint82: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1541,7 +1639,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint83;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint83 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint83: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1549,7 +1647,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint84;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint84 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint84: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1557,7 +1655,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint85;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint85 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint85: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1565,7 +1663,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint86;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint86 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint86: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1573,7 +1671,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint87;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint87 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint87: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1581,7 +1679,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint88;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint88 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint88: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1589,7 +1687,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint89;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint89 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint89: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1597,7 +1695,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint90;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint90 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint90: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1605,7 +1703,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint91;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint90 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint91: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1613,7 +1711,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint92;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint90 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint92: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1621,7 +1719,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint93;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint90 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint93: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1629,7 +1727,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint94;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint90 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint94: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1637,7 +1735,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint95;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint90 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint95: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1645,7 +1743,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint96;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint90 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint96: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1653,7 +1751,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint97;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint90 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint97: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1661,7 +1759,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint98;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint90 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint98: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1669,7 +1767,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint99;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint90 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint99: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1677,7 +1775,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint100;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint90 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint100: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1686,7 +1784,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint101;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint90 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint101: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1695,7 +1793,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint102;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint90 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint102: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1704,7 +1802,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint103;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint90 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint103: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1713,7 +1811,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint104;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint90 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint104: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1722,7 +1820,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint105;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint90 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint105: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1731,7 +1829,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint106;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint90 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint106: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1740,7 +1838,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint107;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint90 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint107: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1749,7 +1847,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint108;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint90 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint108: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1758,7 +1856,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint109;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint90 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint109: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1767,7 +1865,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint110;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint90 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint110: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1776,7 +1874,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint111;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint90 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint111: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1785,7 +1883,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint112;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint90 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint112: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1794,7 +1892,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint113;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint90 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint113: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1803,7 +1901,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint114;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint90 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint114: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1812,7 +1910,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint115;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint90 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint115: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1821,7 +1919,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint116;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint90 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint116: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1830,7 +1928,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint117;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint90 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint117: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1839,7 +1937,7 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint118;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint90 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint118: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
@@ -1848,130 +1946,410 @@ class Thread implements Runnable {
         PathTaint taint = currentThread.paramTaint119;
         // if (taint != null) {
         //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //     System.out.format("PathTaint: in method %s->%s(%s), getParamTaint90 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), taint);
+        //     System.out.format("PathTaint: getParamTaint119: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
         // }
         return taint;
     }
 
     public static PathTaint getParamTaint120(Thread currentThread) {
-        return currentThread.paramTaint120;
+        PathTaint taint = currentThread.paramTaint120;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint120: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
     }
     public static PathTaint getParamTaint121(Thread currentThread) {
-        return currentThread.paramTaint121;
+        PathTaint taint = currentThread.paramTaint121;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint121: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
     }
     public static PathTaint getParamTaint122(Thread currentThread) {
-        return currentThread.paramTaint122;
+        PathTaint taint = currentThread.paramTaint122;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint122: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
     }
     public static PathTaint getParamTaint123(Thread currentThread) {
-        return currentThread.paramTaint123;
+        PathTaint taint = currentThread.paramTaint123;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint123: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
     }
     public static PathTaint getParamTaint124(Thread currentThread) {
-        return currentThread.paramTaint124;
+        PathTaint taint = currentThread.paramTaint124;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint124: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
     }
     public static PathTaint getParamTaint125(Thread currentThread) {
-        return currentThread.paramTaint125;
+        PathTaint taint = currentThread.paramTaint125;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint125: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
     }
     public static PathTaint getParamTaint126(Thread currentThread) {
-        return currentThread.paramTaint126;
+        PathTaint taint = currentThread.paramTaint126;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint126: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
     }
     public static PathTaint getParamTaint127(Thread currentThread) {
-        return currentThread.paramTaint127;
+        PathTaint taint = currentThread.paramTaint127;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint127: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
     }
     public static PathTaint getParamTaint128(Thread currentThread) {
-        return currentThread.paramTaint128;
+        PathTaint taint = currentThread.paramTaint128;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint128: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
     }
     public static PathTaint getParamTaint129(Thread currentThread) {
-        return currentThread.paramTaint129;
+        PathTaint taint = currentThread.paramTaint129;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint129: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
     }
     public static PathTaint getParamTaint130(Thread currentThread) {
-        return currentThread.paramTaint130;
+        PathTaint taint = currentThread.paramTaint130;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint130: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
     }
     public static PathTaint getParamTaint131(Thread currentThread) {
-        return currentThread.paramTaint131;
+        PathTaint taint = currentThread.paramTaint131;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint131: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
     }
     public static PathTaint getParamTaint132(Thread currentThread) {
-        return currentThread.paramTaint132;
+        PathTaint taint = currentThread.paramTaint132;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint132: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
     }
     public static PathTaint getParamTaint133(Thread currentThread) {
-        return currentThread.paramTaint133;
+        PathTaint taint = currentThread.paramTaint133;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint133: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
     }
     public static PathTaint getParamTaint134(Thread currentThread) {
-        return currentThread.paramTaint134;
+        PathTaint taint = currentThread.paramTaint134;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint134: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
     }
     public static PathTaint getParamTaint135(Thread currentThread) {
-        return currentThread.paramTaint135;
+        PathTaint taint = currentThread.paramTaint135;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint135: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
     }
     public static PathTaint getParamTaint136(Thread currentThread) {
-        return currentThread.paramTaint136;
+        PathTaint taint = currentThread.paramTaint136;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint136: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
     }
     public static PathTaint getParamTaint137(Thread currentThread) {
-        return currentThread.paramTaint137;
+        PathTaint taint = currentThread.paramTaint137;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint137: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
     }
     public static PathTaint getParamTaint138(Thread currentThread) {
-        return currentThread.paramTaint138;
+        PathTaint taint = currentThread.paramTaint138;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint138: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
     }
     public static PathTaint getParamTaint139(Thread currentThread) {
-        return currentThread.paramTaint139;
+        PathTaint taint = currentThread.paramTaint139;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint139: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
     }
     public static PathTaint getParamTaint140(Thread currentThread) {
-        return currentThread.paramTaint140;
+        PathTaint taint = currentThread.paramTaint140;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint140: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
     }
     public static PathTaint getParamTaint141(Thread currentThread) {
-        return currentThread.paramTaint141;
+        PathTaint taint = currentThread.paramTaint141;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint141: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
     }
     public static PathTaint getParamTaint142(Thread currentThread) {
-        return currentThread.paramTaint142;
+        PathTaint taint = currentThread.paramTaint142;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint142: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
     }
     public static PathTaint getParamTaint143(Thread currentThread) {
-        return currentThread.paramTaint143;
+        PathTaint taint = currentThread.paramTaint143;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint143: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
     }
     public static PathTaint getParamTaint144(Thread currentThread) {
-        return currentThread.paramTaint144;
+        PathTaint taint = currentThread.paramTaint144;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint144: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
     }
     public static PathTaint getParamTaint145(Thread currentThread) {
-        return currentThread.paramTaint145;
+        PathTaint taint = currentThread.paramTaint145;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint145: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
     }
     public static PathTaint getParamTaint146(Thread currentThread) {
-        return currentThread.paramTaint146;
+        PathTaint taint = currentThread.paramTaint146;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint146: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
     }
     public static PathTaint getParamTaint147(Thread currentThread) {
-        return currentThread.paramTaint147;
+        PathTaint taint = currentThread.paramTaint147;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint147: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
     }
     public static PathTaint getParamTaint148(Thread currentThread) {
-        return currentThread.paramTaint148;
+        PathTaint taint = currentThread.paramTaint148;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint148: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
     }
     public static PathTaint getParamTaint149(Thread currentThread) {
-        return currentThread.paramTaint149;
+        PathTaint taint = currentThread.paramTaint149;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint149: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
     }
     public static PathTaint getParamTaint150(Thread currentThread) {
-        return currentThread.paramTaint150;
+        PathTaint taint = currentThread.paramTaint150;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint150: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
     }
     public static PathTaint getParamTaint151(Thread currentThread) {
-        return currentThread.paramTaint151;
+        PathTaint taint = currentThread.paramTaint151;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint151: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
     }
     public static PathTaint getParamTaint152(Thread currentThread) {
-        return currentThread.paramTaint152;
+        PathTaint taint = currentThread.paramTaint152;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint152: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
     }
     public static PathTaint getParamTaint153(Thread currentThread) {
-        return currentThread.paramTaint153;
+        PathTaint taint = currentThread.paramTaint153;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint153: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
     }
     public static PathTaint getParamTaint154(Thread currentThread) {
-        return currentThread.paramTaint154;
+        PathTaint taint = currentThread.paramTaint154;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint154: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
     }
     public static PathTaint getParamTaint155(Thread currentThread) {
-        return currentThread.paramTaint155;
+        PathTaint taint = currentThread.paramTaint155;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint155: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
     }
     public static PathTaint getParamTaint156(Thread currentThread) {
-        return currentThread.paramTaint156;
+        PathTaint taint = currentThread.paramTaint156;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint156: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
     }
     public static PathTaint getParamTaint157(Thread currentThread) {
-        return currentThread.paramTaint157;
+        PathTaint taint = currentThread.paramTaint157;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint157: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
     }
     public static PathTaint getParamTaint158(Thread currentThread) {
-        return currentThread.paramTaint158;
+        PathTaint taint = currentThread.paramTaint158;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint158: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
     }
     public static PathTaint getParamTaint159(Thread currentThread) {
-        return currentThread.paramTaint159;
+        PathTaint taint = currentThread.paramTaint159;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint159: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
+    }
+    public static PathTaint getParamTaint160(Thread currentThread) {
+        PathTaint taint = currentThread.paramTaint160;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint160: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
+    }
+    public static PathTaint getParamTaint161(Thread currentThread) {
+        PathTaint taint = currentThread.paramTaint161;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint161: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
+    }
+    public static PathTaint getParamTaint162(Thread currentThread) {
+        PathTaint taint = currentThread.paramTaint162;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint162: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
+    }
+    public static PathTaint getParamTaint163(Thread currentThread) {
+        PathTaint taint = currentThread.paramTaint163;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint163: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
+    }
+    public static PathTaint getParamTaint164(Thread currentThread) {
+        PathTaint taint = currentThread.paramTaint164;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint164: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
+    }
+    public static PathTaint getParamTaint165(Thread currentThread) {
+        PathTaint taint = currentThread.paramTaint165;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint165: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
+    }
+    public static PathTaint getParamTaint166(Thread currentThread) {
+        PathTaint taint = currentThread.paramTaint166;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint166: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
+    }
+    public static PathTaint getParamTaint167(Thread currentThread) {
+        PathTaint taint = currentThread.paramTaint167;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint167: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
+    }
+    public static PathTaint getParamTaint168(Thread currentThread) {
+        PathTaint taint = currentThread.paramTaint168;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint168: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
+    }
+    public static PathTaint getParamTaint169(Thread currentThread) {
+        PathTaint taint = currentThread.paramTaint169;
+        // if (taint != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: getParamTaint169: %s->%s, %s%n", ste.getClassName(), ste.getMethodName(), taint);
+        // }
+        return taint;
     }
 
 
@@ -2790,18 +3168,9 @@ class Thread implements Runnable {
 
     public static void setReturnTaint(PathTaint o) {
         Thread.currentThread().returnTaint = o;
-
         // if (o != null) {
-        //     synchronized (PathTaint.whereOpened) {
-        //         if (PathTaint.whereOpened.size() < 2048) {
-        //             PathTaint.whereOpened.add("SetRetTaint: " + o.site + ":" + o.delta+ "\n");
-        //         }
-        //     }
-        // //     StackTraceElement[] trace = Thread.currentThread().getStackTrace();
-        // //     for (int i = 3; i < trace.length; i++) {
-        // //         StackTraceElement ste = trace[i];
-        // //         System.out.format("PathTaint: setReturnTaint-%s: %s->%s(%s), %s%n", i, ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
-        // //     }
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: setReturnTaint: %s->%s(%s), %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
         // }
     }
 
@@ -2840,44 +3209,24 @@ class Thread implements Runnable {
     public static void setParamTaint0(Thread currentThread, PathTaint o) {
         currentThread.paramTaint0 = o;
         // if (o != null) {
-        //     synchronized (PathTaint.whereOpened) {
-        //         if (PathTaint.whereOpened.size() < 2048) {
-        //             PathTaint.whereOpened.add("SetParam0: " + o.site + ":" + o.delta + "\n");
-        //         }
-        //     }
-        // //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        // //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint0 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint0 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
         // }
     }
 
     public static void setParamTaint1(Thread currentThread, PathTaint o) {
-        try {
-            currentThread.paramTaint1 = o;
-            // if (o != null) {
-            //     synchronized (PathTaint.whereOpened) {
-            //         if (PathTaint.whereOpened.size() < 2048) {
-            //             PathTaint.whereOpened.add("GetParam1: " + o.site + ":" + o.delta + "\n");
-            //         }
-            //     }
-            // //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-            // //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint1 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
-            // }
-        } catch (Exception e) {
-            System.out.format("PathTaint: Exception, will throw %s%n", e.getMessage());
-            e.printStackTrace();
-        }
+        currentThread.paramTaint1 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint1 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
     }
 
     public static void setParamTaint2(Thread currentThread, PathTaint o) {
         currentThread.paramTaint2 = o;
         // if (o != null) {
-        //     synchronized (PathTaint.whereOpened) {
-        //         if (PathTaint.whereOpened.size() < 2048) {
-        //             PathTaint.whereOpened.add("SetParam2: " + o.site + ":" + o.delta + "\n");
-        //         }
-        //     }
-        // //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        // //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint2 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint2 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
         // }
     }
 
@@ -3811,120 +4160,346 @@ class Thread implements Runnable {
 
     public static void setParamTaint121(Thread currentThread, PathTaint o) {
         currentThread.paramTaint121 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint121 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
     }
     public static void setParamTaint122(Thread currentThread, PathTaint o) {
         currentThread.paramTaint122 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint122 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
     }
     public static void setParamTaint123(Thread currentThread, PathTaint o) {
         currentThread.paramTaint123 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint123 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
     }
     public static void setParamTaint124(Thread currentThread, PathTaint o) {
         currentThread.paramTaint124 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint124 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
     }
     public static void setParamTaint125(Thread currentThread, PathTaint o) {
         currentThread.paramTaint125 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint125 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
     }
     public static void setParamTaint126(Thread currentThread, PathTaint o) {
         currentThread.paramTaint126 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint126 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
     }
     public static void setParamTaint127(Thread currentThread, PathTaint o) {
         currentThread.paramTaint127 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint127 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
     }
     public static void setParamTaint128(Thread currentThread, PathTaint o) {
         currentThread.paramTaint128 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint128 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
     }
     public static void setParamTaint129(Thread currentThread, PathTaint o) {
         currentThread.paramTaint129 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint129 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
     }
     public static void setParamTaint130(Thread currentThread, PathTaint o) {
         currentThread.paramTaint130 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint130 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
     }
     public static void setParamTaint131(Thread currentThread, PathTaint o) {
         currentThread.paramTaint131 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint131 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
     }
     public static void setParamTaint132(Thread currentThread, PathTaint o) {
         currentThread.paramTaint132 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint132 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
     }
     public static void setParamTaint133(Thread currentThread, PathTaint o) {
         currentThread.paramTaint133 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint133 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
     }
     public static void setParamTaint134(Thread currentThread, PathTaint o) {
         currentThread.paramTaint134 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint134 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
     }
     public static void setParamTaint135(Thread currentThread, PathTaint o) {
         currentThread.paramTaint135 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint135 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
     }
     public static void setParamTaint136(Thread currentThread, PathTaint o) {
         currentThread.paramTaint136 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint136 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
     }
     public static void setParamTaint137(Thread currentThread, PathTaint o) {
         currentThread.paramTaint137 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint137 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
     }
     public static void setParamTaint138(Thread currentThread, PathTaint o) {
         currentThread.paramTaint138 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint138 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
     }
     public static void setParamTaint139(Thread currentThread, PathTaint o) {
         currentThread.paramTaint139 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint139 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
     }
     public static void setParamTaint140(Thread currentThread, PathTaint o) {
         currentThread.paramTaint140 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint140 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
     }
     public static void setParamTaint141(Thread currentThread, PathTaint o) {
         currentThread.paramTaint141 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint141 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
     }
     public static void setParamTaint142(Thread currentThread, PathTaint o) {
         currentThread.paramTaint142 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint142 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
     }
     public static void setParamTaint143(Thread currentThread, PathTaint o) {
         currentThread.paramTaint143 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint143 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
     }
     public static void setParamTaint144(Thread currentThread, PathTaint o) {
         currentThread.paramTaint144 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint144 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
     }
     public static void setParamTaint145(Thread currentThread, PathTaint o) {
         currentThread.paramTaint145 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint145 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
     }
     public static void setParamTaint146(Thread currentThread, PathTaint o) {
         currentThread.paramTaint146 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint146 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
     }
     public static void setParamTaint147(Thread currentThread, PathTaint o) {
         currentThread.paramTaint147 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint147 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
     }
     public static void setParamTaint148(Thread currentThread, PathTaint o) {
         currentThread.paramTaint148 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint148 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
     }
     public static void setParamTaint149(Thread currentThread, PathTaint o) {
         currentThread.paramTaint149 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint149 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
     }
     public static void setParamTaint150(Thread currentThread, PathTaint o) {
         currentThread.paramTaint150 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint150 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
     }
     public static void setParamTaint151(Thread currentThread, PathTaint o) {
         currentThread.paramTaint151 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint151 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
     }
     public static void setParamTaint152(Thread currentThread, PathTaint o) {
         currentThread.paramTaint152 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint152 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
     }
     public static void setParamTaint153(Thread currentThread, PathTaint o) {
         currentThread.paramTaint153 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint153 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
     }
     public static void setParamTaint154(Thread currentThread, PathTaint o) {
         currentThread.paramTaint154 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint154 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
     }
     public static void setParamTaint155(Thread currentThread, PathTaint o) {
         currentThread.paramTaint155 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint155 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
     }
     public static void setParamTaint156(Thread currentThread, PathTaint o) {
         currentThread.paramTaint156 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint156 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
     }
     public static void setParamTaint157(Thread currentThread, PathTaint o) {
         currentThread.paramTaint157 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint157 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
     }
     public static void setParamTaint158(Thread currentThread, PathTaint o) {
         currentThread.paramTaint158 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint158 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
     }
     public static void setParamTaint159(Thread currentThread, PathTaint o) {
         currentThread.paramTaint159 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint159 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
+    }
+    public static void setParamTaint160(Thread currentThread, PathTaint o) {
+        currentThread.paramTaint160 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint160 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
+    }
+    public static void setParamTaint161(Thread currentThread, PathTaint o) {
+        currentThread.paramTaint161 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint161 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
+    }
+    public static void setParamTaint162(Thread currentThread, PathTaint o) {
+        currentThread.paramTaint162 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint162 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
+    }
+    public static void setParamTaint163(Thread currentThread, PathTaint o) {
+        currentThread.paramTaint163 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint163 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
+    }
+    public static void setParamTaint164(Thread currentThread, PathTaint o) {
+        currentThread.paramTaint164 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint164 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
+    }
+    public static void setParamTaint165(Thread currentThread, PathTaint o) {
+        currentThread.paramTaint165 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint165 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
+    }
+    public static void setParamTaint166(Thread currentThread, PathTaint o) {
+        currentThread.paramTaint166 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint166 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
+    }
+    public static void setParamTaint167(Thread currentThread, PathTaint o) {
+        currentThread.paramTaint167 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint167 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
+    }
+    public static void setParamTaint168(Thread currentThread, PathTaint o) {
+        currentThread.paramTaint168 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint168 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
+    }
+    public static void setParamTaint169(Thread currentThread, PathTaint o) {
+        currentThread.paramTaint169 = o;
+        // if (o != null) {
+        //     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+        //     System.out.format("PathTaint: in method %s->%s(%s), setParamTaint169 from %s%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), o);
+        // }
     }
 
 

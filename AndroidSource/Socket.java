@@ -584,27 +584,27 @@ class Socket implements java.io.Closeable {
      */
     public void connect(SocketAddress endpoint, int timeout) throws IOException {
 
-        // // PathTaint-Debug
-        // try {
-        //     if (endpoint == null)
-        //         throw new IllegalArgumentException("connect: The address can't be null");
+        // Khaled
+        try {
+            if (endpoint == null)
+                throw new IllegalArgumentException("connect: The address can't be null");
 
-        //     StackTraceElement [] stackTraceElements = Thread.currentThread().getStackTrace();
-        //     StringBuilder sb = new StringBuilder("PathTaint-Debug: Interent endpoint stacktrace\n");
-        //     for (StackTraceElement ste : stackTraceElements) {
-        //         sb.append("    ");
-        //         sb.append(ste.toString());
-        //         sb.append("\n");
-        //     }
-        //     sb.append("SocketAddress: ");
-        //     sb.append(endpoint.toString());
-        //     sb.append("\n");
-        //     System.out.println(sb.toString());
-        // } catch (Exception e) {
-        //     System.out.println("PathTaint-Debug: Interent endpoint stacktrace failed");
-        //     e.printStackTrace();
-        // }
-        // // PathTaint-Debug: end
+            StackTraceElement [] stackTraceElements = Thread.currentThread().getStackTrace();
+            StringBuilder sb = new StringBuilder("Khaled: Interent endpoint stacktrace\n");
+            for (StackTraceElement ste : stackTraceElements) {
+                sb.append("    ");
+                sb.append(ste.toString());
+                sb.append("\n");
+            }
+            sb.append("SocketAddress: ");
+            sb.append(endpoint.toString());
+            sb.append("\n");
+            System.out.println(sb.toString());
+        } catch (Exception e) {
+            System.out.println("Khaled: Interent endpoint stacktrace failed");
+            e.printStackTrace();
+        }
+        // Khaled: end
 
 
         if (endpoint == null)

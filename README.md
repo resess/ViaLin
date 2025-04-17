@@ -32,30 +32,36 @@ Khaled Ahmed, Yingying Wang, Mieszko Lis, and Julia Rubin. [ViaLin: Path-Aware D
 ---
 ## Building The Tool
 
-- Change the directory to the AndroidSource: `cd AndroidSource`
+1. Change the directory to the AndroidSource: `cd AndroidSource`
 
-- In the `apply_code.py` script, change the path of `android_src_folder` to the Android AOSP.
+2. In the `apply_code.py` script, change the path of `android_src_folder` to the Android AOSP.
 
-- Run `apply_code.py`: `python3 apply_code.py`
+3. Run `apply_code.py`: `python3 apply_code.py`
 
-- Replace [path-to-jar] in `java.mk` to the jar file built from step #3
+4. Change the directory to the ViaLin Java source code directory: `cd ViaLin/`, then run mvn package install. This produces a JAR file `ViaLin/target/vialin-jar-with-dependencies.jar`
 
-- Create a folder called framework_analysis_results, place its path in [framework_analysis_results] in the `java.mk`
+5. Replace [path-to-jar] in `java.mk` to the jar file built from step 4
 
-- Create folder class_info/ inside framework_analysis_results
+6. Prepare the framework_analysis_results folder, there are two options:
+    1. Unpack the provided framework_analysis_results.zip in the same directory it exists in (the repo directory), this will likely only work with `android-8.0.0_r21`, if you would like to try the tool on other versions, you need to use the second option below.
+    2. Run `mkdir framework_analysis_results`. Then run `python scripts/analyze.py`, you need to first modify line 4 in `python scripts/analyze.py` to point to the full path of the `out` directory inside your built AOSP folder, e.g., `...android-aosp/out/`. This will populate the `framework_analysis_results` directiroy.
 
-- Replace [path-to-sources] and [path-to-sink] in `java.mk` with path to the absolute path of GPBench/config/empty.txt from the evaluation package
+7. Place the full path to  `framework_analysis_results`, in the [framework_analysis_results] placeholder in the `java.mk`
 
-- Change the directory to the downloaded AOSP, follow the "Setting up the environment", "Choosing a target", and "Building the code" section of the Building Android Manual
+8. Create folder class_info/ inside framework_analysis_results
 
-- Flash an Android device by following the instructions in the Android Manual Flashing Devices
+9. Replace [path-to-sources] and [path-to-sink] in `java.mk` with path to the absolute path to `evaluation_package/GPBench/config/empty.txt`
+
+10. Change the directory to the downloaded AOSP, follow the "Setting up the environment", "Choosing a target", and "Building the code" section of the Building Android Manual
+
+11. Flash an Android device by following the instructions in the Android Manual Flashing Devices
 
 
 ---
 
 ## Using The Tool
 
-An example on how to taint and install an app on the device is in the evaluation package GPBench/scripts/run_gp.py, run from the vialin directory python3 GPBench/scripts/run_gp.py, modify the paths in the script to point to the correct folder for the AOSP, framework_analysis_results, source/sink lists, the android-record-and-replay tool included in vialin, and the path to the apk.
+An example on how to taint and install an app on the device is in the evaluation package `GPBench/scripts/run_gp.py`, run from the vialin directory `python3 GPBench/scripts/run_gp.py`, modify the paths in the script to point to the correct folder for the AOSP, framework_analysis_results, source/sink lists, the android-record-and-replay tool included in vialin, and the path to the apk.
 
 
 ---

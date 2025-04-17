@@ -44,17 +44,19 @@ Khaled Ahmed, Yingying Wang, Mieszko Lis, and Julia Rubin. [ViaLin: Path-Aware D
 
 6. Prepare the framework_analysis_results folder, there are two options:
     1. Unpack the provided framework_analysis_results.zip in the same directory it exists in (the repo directory), this will likely only work with `android-8.0.0_r21`, if you would like to try the tool on other versions, you need to use the second option below.
-    2. Run `mkdir framework_analysis_results`. Then run `python scripts/analyze.py`, you need to first modify line 4 in `python scripts/analyze.py` to point to the full path of the `out` directory inside your built AOSP folder, e.g., `...android-aosp/out/`. This will populate the `framework_analysis_results` directiroy.
+    2. Run `mkdir framework_analysis_results`. Then run `python scripts/analyze.py`, you need to first modify line 4 in `python scripts/analyze.py` to point to the absolute path of the `out` directory inside your built AOSP folder, e.g., `...android-aosp/out/`. This will populate the `framework_analysis_results` directiroy.
 
-7. Place the full path to  `framework_analysis_results`, in the [framework_analysis_results] placeholder in the `java.mk`
+7. Place the absolute path to  `framework_analysis_results`, in the [framework_analysis_results] placeholder in the `java.mk`
 
 8. Create folder class_info/ inside framework_analysis_results
 
-9. Replace [path-to-sources] and [path-to-sink] in `java.mk` with path to the absolute path to `evaluation_package/GPBench/config/empty.txt`
+9. Replace [methodModelDir] in `java.mk` with the absolute path to `methodModelDir` folder
 
-10. Change the directory to the downloaded AOSP, follow the "Setting up the environment", "Choosing a target", and "Building the code" section of the Building Android Manual
+10. Replace [path-to-sources] and [path-to-sink] in `java.mk` with path to the absolute path to `evaluation_package/GPBench/config/empty.txt`
 
-11. Flash an Android device by following the instructions in the Android Manual Flashing Devices
+11. Change the directory to the downloaded AOSP, follow the "Setting up the environment", "Choosing a target", and "Building the code" section of the Building Android Manual
+
+12. Flash an Android device by following the instructions in the Android Manual Flashing Devices
 
 
 ---

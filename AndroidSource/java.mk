@@ -691,8 +691,8 @@ $(built_dex): $(built_dex_intermediate)
 	$(hide) rm -f $(dir $@)/classes*.dex
 	rm -rf $(dir $@)/temp
 	mkdir -p $(dir $@)/temp
-	@echo Khaled, will run command java -Xss16M -jar [path-to-jar] t true vl $(dir $@)/temp/ [framework_analysis_results] [path-to-sources] [path-to-sink] $(dir $<)/classes*.dex
-	java -Xss16M -jar [path-to-jar] t true vl $(dir $@)/temp/ [framework_analysis_results] [path-to-sources] [path-to-sink] $(dir $<)/classes*.dex
+	@echo Khaled, will run command java -Xss16M -jar [path-to-jar] t true vl $(dir $@)/temp/ [framework_analysis_results] [methodModelDir] [path-to-sources] [path-to-sink] $(dir $<)/classes*.dex
+	java -Xss16M -jar [path-to-jar] t true vl $(dir $@)/temp/ [framework_analysis_results] [methodModelDir] [path-to-sources] [path-to-sink] $(dir $<)/classes*.dex
 	$(hide) cp -fp $(dir $@)/temp/new-jar/classes*.dex $(dir $@)
 	# rm -r $(dir $@)/temp
 

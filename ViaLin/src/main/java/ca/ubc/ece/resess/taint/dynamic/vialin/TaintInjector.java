@@ -62,11 +62,12 @@ public class TaintInjector {
     private final boolean isFramework;
     private boolean injected = false;
     private boolean bytecodeCov = false;
+    private String xstreamDir = null;
 
     public TaintInjector(List<String> jarFiles, String outDir, String analysisDir, String srcFile, String sinkFile, TaintTool tool, boolean isFramework, AnalysisDestination analysisDestination) {
         this.jarFiles = jarFiles;
 
-        if (tool instanceof ViaLinTool || tool instanceof TaintDroidTool) {
+        if (tool instanceof ViaLinTool || tool instanceof TaintDroidTool || tool instanceof ConcTool) {
             TaintSource.loadSources(srcFile);
             TaintSink.loadSinks(sinkFile);
         }
@@ -184,6 +185,15 @@ public class TaintInjector {
             addTaint(tool, smaliFiles, frameworkAnalysisDir);
             long endTime = System.currentTimeMillis();
             System.out.format("Taint addition took: %s%n", (endTime - startTime)/1000);
+
+            if (i == dexFiles.size()-1) {
+                // Add XStream file for ConcTool
+                if (tool instanceof ConcTool) {
+                    List<String> xstreamFiles = copyXstreamFiles();
+                    smaliFiles.addAll(xstreamFiles);
+                }                
+            }
+
             while (!smaliFiles.isEmpty()) {
                 try {
                     startTime = System.currentTimeMillis();
@@ -214,6 +224,35 @@ public class TaintInjector {
         writePostAnalysisFiles();
         return true;
     }
+
+    public void setXstreamDir(String xstreamDir) {
+        this.xstreamDir = xstreamDir;
+    }
+
+    private List<String> copyXstreamFiles() {
+        List<String> smaliFiles = new ArrayList<>();
+        // Copy files from xstream.apktool/smali/com/thoughtworks/xstream/ to the dex directory of the last dex file
+        if (xstreamDir == null) {
+            throw new Error("XStream directory not set");
+        }
+        Path xstreamPath = Paths.get(xstreamDir);
+        try (Stream<Path> walk = Files.walk(xstreamPath)) {
+            List<String> xstreamFiles = walk.filter(f -> f.toString().endsWith(".smali") & f.toString().contains("com/thoughtworks/xstream"))
+                    .map(x -> x.toString()).collect(Collectors.toList());
+            for (String f : xstreamFiles) {
+                String fileName = f.substring(xstreamDir.length());
+                String destFile = dexDir + (dexFiles.size()-1) + fileName;
+                Path destPath = Paths.get(destFile);
+                Files.createDirectories(destPath.getParent());
+                Files.copy(Paths.get(f), destPath);
+                smaliFiles.add(destFile);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return smaliFiles;
+    }
+
 
     private void writePostAnalysisFiles() {
         try {
@@ -364,6 +403,8 @@ public class TaintInjector {
             throw new Error("Unsupported taint tool (NoTool)");
         } else if(tool instanceof CovTool) {
             taintAnalysis = new Coverage(smaliFiles, this.bytecodeCov, coverageFile);
+        } else if (tool instanceof ConcTool) {
+            taintAnalysis = new ConcreteCache(tool, smaliFiles, analysisDir, isFramework, outDir);
         } else {
             throw new Error("Unsupported taint tool");
         }

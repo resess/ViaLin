@@ -31,6 +31,16 @@ public class ViaLin {
       outDir = args[1];
       extraConfig = args[2];
       nextArg = 3;
+    } else if (mode.equals("conc")) {
+      isFrameWorkStr = args[1];
+      toolStr = args[2];
+      outDir = args[3];
+      analysisDir = args[4];
+      methodModelDir = args[5];
+      srcFile = args[6];
+      sinkFile = args[7];
+      extraConfig = args[8];
+      nextArg = 9;
     } else {
       isFrameWorkStr = args[1];
       toolStr = args[2];
@@ -60,8 +70,10 @@ public class ViaLin {
       tool = new NoTool();
     } else if (toolStr.equals("cov")) {
       tool = new CovTool();
+    } else if (toolStr.equals("conc")) {
+      tool = new ConcTool();
     } else {
-      throw new Error("Unsuporrted tool type");
+      throw new Error("Unsupported tool type");
     }
 
     boolean isFramework = Boolean.valueOf(isFrameWorkStr);
@@ -92,6 +104,16 @@ public class ViaLin {
       } else {
         injector.setBytecodeCov(false);
       }
+      injector.inject();
+    } else if (mode.equals("conc")) { // concrete cache
+      MethodModel.setMethodModelsPath(methodModelDir);
+      TaintInjector injector = new TaintInjector(inFiles, outDir, analysisDir, srcFile, sinkFile, tool, isFramework, AnalysisDestination.APP);
+      injector.analyze();
+      long afterAnalysis = System.currentTimeMillis() - start;
+      System.out.println("Analysis done in " + afterAnalysis + " ms");
+      System.out.println("Will instrument to build concrete cache");
+      injector = new TaintInjector(inFiles, outDir, analysisDir, srcFile, sinkFile, tool, isFramework, AnalysisDestination.APP);
+      injector.setXstreamDir(extraConfig);
       injector.inject();
     } else {
       throw new Error("Unupported mode " + mode);

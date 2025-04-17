@@ -32,13 +32,19 @@ Khaled Ahmed, Yingying Wang, Mieszko Lis, and Julia Rubin. [ViaLin: Path-Aware D
 ---
 ## Building The Tool
 
-- Change the directory to the AndroidSource: `cd AndroidSource`
+1. Change the directory to the AndroidSource: `cd AndroidSource`
 
-- In the `apply_code.py` script, change the path of `android_src_folder` to the Android AOSP.
+2. In the `apply_code.py` script, change the path of `android_src_folder` to the Android AOSP.
 
-- Run `apply_code.py`: `python3 apply_code.py`
+3. Run `apply_code.py`: `python3 apply_code.py`
 
-- Replace [path-to-jar] in `java.mk` to the jar file built from step #3
+4. Change the directory to the ViaLin Java source code directory: `cd ViaLin/`, then run `mvn package install`. This produces a JAR file `ViaLin/target/vialin-jar-with-dependencies.jar`
+
+5. In the `java.mk` file, find this line: `java -Xss16M -jar /home/khaledea/data/ViaLin/ViaLin/target/vialin-jar-with-dependencies.jar t true vl $(dir $@)/temp/ /home/khaledea/data/ViaLin/framework_analysis_results /home/khaledea/data/ViaLin/methodSummaries /home/khaledea/data/ViaLin/scripts/empty.txt /home/khaledea/data/ViaLin/scripts/empty.txt $(dir $<)/classes*.dex`
+
+6. Replace the jar path (`/home/khaledea/data/ViaLin/ViaLin/target/vialin-jar-with-dependencies.jar`) in the line from step 5 with the full path of the jar file built from step 4.
+
+7. Replace the `framework_analysis_results` path from
 
 - Create a folder called framework_analysis_results, place its path in [framework_analysis_results] in the `java.mk`
 

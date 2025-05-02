@@ -1,8 +1,15 @@
 import os
 
+IS_IMPLICIT_TAINT = True
+
 android_src_folder="/home/khaledea/data/android-aosp-pixel-2-xl-taintart/"
 
-os.system(f"cp PathTaint.java {android_src_folder}/libcore/ojluni/src/main/java/java/lang/PathTaint.java")
+
+if not IS_IMPLICIT_TAINT:
+    os.system(f"cp PathTaint.java {android_src_folder}/libcore/ojluni/src/main/java/java/lang/PathTaint.java")
+else:
+    os.system(f"cp ImplicitTaint.java {android_src_folder}/libcore/ojluni/src/main/java/java/lang/PathTaint.java")
+
 os.system(f"cp Bundle.java {android_src_folder}/frameworks/base/core/java/android/os/Bundle.java")
 os.system(f"cp droiddoc.mk {android_src_folder}/build/make/core/droiddoc.mk")
 os.system(f"cp FileOutputStream.java {android_src_folder}/libcore/ojluni/src/main/java/java/io/FileOutputStream.java")

@@ -42,6 +42,9 @@ import java.lang.reflect.Method;
 
 
 public class PathTaint {
+    public Set<PathTaint> previousTags;
+    public boolean isSource;
+    public boolean isCondition;
     public PathTaint left;
     public PathTaint right;
     public String site;
@@ -50,11 +53,6 @@ public class PathTaint {
 
     // For user feedback tracking
     public String sinkId;
-
-    // public static AtomicInteger taintNum = new AtomicInteger(0);
-    // public static final AtomicBoolean lock = new AtomicBoolean(false);
-    // static int openTaints = 0;
-    // static List<String> whereOpened = new ArrayList<>();
 
     private static final Boolean trueBoolean = new Boolean(true);
     private static final int MAX_ENTRIES = 100*1024; //100*1024;
@@ -84,8 +82,6 @@ public class PathTaint {
     });
 
     private static String packageName = null;
-
-
 
     static Set<Integer> taintCache = new HashSet<>();
 
@@ -141,15 +137,6 @@ public class PathTaint {
                 }
 
                 if (toPrint != null && tainted == true) {
-                    // if (packageName != null) {
-                    //     try {
-                    //         OutputStream out = new BufferedOutputStream(new FileOutputStream("/data/data/" + packageName + "/dumpTaint-" + num + ".txt"));
-                    //         out.write((toPrint + "\n").getBytes());
-                    //         out.flush();
-                    //     } catch (Exception e) {
-                    //         e.printStackTrace();
-                    //     }
-                    // }
                     System.out.println(toPrint);
                 }
 
@@ -173,6 +160,27 @@ public class PathTaint {
         }
     }
 
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj instanceof PathTaint) {
+            PathTaint other = (PathTaint) obj;
+            return this.site.equals(other.site) && this.delta == other.delta && this.timeStamp == other.timeStamp;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = 31 * result + site.hashCode();
+        result = 31 * result + delta;
+        result = 31 * result + (int) (timeStamp ^ (timeStamp >>> 32));
+        return result;
+    }
 
 
     public static PathTaint newInstance() {
@@ -266,10 +274,30 @@ public class PathTaint {
         PathTaint newTaint = new PathTaint();
         newTaint.site = site;
         newTaint.delta = delta;
+        newTaint.isSource = true;
+        newTaint.isCondition = false;
+        newTaint.previousTags = new HashSet<>();
         if (pathTaint != null) {
-            newTaint.left = pathTaint.left;
-            newTaint.right = pathTaint.right;
+            if (pathTaint.isSource || pathTaint.isCondition) {
+                newTaint.previousTags.add(pathTaint);
+            } else if (pathTaint.previousTags != null) {
+                for (PathTaint taint : pathTaint.previousTags) {
+                    newTaint.previousTags.add(taint);
+                }
+            }
         }
+
+        PathTaint controlTaint = Thread.getControlTaintFromStack();
+        if (controlTaint != null) {
+            if (controlTaint.isSource || controlTaint.isCondition) {
+                newTaint.previousTags.add(controlTaint);
+            } else if (controlTaint.previousTags != null) {
+                for (PathTaint taint : controlTaint.previousTags) {
+                    newTaint.previousTags.add(taint);
+                }
+            }
+        }
+
         newTaint.timeStamp = System.nanoTime();
         System.out.format("PathTaint: SourceFound: %s(%s)id(%s)%n", newTaint.site, newTaint.delta, newTaint.timeStamp);
         // printMethodName(String.valueOf(newTaint.timeStamp));
@@ -290,30 +318,86 @@ public class PathTaint {
     }
 
     public static PathTaint propagateOneArg(PathTaint other, String site, int delta) {
-        // try {
-        //     if (other.site == null) {
-        //         StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //         System.out.format("PathTaint: in method %s->%s(%s), trying to propagate-one from null left %s(%s)%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), site, delta);
-        //     }
-        // } catch (Exception e) {
-        //     e.printStackTrace();
-        // }
-
         PathTaint newTaint = new PathTaint();
         newTaint.site = site;
         newTaint.delta = delta;
-        newTaint.left = other;
         newTaint.timeStamp = other.timeStamp + 1;
         newTaint.sinkId = other.sinkId;
-        // if (newTaint.sinkId != null) {
-        //     System.out.format("PathTaint: propArg after sink %s <-- %s%n", newTaint, other);
-        // }
-        // if (!newTaint.site.startsWith("Landroid")) {
-            // System.out.format("PathTaint: propArg %s <-- %s%n", newTaint, other);
-        // }
+        newTaint.isSource = false;
+        newTaint.isCondition = false;
+        newTaint.previousTags = new HashSet<>();
+
+        if (other.isSource || other.isCondition) {
+            newTaint.previousTags.add(other);
+        } else if (other.previousTags != null) {
+            for (PathTaint taint : other.previousTags) {
+                newTaint.previousTags.add(taint);
+            }
+        }
+
+        PathTaint controlTaint = Thread.getControlTaintFromStack();
+        if (controlTaint != null) {
+            if (controlTaint.isSource || controlTaint.isCondition) {
+                newTaint.previousTags.add(controlTaint);
+            } else if (controlTaint.previousTags != null) {
+                for (PathTaint taint : controlTaint.previousTags) {
+                    newTaint.previousTags.add(taint);
+                }
+            }
+        }
+
         return newTaint;
     }
 
+    public static void propagateAtIf(PathTaint pathTaint, String site, int delta) {
+        PathTaint newTaint = new PathTaint();
+        newTaint.site = site;
+        newTaint.delta = delta;
+        newTaint.isSource = false;
+        newTaint.isCondition = true;
+        newTaint.previousTags = new HashSet<>();
+        if (pathTaint != null) {
+            if (pathTaint.isSource || pathTaint.isCondition) {
+                newTaint.previousTags.add(pathTaint);
+            } else if (pathTaint.previousTags != null) {
+                for (PathTaint taint : pathTaint.previousTags) {
+                    newTaint.previousTags.add(taint);
+                }
+            }
+        }
+
+        PathTaint controlTaint = Thread.getControlTaintFromStack();
+        if (controlTaint != null) {
+            if (controlTaint.isSource || controlTaint.isCondition) {
+                newTaint.previousTags.add(controlTaint);
+            } else if (controlTaint.previousTags != null) {
+                for (PathTaint taint : controlTaint.previousTags) {
+                    newTaint.previousTags.add(taint);
+                }
+            }
+        }
+
+        newTaint.timeStamp = System.nanoTime();
+
+        Thread.addControlTaintToStack(newTaint);
+
+
+        System.out.format("PathTaint: IfFound: %s(%s)id(%s)%n", newTaint.site, newTaint.delta, newTaint.timeStamp);
+        // printMethodName(String.valueOf(newTaint.timeStamp));
+        try {
+            StackTraceElement [] stackTraceElements = Thread.currentThread().getStackTrace();
+            StringBuilder sb = new StringBuilder("PathTaint: if stacktrace " + newTaint.site + "(" + newTaint.delta + ")id(" + newTaint.timeStamp + ")\n");
+            for (StackTraceElement elem : stackTraceElements) {
+                sb.append("    ");
+                sb.append(elem.toString());
+                sb.append("\n");
+            }
+            System.out.println(sb.toString());
+        } catch (Exception e) {
+            System.out.println("PathTaint: if stacktrace failed");
+            e.printStackTrace();
+        }
+    }
 
     private static int updateSet(Set<Object> visitedObjects, Object next) {
         try {
@@ -412,30 +496,10 @@ public class PathTaint {
 
 
     public static PathTaint propagateTwoArgs(PathTaint left, PathTaint right, String site, int delta) {
-        // try {
-        //     if (left != null && left.site == null) {
-        //         StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //         System.out.format("PathTaint: in method %s->%s(%s), trying to propagate-two from null left %s(%s)%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), site, delta);
-        //         left = null;
-        //     }
-        //     if (right != null && right.site == null) {
-        //         StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
-        //         System.out.format("PathTaint: in method %s->%s(%s), trying to propagate-two from null right %s(%s)%n", ste.getClassName(), ste.getMethodName(), ste.getLineNumber(), site, delta);
-        //         right = null;
-        //     }
-        //     if (left == null && right == null) {
-        //         return null;
-        //     }
-        // } catch (Exception e) {
-        //     e.printStackTrace();
-        // }
-
 
         PathTaint newTaint = new PathTaint();
         newTaint.site = site;
         newTaint.delta = delta;
-        newTaint.left = left;
-        newTaint.right = right;
         if (left == null) {
             newTaint.timeStamp = right.timeStamp + 1;
             newTaint.sinkId = right.sinkId;
@@ -456,12 +520,40 @@ public class PathTaint {
                 // }
             }
         }
-        // if (newTaint.sinkId != null) {
-        //     System.out.format("PathTaint: propTwoArgs after sink %s <-- %s ^ %s %n", newTaint, left, right);
-        // }
-        // if (!newTaint.site.startsWith("Landroid")) {
-            // System.out.format("PathTaint: propTwoArgs %s <-- %s ^ %s %n", newTaint, left, right);
-        // }
+
+        newTaint.isSource = false;
+        newTaint.isCondition = false;
+        newTaint.previousTags = new HashSet<>();
+        if (left != null) {
+            if (left.isSource || left.isCondition) {
+                newTaint.previousTags.add(left);
+            } else if (left.previousTags != null) {
+                for (PathTaint taint : left.previousTags) {
+                    newTaint.previousTags.add(taint);
+                }
+            }
+        }
+        if (right != null) {
+            if (right.isSource || right.isCondition) {
+                newTaint.previousTags.add(right);
+            } else if (right.previousTags != null) {
+                for (PathTaint taint : right.previousTags) {
+                    newTaint.previousTags.add(taint);
+                }
+            }
+        }
+
+        PathTaint controlTaint = Thread.getControlTaintFromStack();
+        if (controlTaint != null) {
+            if (controlTaint.isSource || controlTaint.isCondition) {
+                newTaint.previousTags.add(controlTaint);
+            } else if (controlTaint.previousTags != null) {
+                for (PathTaint taint : controlTaint.previousTags) {
+                    newTaint.previousTags.add(taint);
+                }
+            }
+        }
+
         return newTaint;
     }
 
@@ -680,7 +772,6 @@ public class PathTaint {
         int cacheMiss = 0;
         int localCacheMiss = 0;
         Set<Integer> visitedCacheless = new HashSet<>();
-        boolean fastMode = false;
 
         // OutputStream out = new BufferedOutputStream (System.out);
         OutputStream out;
@@ -710,20 +801,6 @@ public class PathTaint {
 
             PathTaint next = stack.pop();
 
-            // if (numIters > 10 * 1024) {
-            //     System.out.println("PathTaint-debug-" + num + ": Number of iterations is large " + numIters);
-            //     // stack.clear();
-            // }
-
-            // if (numIters > 10 * 1024) {
-            //     // stack.clear();
-            //     if (cacheHit > 0) {
-            //         // System.out.println("PathTaint-debug-" + num + ": Swiching to cacheless mode, numIters = " + numIters);
-            //         // break;
-            //     }
-            //     // fastMode = true;
-            // }
-
             int hashCode = System.identityHashCode(next);
 
             boolean inCache = false;
@@ -745,114 +822,48 @@ public class PathTaint {
                 }
             }
 
-            int leftHashCode = 0;
-            int rightHashCode = 0;
 
-            PathTaint left = next.left;
-            if (left != null) {
-                String leftSite = left.site;
-                leftHashCode = System.identityHashCode(left);
-                // if (!inFramework(leftSite))
-                // {
-                //     isFramework = false;
-                // }
-            }
-            PathTaint right = next.right;
-            if (right != null) {
-                String rightSite = right.site;
-                rightHashCode = System.identityHashCode(right);
-                // if (!inFramework(rightSite))
-                // {
-                //     isFramework = false;
-                // }
-            }
             try {
-                if (/*!isFramework && */ !fastMode) {
-                    // if (next.sinkId != null) {
-                    //    if (!next.sinkId.contains(String.valueOf(next.timeStamp))) {
-                    //        System.out.println("This flow already passed through the SinkID: " + next.sinkId);
-                    //        System.out.println(header + "Cancelled by SinkID: " + next.sinkId);
-                    //        continue;
-                    //    }
-                    // }
-                    //  else {
-                    //     System.out.println("SinkID: null");
-                    // }
-                    StringBuilder sb = new StringBuilder();
-                    sb.append(nextSite);
-                    sb.append("(");
-                    sb.append(next.delta);
-                    sb.append(")id(");
+
+                StringBuilder sb = new StringBuilder();
+                sb.append(nextSite);
+                sb.append("(");
+                sb.append(next.delta);
+                sb.append(")id(");
+                sb.append(next.timeStamp);
+                sb.append(")");
+                if (next.isSource) {
+                    sb.append("->taint->STARTPATH(");
                     sb.append(next.timeStamp);
                     sb.append(")");
-                    if (left != null) {
-                        String leftSite = left.site;
-                        sb.append("->left->");
-                        sb.append(leftSite);
+                } else if (next.isCondition) {
+                    sb.append("->taint->CONDITION(");
+                    sb.append(next.timeStamp);
+                    sb.append(")");
+                }
+                System.out.println("PathTaint: Size of next.previousTags is " + next.previousTags.size());
+                for (PathTaint taint : next.previousTags) {
+                    if (taint != null) {
+                        String taintSite = taint.site;
+                        sb.append("->taint->");
+                        sb.append(taintSite);
                         sb.append("(");
-                        sb.append(left.delta);
+                        sb.append(taint.delta);
                         sb.append(")id(");
-                        sb.append(left.timeStamp);
+                        sb.append(taint.timeStamp);
                         sb.append(")");
-                    } else {
-                        sb.append("->left->STARTPATH(");
-                        sb.append(next.timeStamp);
-                        sb.append(")");
-                    }
-                    if (right != null) {
-                        String rightSite = right.site;
-                        sb.append("->right->");
-                        sb.append(rightSite);
-                        sb.append("(");
-                        sb.append(right.delta);
-                        sb.append(")id(");
-                        sb.append(right.timeStamp);
-                        sb.append(")");
-                    }
-                    String dumpString = sb.toString();
-                    // System.out.println(header + dumpString);
-                    out.write((header + dumpString + "\n").getBytes());
-                    // pout.println(header + dumpString);
-                    numIters += 1;
-                } else if (/* !isFramework && */ fastMode) {
-                    if (left == null) {
-                        StringBuilder sb = new StringBuilder();
-                        sb.append(nextSite);
-                        sb.append("(");
-                        sb.append(next.delta);
-                        sb.append(")id(");
-                        sb.append(next.timeStamp);
-                        sb.append(")");
-                        sb.append("->left->STARTPATH(");
-                        sb.append(next.timeStamp);
-                        sb.append(")");
-                        String dumpString = sb.toString();
-                        // System.out.println(header + dumpString);
-                        out.write((header + dumpString + "\n").getBytes());
-                        // pout.println(header + dumpString);
-                        numIters += 1;
+                        if (!stack.contains(taint)) {
+                            if (System.identityHashCode(taint) != hashCode && !taint.site.equals(nextSite) && taint.delta != next.delta) {
+                                stack.addLast(taint);
+                            }
+                        }
                     }
                 }
-
-                if (!inCache) {
-                    if (left != null) {
-                        // if (!visitedTaints.contains(leftHashCode)) {
-                        if (!stack.contains(left)) {
-                            // stack.push(left);
-                            stack.addLast(left);
-                        }
-                        // }
-                    }
-                    if (right != null) {
-                        // if (!visitedTaints.contains(rightHashCode)) {
-                        if (!stack.contains(right)) {
-                            // stack.push(right);
-                            stack.addLast(right);
-                        }
-                        // }
-                    }
-                }
-
+                String dumpString = sb.toString();
+                System.out.println(header + dumpString);
+                out.write((header + dumpString + "\n").getBytes());
+                // pout.println(header + dumpString);
+                numIters += 1;
 
             } catch (Exception e) {
                 e.printStackTrace();

@@ -43,6 +43,8 @@ import sun.reflect.CallerSensitive;
 import dalvik.system.VMStack;
 import libcore.util.EmptyArray;
 import java.util.function.Supplier;
+import java.util.Deque;
+import java.util.ArrayDeque;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -247,6 +249,8 @@ class Thread implements Runnable {
     /**
      * Khaled: Added paramter array
      */
+
+    public Deque<Deque<PathTaint>> controlTaintStack = new ArrayDeque<>();
 
     public PathTaint[] paramTaintArray = new PathTaint[256];
     public String taintSite;
@@ -747,6 +751,44 @@ class Thread implements Runnable {
 
     public List<Object> dumpTaintArgs = new ArrayList<>();
     public ArrayList<Object> tempObjects = new ArrayList<>();
+
+    public static void pushControlTaintStack() {
+        if (Thread.currentThread().controlTaintStack.isEmpty()) {
+            return;
+        }
+
+        Deque<PathTaint> previousMethodControlTaintArray = Thread.currentThread().controlTaintStack.getLast();
+
+        Deque<PathTaint> methodControlTaintArray = new ArrayDeque<>();
+        PathTaint lastTaint = previousMethodControlTaintArray.getLast();
+        methodControlTaintArray.add(lastTaint);
+
+        Thread.currentThread().controlTaintStack.add(methodControlTaintArray);
+    }
+
+    public static void addControlTaintToStack(PathTaint taint) {
+        if (Thread.currentThread().controlTaintStack.isEmpty()) {
+            Thread.currentThread().controlTaintStack.add(new ArrayDeque<>());
+        }
+        Deque<PathTaint> methodControlTaintArray = Thread.currentThread().controlTaintStack.getLast();
+        methodControlTaintArray.add(taint);
+    }
+
+    public static PathTaint getControlTaintFromStack() {
+        if (Thread.currentThread().controlTaintStack.isEmpty()) {
+            return null;
+        }
+        Deque<PathTaint> methodControlTaintArray = Thread.currentThread().controlTaintStack.getLast();
+        PathTaint taint = methodControlTaintArray.getLast();
+        return taint;
+    }
+
+    public static void popControlTaintStack() {
+        if (Thread.currentThread().controlTaintStack.isEmpty()) {
+            return;
+        }
+        Thread.currentThread().controlTaintStack.removeLast();
+    }
 
 
     public static void addToTaintDump(PathTaint pt) {
